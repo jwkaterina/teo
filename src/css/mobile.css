@@ -1,0 +1,158 @@
+@media (max-width: 1000px) {
+    #header-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: 3fr 1fr 1fr 1fr;
+    }
+
+    #header h1 {
+        grid-row: 2;
+    }
+
+    #header p {
+        grid-row: 3;
+    }
+
+    #header .btn-start {
+        grid-row: 4;
+    }
+
+    #header:before {
+        background: url("../img/main-mobile.jpg") no-repeat center center/cover;
+    }
+
+    #home-main {
+        height: 200vh;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 25%);
+    }
+
+    .book-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+    }
+      
+    .animate-mobile {
+        animation: book-open 1s forwards;
+    } 
+    
+    .keep-mobile {
+        transform: translateX(100vw);
+    }
+    
+    .animate-reverse-mobile {
+        animation: book-open 1s reverse;
+    }
+    
+    @keyframes book-open {
+        from {transform: translateX(0);}
+        to {transform: translateX(100vw);}
+    }
+
+    #book-top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        border: solid;
+        border-width: 0 0 0 0;
+        border-color: #333 transparent transparent transparent;
+    }
+    
+    #book-bottom {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        border: solid;
+        border-width: 0 0 0 0;
+        border-color: transparent transparent #333 transparent;
+    }
+    
+    .animate-top-mobile {
+        animation: book-up-mobile 1s forwards;
+    }
+    
+    .animate-bottom-mobile {
+        animation: book-down-mobile 1s forwards;
+    }
+    
+    .animate-top-reverse-mobile {
+     animation: book-up-mobile 1s reverse;
+    }
+    
+    .animate-bottom-reverse-mobile {
+        animation: book-down-mobile 1s reverse;
+    }
+
+    @keyframes book-up-mobile {
+    from {
+        border-width: 50px 0 0 0;
+        left: 0;
+    }
+    to {
+        border-width: 0 100vw 0 0;
+        left: 0;
+    }
+    }
+    
+    @keyframes book-down-mobile {
+    from {
+        border-width: 0 0 50px 0;
+        left: 0;
+    }
+    to {
+        border-width: 0 100vw 0 0;
+        left: 0;
+    }
+    }
+
+    #contact-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    } 
+
+    #map {
+        height: 500px;
+    }
+}
+
+@media (max-width: 550px) {
+    #header h1 {
+        font-size: 5rem; 
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 2fr 2fr 3fr 1fr;
+    }
+
+    form p {
+        text-align: center;
+        grid-column: 1;
+    }
+      
+    form :nth-child(4) {
+        grid-column: 1 ;
+    }
+
+    #contact {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        align-items: end;
+    }
+
+    #map {
+        height: 200px;
+    }
+
+    .icon-group {
+        padding-bottom: 4rem;
+        border-bottom: solid 0.5px #fff;
+    }
+
+    .icon-group:last-child {
+        border-bottom: none;
+    }    
+}
