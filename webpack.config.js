@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const postCssNormalize = require("postcss-normalize");
 module.exports = {
   mode: "development",
-  entry: "./src/app.ts",
+  entry: "./src/main.tsx",
   devtool: "inline-source-map",
   devServer: {
     client: {
@@ -17,11 +17,12 @@ module.exports = {
     // },
     watchFiles: ["src/*"]
   },
+  
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: "babel-loader",
         exclude: /node_modules/,
       },
       {
