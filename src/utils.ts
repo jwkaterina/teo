@@ -22,17 +22,18 @@ const createElement = (tag: any, props: any, ...children: any[]) => {
     return element;
 }
 
-const appendChild = (parent: HTMLElement, child: any) => {
-    if (Array.isArray(child)) {
-        child.forEach(nestedChild => appendChild(parent, nestedChild));
+const appendChild = (parent: HTMLElement, children: any) => {
+    if (Array.isArray(children)) {
+        children.forEach(nestedChild => appendChild(parent, nestedChild));
     } else {
-        parent.appendChild(child.nodeType ? child : document.createTextNode(child));
+        parent.appendChild(children.nodeType ? children : document.createTextNode(children));
     }
 };
 
 const createFragment = (props: any, ...children: any[]) => {
     return children;
 };
+
 const renderWithHooks = (hooks: any[]) => {
     //TODO
     console.log("todo");

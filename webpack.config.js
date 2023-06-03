@@ -33,9 +33,6 @@ module.exports = {
             options: Object.assign({}, undefined),
           },
           {
-            loader: "style-loader"
-          },
-          {
             loader: "css-loader",
             options: {
               importLoaders: 1,

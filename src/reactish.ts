@@ -1,24 +1,25 @@
 
 const Reactish = (() => {
-    let index = 0;
-    let states = [];
+    let index: number = 0;
+    let states: any[] = [];
 
     function useState<T>(initVal: T): [T, (newVal: T) => void] {
 
-        const state = states[index] || initVal;
-        const stateIndex = index;
+        const state: any = states[index] || initVal;
+        const stateIndex: number = index;
 
-        const setState = (newVal: T) => {
+        const setState = (newVal: T): void => {
             states[stateIndex] = newVal;
+            console.log(states);
         }
         index++;
         return [state, setState];
     }
 
 
-    function render(component: HTMLElement) {
+    function render(component: HTMLElement, selector?: string) {
         const root = document.getElementById("root");
-        const oldComponent = root.querySelector("#comp1");
+        const oldComponent = root.querySelector(selector);
         if (oldComponent) {
             oldComponent.remove();
         }

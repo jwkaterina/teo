@@ -1,3 +1,4 @@
+//babel pragma function
 /** @jsx createElement */
 import { createElement } from "./utils";
 import { App } from "./app";
