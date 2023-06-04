@@ -13,7 +13,7 @@ export const Contact = (props: any) => {
     const validateForm = (e) => {
         e.preventDefault();
     
-        const inputs = document.querySelectorAll(".input");
+        const inputs: HTMLInputElement[] = Array.from(document.querySelectorAll(".input"));
         if(formIsValid(inputs)) {
             document.getElementById('checkbox').className = 'animate-checkbox';
             setTimeout(() => {
@@ -21,7 +21,8 @@ export const Contact = (props: any) => {
             },2000);
             inputs.forEach(input => input.value = '');
         } else {
-            document.querySelector('.show-message').previousElementSibling.focus();
+            const emptyInput = document.querySelector('.show-message').previousElementSibling;
+            (emptyInput as HTMLInputElement).focus();
         }
     };
 
@@ -46,8 +47,9 @@ export const Contact = (props: any) => {
     }
 
     const emailIsValid = () => {
+        const email = document.getElementById("email");
         const re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-        if(!re.test(document.getElementById("email").value)) {
+        if(!re.test((email as HTMLInputElement).value)) {
             return false
         } else return true
     }
