@@ -1,13 +1,23 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
+import { Reactish } from "../reactish";
+import { MapAPI } from "../service/map";
 
 export const Contact = (props: any) => {
+
+    Reactish.useEffect([], () => {
+        MapAPI.create()
+        //do we have enough places
+    });
+
     return <section id="contact-form">
         <div id="checkbox">
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">
-            <div id="map"></div>
+            <div id="map-container">
+                <div id="map"></div>
+            </div>
             <div id="form">
                 <form action="">
                     <p class="upper">Drop me a line</p>

@@ -7,8 +7,10 @@ export const Header = (props: any) => {
             <div id="header-content">
                 <h1 id="Heading">Theodor</h1>
                 <p class="lead">I am <span class="txt-type" data-wait="3000" data-words='["a cat.", "an adventurer.", "a meat lover."]'></span></p>
-                <a href="#" class="btn-start"></a>
+                <a href="#home" class="btn-start"></a>
             </div>
         </div>
     </header>
+
+ 
 }

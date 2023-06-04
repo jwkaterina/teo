@@ -11,7 +11,9 @@ import "./css/mobile.css";
 
 const App = (props: any) => {
 
+    //hook functions
     // const [count, setCount] = Reactish.useState(1);
+    // Reactish.useEffect([], ()=>{ ...your code });
 
     return <div>
         <Header/>

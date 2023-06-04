@@ -405,6 +405,11 @@ body {
   align-items: center;
 } 
 
+#map-container {
+  height: 100%;
+  width: 100%;
+}
+
 #map {
   height: 100%;
   width: 100%;
@@ -412,6 +417,7 @@ body {
 
 .marker {
   display: block;
+  position: absolute;
   border: none;
   border-radius: 50% 50% 50% 0;
   cursor: pointer;

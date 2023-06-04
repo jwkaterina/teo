@@ -1,23 +1,40 @@
 
 const Reactish = (() => {
     let index: number = 0;
-    let states: any[] = [];
+    const hooks: any[] = [];
 
-    function useState<T>(initVal: T): [T, (newVal: T) => void] {
+    const useState = <T>(initVal: T): [T, (newVal: T) => void] => {
 
-        const state: any = states[index] || initVal;
+        const state: any = hooks[index] || initVal;
         const stateIndex: number = index;
 
         const setState = (newVal: T): void => {
-            states[stateIndex] = newVal;
-            console.log(states);
+            hooks[stateIndex] = newVal;
         }
         index++;
         return [state, setState];
     }
 
+    const useEffect = (dependencies: any[], cb: ()=>void) => {
+        const oldDeps = hooks[index];
+        let hasChanged: boolean = true;
+        if(oldDeps) {
+            hasChanged = dependencies.some((dep: any, i: number) => {
+                return !Object.is(dep, oldDeps[i]);
+            })
+        }
 
-    function render(component: HTMLElement, selector?: string) {
+        if(hasChanged) {
+            setTimeout(cb, 0);
+        }
+
+        hooks[index] = dependencies;
+
+        index++;
+    }
+
+
+    const render = (component: HTMLElement, selector?: string) => {
         const root = document.getElementById("root");
         const oldComponent = root.querySelector(selector);
         if (oldComponent) {
@@ -29,7 +46,8 @@ const Reactish = (() => {
 
     return {
         render,
-        useState
+        useState,
+        useEffect
     }
 })();
 
