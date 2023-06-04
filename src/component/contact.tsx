@@ -9,6 +9,48 @@ export const Contact = (props: any) => {
         MapAPI.create()
         //do we have enough places
     });
+    
+    const validateForm = (e) => {
+        e.preventDefault();
+    
+        const inputs = document.querySelectorAll(".input");
+        if(formIsValid(inputs)) {
+            document.getElementById('checkbox').className = 'animate-checkbox';
+            setTimeout(() => {
+                document.getElementById('checkbox').classList.remove('animate-checkbox');
+            },2000);
+            inputs.forEach(input => input.value = '');
+        } else {
+            document.querySelector('.show-message').previousElementSibling.focus();
+        }
+    };
+
+    const formIsValid = (inputs) => {
+        inputs.forEach(input => {
+            const alert = input.nextElementSibling;
+            if(input.value === ''){
+                alert.classList.add('show-message');
+            } else if(input.id === "email" && !emailIsValid()){
+                alert.classList.add('show-message');
+                alert.querySelector("p").innerHTML = "Please Enter a Valid Email Adress."
+            } else {
+                alert.classList.remove('show-message');            }
+        });
+
+        const alerts = Array.from(document.querySelectorAll(".invalid"));
+        if (alerts.every(alert => !alert.classList.contains("show-message"))) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    const emailIsValid = () => {
+        const re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+        if(!re.test(document.getElementById("email").value)) {
+            return false
+        } else return true
+    }
 
     return <section id="contact-form">
         <div id="checkbox">
@@ -18,33 +60,29 @@ export const Contact = (props: any) => {
             <div id="map-container">
                 <div id="map"></div>
             </div>
-            <div id="form">
+            <div id="form" onsubmit={(e => validateForm(e))}>
                 <form action="">
                     <p class="upper">Drop me a line</p>
                     <div class="input-group">
                         <label class="upper" for="name">Name</label>
-                        <input id="name" type="text"></input>
-                        <div id="alert-1" class="invalid upper">
+                        <input id="name" type="text" class="input"></input>
+                        <div class="invalid upper">
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
                         </div>
                     </div>
                     <div class="input-group">
                         <label class="upper" for="email">Email</label>
-                        <input id="email"></input>
-                        <div id="alert-1" class="invalid upper">
+                        <input id="email" class="input"></input>
+                        <div class="invalid upper">
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
-                        </div>
-                        <div id="alert-2" class="invalid upper">
-                            <div class="arrow"></div>
-                            <p>Please Enter a Valid Email Adress.</p>
                         </div>
                     </div>
                     <div  class="input-group">
                         <label class="upper" for="message">Message</label>
-                        <textarea name="message" id="message"></textarea>
-                        <div id="alert-1" class="invalid upper">
+                        <textarea name="message" class="input" id="message"></textarea>
+                        <div class="invalid upper">
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
                         </div>

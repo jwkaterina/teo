@@ -490,17 +490,14 @@ textarea {
 }
 
 .invalid {
+  color: white;
   background-color: #AF2F26;
   position: absolute;
   left: 0;
   bottom: 10px;
   height: 20px;
-  width: 200px;
+  width: 90%;
   visibility: hidden;
-}
-
-#alert-2 {
-  width: 250px;
 }
 
 .show-message {
