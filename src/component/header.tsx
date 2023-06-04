@@ -1,7 +1,57 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
+import { Reactish } from "../reactish";
 
 export const Header = (props: any) => {
+
+    Reactish.useEffect([], () => {
+        Typing().type()
+    });
+
+    const Typing = () => {
+        console.log("typing");
+        const txtElement = document.querySelector('.txt-type');
+        const words = JSON.parse(txtElement.getAttribute('data-words'));
+        // const wait = txtElement.getAttribute('data-wait');
+       
+        let txt = '';
+        let wordIndex = 0;
+        const wait = parseInt(txtElement.getAttribute('data-wait'), 10);
+        let isDeleting = false;
+    
+        const type = () => {
+            const current = wordIndex % words.length;
+            const fullTxt = words[current];
+        
+            if (isDeleting) {
+                txt = fullTxt.substring(0, txt.length - 1);
+            } else {
+                txt = fullTxt.substring(0, txt.length + 1);
+            }
+        
+            txtElement.innerHTML = `<span class="txt">${txt}</span>`;
+        
+            let typeSpeed = 150;
+        
+            if (isDeleting) {
+                typeSpeed /= 2;
+            }
+        
+            if (!isDeleting && txt === fullTxt) {
+                typeSpeed = wait;
+                isDeleting = true;
+            } else if (isDeleting && txt === '') {
+                isDeleting = false;
+                wordIndex++;
+                typeSpeed = 500;
+            }
+        
+            setTimeout(() => type(), typeSpeed);
+        }
+
+        return { type }
+    }
+
     return <header >
         <div id="header">
             <div id="header-content">
