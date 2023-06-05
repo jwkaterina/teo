@@ -100,6 +100,7 @@
 }
 
 .btn {
+  cursor: pointer;
   background-color: transparent;
   color: #fff;
   border: 0.7px solid;
@@ -240,8 +241,11 @@
 }
 
 .btn-close {
-  height: 30px;
-  width: 30px;
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  height: 40px;
+  width: 40px;
   position: sticky;
   top: 0;
   display: block;
@@ -250,7 +254,8 @@
 
 .btn-close .cross {
   position: absolute;
-  left: 15px;
+  left: 20px;
+  top: 5px;
   height: 30px;
   width: 1px;
   background-color: black;
