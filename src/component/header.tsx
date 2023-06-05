@@ -1,6 +1,7 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
 import { Reactish } from "../reactish";
+import "./header.css";
 
 export const Header = (props: any) => {
 
@@ -9,11 +10,8 @@ export const Header = (props: any) => {
     });
 
     const Typing = () => {
-        console.log("typing");
         const txtElement = document.querySelector('.txt-type');
-        const words = JSON.parse(txtElement.getAttribute('data-words'));
-        // const wait = txtElement.getAttribute('data-wait');
-       
+        const words = JSON.parse(txtElement.getAttribute('data-words'));       
         let txt = '';
         let wordIndex = 0;
         const wait = parseInt(txtElement.getAttribute('data-wait'), 10);
@@ -28,15 +26,11 @@ export const Header = (props: any) => {
             } else {
                 txt = fullTxt.substring(0, txt.length + 1);
             }
-        
             txtElement.innerHTML = `<span class="txt">${txt}</span>`;
-        
             let typeSpeed = 150;
-        
             if (isDeleting) {
                 typeSpeed /= 2;
             }
-        
             if (!isDeleting && txt === fullTxt) {
                 typeSpeed = wait;
                 isDeleting = true;
@@ -61,6 +55,4 @@ export const Header = (props: any) => {
             </div>
         </div>
     </header>
-
- 
 }

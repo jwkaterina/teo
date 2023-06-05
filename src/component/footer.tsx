@@ -1,5 +1,6 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
+import "./footer.css";
 
 export const Footer = (props: any) => {
     return  <footer class="upper">

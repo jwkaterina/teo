@@ -2,6 +2,7 @@
 import { createElement } from "../utils";
 import { Reactish } from "../reactish";
 import { MapAPI } from "../service/map";
+import "./contact.css";
 
 export const Contact = (props: any) => {
 
@@ -10,16 +11,16 @@ export const Contact = (props: any) => {
         //do we have enough places
     });
     
-    const validateForm = (e) => {
+    const validateForm = (e: SubmitEvent) => {
         e.preventDefault();
     
-        const inputs: HTMLInputElement[] = Array.from(document.querySelectorAll(".input"));
+        const inputs = document.querySelectorAll(".input");
         if(formIsValid(inputs)) {
             document.getElementById('checkbox').className = 'animate-checkbox';
             setTimeout(() => {
                 document.getElementById('checkbox').classList.remove('animate-checkbox');
             },2000);
-            inputs.forEach(input => input.value = '');
+            inputs.forEach(input => (input as HTMLInputElement).value = '');
         } else {
             const emptyInput = document.querySelector('.show-message').previousElementSibling;
             (emptyInput as HTMLInputElement).focus();
@@ -62,7 +63,7 @@ export const Contact = (props: any) => {
             <div id="map-container">
                 <div id="map"></div>
             </div>
-            <div id="form" onsubmit={(e => validateForm(e))}>
+            <div id="form" onsubmit={(e: SubmitEvent) => validateForm(e)}>
                 <form action="">
                     <p class="upper">Drop me a line</p>
                     <div class="input-group">

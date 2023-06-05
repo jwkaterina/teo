@@ -1,0 +1,290 @@
+
+#home {
+  position: relative;
+}
+  
+#home-main {
+  height: 100vh;
+  display: flex;
+}
+
+#home-left {
+  display: flex;
+  flex-direction: column;
+}
+
+#home-right {
+  display: flex;
+  flex-direction: column;
+}
+  
+#home-main h2 {
+  font-size: 3.5rem;
+}
+
+#home-main p {
+  font-weight: 100;
+  font-size: small;
+}
+
+#home-a, #home-b, #home-c, #home-d{
+  background-color: #2A1B37;
+  position: relative;
+}
+
+/* Pseudo Elements */
+
+#home-a:before, #home-b:before, #home-c:before, #home-d:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  transition: opacity 0.5s;
+}
+
+#home-a:before {
+  background: url('../img/chair.jpeg') no-repeat center center/cover;
+  opacity: 0.3;
+}
+
+#home-b:before {
+  background: url("../img/TV.jpg") no-repeat center center/cover;
+}
+
+#home-c:before {
+  background: url("../img/leg.jpeg") no-repeat center center/cover;
+}
+
+#home-d:before {
+  background: url("../img/flower.jpeg") no-repeat center center/cover;
+}
+
+#home-a:hover:before, #home-b:hover:before, #home-c:hover:before, #home-d:hover:before {
+  opacity: 0.2;
+}
+
+#home-a:hover:before {
+  opacity: 0.1;
+}
+
+.on-show:before {
+  opacity: 0.2 !important;
+}
+
+.on-show:hover .home-content, .on-show:hover .btn {
+  transform: translateY(20px) !important;
+}
+
+.home-content {
+  z-index: 1;
+  color: #fff;
+  transform: translateY(20px);
+  transition: transform 0.5s ease-in;
+}
+
+.home-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.home-flex:hover .home-content {
+  transform: translateY(0px);
+}
+
+.btn {
+  text-decoration: none;
+  color: #fff;
+  border: 0.7px solid;
+  font-size: 0.6rem;
+  padding: 0.7rem;
+  margin-top: 1rem;
+  display: inline-block;
+  border-radius: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+}
+
+.home-flex:hover .btn {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+/* Show Book Animation */
+
+.animate-left {
+  animation: book-leftside-open 1s forwards;
+}
+
+.animate-right {
+  animation: book-rightside-open 1s forwards;
+}
+
+.keep-left {
+  transform: translateX(-30vw);
+}
+
+.keep-right {
+  transform: translateX(30vw);
+}
+
+.animate-left-reverse {
+  animation: book-leftside-open 1s reverse;
+}
+
+.animate-right-reverse {
+  animation: book-rightside-open 1s reverse;
+}
+
+@keyframes book-leftside-open {
+  from {transform: translateX(0);}
+  to {transform: translateX(-30vw);}
+}
+
+@keyframes book-rightside-open {
+  from {transform: translateX(0);}
+  to {transform: translateX(30vw);}
+}
+
+#book-top {
+  position: absolute;
+  top: 0;
+  left: 20vw;
+  border: solid;
+  border-width: 0 0 0 0;
+  border-color: #333 transparent transparent transparent;
+}
+
+#book-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 20vw;
+  border: solid;
+  border-width: 0 0 0 0;
+  border-color: transparent transparent #333 transparent;
+}
+
+.animate-top {
+  animation: book-up-open 1s forwards;
+}
+
+.animate-bottom {
+  animation: book-down-open 1s forwards;
+}
+
+.animate-top-reverse {
+  animation: book-up-open 1s reverse;
+}
+
+.animate-bottom-reverse {
+  animation: book-down-open 1s reverse;
+}
+
+@keyframes book-up-open {
+  from {
+    border-width: 50px 0 0 0;
+    left: 50vw;
+  }
+  to {
+    border-width: 0 30vw 0 30vw;
+    left: 20vw;
+  }
+}
+
+@keyframes book-down-open {
+  from {
+    border-width: 0 0 50px 0;
+    left: 50vw;
+  }
+  to {
+    border-width: 0 30vw 0 30vw;
+    left: 20vw;
+  }
+}
+
+/* Show inner Pages */
+
+.book-container {
+  position: absolute;
+  top: 0;
+  left: 20vw;
+  height: 100vh;
+  width: 60vw;
+  color: #000;
+  display: none;
+  text-align: center;
+  padding: 2rem 2rem;
+  overflow: auto;
+}
+
+.book-container:focus {
+  outline: none;
+}
+
+.book-container h1 {
+  margin: 2rem 0;
+  font-weight: 100;
+  font-size: 3rem;
+}
+
+.book-container p {
+  margin: 0 2rem;
+}
+
+.btn-close {
+  height: 30px;
+  width: 30px;
+  position: sticky;
+  top: 0;
+  display: block;
+  float: right;
+}
+
+.btn-close .cross {
+  position: absolute;
+  left: 15px;
+  height: 30px;
+  width: 1px;
+  background-color: black;
+  transform: rotate(45deg);
+}
+
+.btn-close .cross::before {
+  content: '';
+  height: 30px;
+  width: 1px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: black;
+  display: block;
+  transform: rotate(90deg);
+}
+
+.show {
+  display: block;
+}
+
+.animate-text {
+  animation: text 0.2s;
+}
+
+.animate-text-reverse {
+  animation: text 0.2s reverse;
+}
+
+@keyframes text {
+  from {
+    transform: translateY(30px);
+    visibility: hidden;
+  }
+  to {
+    transform: translateY(0);
+    visibility: visible;
+  }
+}

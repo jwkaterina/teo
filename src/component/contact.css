@@ -1,0 +1,197 @@
+
+#contact-form {
+  position: relative;
+}
+
+#contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  align-items: center;
+} 
+
+#map-container {
+  height: 100%;
+  width: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.marker {
+  display: block;
+  position: absolute;
+  border: none;
+  border-radius: 50% 50% 50% 0;
+  cursor: pointer;
+  padding: 0;
+  background: url("../img/marker.jpeg") no-repeat center center/cover;
+  width: 50px;
+  height: 50px;
+}
+
+#form {
+  background-color: #353535;
+  height: 100%;
+  width: 100%;
+  color: #58c797;
+  
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 2fr 3fr 1fr;
+  grid-gap: 1rem;
+  margin: 2rem 3rem;
+}
+
+form p {
+  color: #aeaeae;
+  text-align: center;
+  grid-column: 1 / span 2;
+}
+
+form :nth-child(4) {
+  grid-column: 1 / span 2;
+}
+
+label {
+  color: #fff;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  height: 3rem;
+  width: 100%;
+  background-color: #353535;
+  border: 0.1px solid;
+  border-color: #387f60;
+  color: #fff;
+  padding: 1rem;
+}
+
+input:focus, textarea:focus{
+  outline: none;
+  border-color: #9ae4b9;
+}
+
+textarea {
+  height: 6rem;
+  width: 100%;
+  background-color: #353535;
+  border: 0.1px solid;
+  border-color: #387f60;
+  color: #fff;
+  padding: 1rem;
+
+}
+
+.input-group {
+  position: relative;
+}
+
+.invalid {
+  color: white;
+  background-color: #AF2F26;
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  height: 20px;
+  width: 90%;
+  visibility: hidden;
+}
+
+.show-message {
+  visibility: visible;
+}
+
+.invalid .arrow {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  border: 5px solid;
+  border-color: transparent transparent #AF2F26 #AF2F26;
+}
+
+.invalid p {
+  color: #fff;
+  padding: 0.2rem;
+  text-align: left;
+}
+
+button {
+  width: 100px;
+  height: 3rem;
+  background-color: #353535;
+  color: #9ae4b9;
+  border: 3px solid;
+  border-color: #9ae4b9;
+}
+
+button:hover {
+  background-color: #9ae4b9;
+  color: #353535;
+}
+
+#checkbox {
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  width: 200px;
+  height: 200px;
+  background-color: #222;
+  opacity: 0.9;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+}
+
+#checkbox i {
+  color: #fff;
+  opacity: 0.7;
+}
+
+.animate-checkbox {
+  animation: checkbox 2s;
+}
+
+@keyframes checkbox {
+  0%    {transform: translate(-900px, -100px) skewX(0);     visibility: visible;}
+  2.5%  {transform: translate(-700px, -100px) skewX(30deg); visibility: visible;}
+  7.5%  {transform: translate(-300px, -100px) skewX(30deg); visibility: visible;}
+  10%   {transform: translate(-100px, -100px) skewX(-8deg); visibility: visible;}
+  15%   {transform: translate(-100px, -100px) skewX(0);     visibility: visible;}
+  47%   {transform: translate(-100px, -100px) skewX(0);     visibility: visible;}
+  50%   {transform: translate(-100px, -120px) skewX(0);     visibility: visible;}
+  53%   {transform: translate(-100px, -100px) skewX(0);     visibility: visible;}
+  90%   {transform: translate(-100px, -100px) skewX(0);     visibility: visible;}
+  92.5% {transform: translate( 100px, -100px) skewX(30deg); visibility: visible;}
+  97.5% {transform: translate( 500px, -100px) skewX(30deg); visibility: visible;}
+  100%  {transform: translate( 700px, -100px) skewX(0);     visibility: visible;}
+}
+
+#contact {
+  background-color: #222;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  color: #9ae4b9;
+
+}
+
+.icon-group {
+  margin: 3rem 0;
+}
+
+#contact p {
+  color: #aeaeae;
+  margin-top: 1rem;
+}

@@ -1,40 +1,45 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
+import "./home.css"
 
-export const Main = (props: any) => {
+export const Home = (props: any) => {
     return  <section id="home">
         <div id="home-main">
-            <div id="home-a" class="home-flex">
-                <div class="home-content">
-                    <i class="fas fa-cat fa-2x"></i>
-                    <h2>about me</h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
-                    <a href="#" class="btn upper" disabled>View more</a>
+            <div id="home-left">
+                <div id="about" class="home-flex">
+                    <div class="home-content">
+                        <i class="fas fa-cat fa-2x"></i>
+                        <h2>about me</h2>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
+                        <a href="#" class="btn upper" disabled>View more</a>
+                    </div>
+                </div>
+                <div id="portfolio" class="home-flex">
+                    <div class="home-content">
+                        <i class="fas fa-briefcase fa-2x"></i>
+                        <h2>portfolio</h2>
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
+                        <a href="#" class="btn upper">View more</a>
+                    </div>
                 </div>
             </div>
-            <div id="home-b" class="home-flex">
-                <div class="home-content">
-                    <i class="fas fa-id-card fa-2x"></i>
-                    <h2>resume</h2>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing.
-                    </p>
-                    <a href="#" class="btn upper">View more</a>
-                </div> 
-            </div>
-            <div id="home-c" class="home-flex">
-                <div class="home-content">
-                    <i class="fas fa-briefcase fa-2x"></i>
-                    <h2>portfolio</h2>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
-                    <a href="#" class="btn upper">View more</a>
+            <div id="home-right">
+                <div id="resume" class="home-flex">
+                    <div class="home-content">
+                        <i class="fas fa-id-card fa-2x"></i>
+                        <h2>resume</h2>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing.
+                        </p>
+                        <a href="#" class="btn upper">View more</a>
+                    </div> 
                 </div>
-            </div>
-            <div id="home-d" class="home-flex">
-                <div class="home-content">
-                    <i class="fas fa-book fa-2x"></i>
-                    <h2>blog</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur.</p>
-                    <a href="#" class="btn upper">View more</a>
+                <div id="blog" class="home-flex">
+                    <div class="home-content">
+                        <i class="fas fa-book fa-2x"></i>
+                        <h2>blog</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur.</p>
+                        <a href="#" class="btn upper">View more</a>
+                    </div>
                 </div>
             </div>
         </div>

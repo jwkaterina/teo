@@ -2,7 +2,7 @@
 import { createElement } from "./utils";
 // import { Reactish } from "./reactish";
 import { Header } from "./component/header";
-import { Main } from "./component/main";
+import { Home } from "./component/home";
 import { Contact } from "./component/contact";
 import { Footer } from "./component/footer";
 
@@ -17,7 +17,7 @@ const App = (props: any) => {
 
     return <div>
         <Header/>
-        <Main/>
+        <Home/>
         <Contact/>
         <Footer/>
     </div>
