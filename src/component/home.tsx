@@ -6,6 +6,7 @@ import "./home.css"
 export const Home = (props: any) => {
 
     const openPage = (page: string) => {
+        // removeEventListeners();
         document.querySelector('body').style.overflow = 'hidden';
         document.querySelectorAll('.home-flex').forEach(function(item) {
             item.classList.add('on-show'); // Darken home elements
@@ -15,16 +16,16 @@ export const Home = (props: any) => {
             document.getElementById(page).querySelector('.book-container').classList.add('show');
             document.getElementById(page).querySelector('p').classList.add('animate-text');
             // document.getElementById(page).querySelector('.book-container').focus();
-        //     document.getElementById(page).querySelector('.book-container').addEventListener('blur', function() {
-        //         closePage(page);
-        // },1000);
+            // document.getElementById(page).querySelector('.book-container').addEventListener('blur', function() {
+            //     closePage(page);
+        },500);
         setTimeout(() => {
             document.getElementById(page).querySelector('p').classList.remove('animate-text');
-            });
-        },600);
+        },700);
     }
 
     const closePage = (page: string) => {
+        console.log("close");
         document.getElementById(page).querySelector('p').classList.add('animate-text-reverse');
         setTimeout(() => {
             document.getElementById(page).querySelector('.book-container').classList.remove('show');
@@ -33,6 +34,7 @@ export const Home = (props: any) => {
                 item.classList.remove('on-show'); // Bring home elements back to normal
             })
             document.querySelector('body').style.overflow = 'auto';
+            // loadEventListeners();
             BookAnimation().closeAnimation();
         },200);
     }
