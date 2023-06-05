@@ -1,44 +1,65 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
+import { BookAnimation } from "../service/book-animation";
 import "./home.css"
 
 export const Home = (props: any) => {
+
+    const openPage = (page: string) => {
+        console.log("open");
+        document.querySelector('body').style.overflow = 'hidden';
+        document.querySelectorAll('.home-flex').forEach(function(item) {
+            item.classList.add('on-show'); // Darken home elements
+        })
+        BookAnimation().openAnimation();
+        setTimeout(() => {
+            document.getElementById(page).querySelector('.book-container').classList.add('show');
+            document.getElementById(page).querySelector('p').classList.add('animate-text');
+            // document.getElementById(page).querySelector('.book-container').focus();
+        //     document.getElementById(page).querySelector('.book-container').addEventListener('blur', function() {
+        //         closePage(page);
+        // },1000);
+        setTimeout(() => {
+            document.getElementById(page).querySelector('p').classList.remove('animate-text');
+            });
+        },1200);
+    }
     return  <section id="home">
         <div id="home-main">
             <div id="home-left">
-                <div id="about" class="home-flex">
+                <div id="home-about" class="home-flex" onclick={() => openPage("about")}>
                     <div class="home-content">
                         <i class="fas fa-cat fa-2x"></i>
                         <h2>about me</h2>
                         <p>Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
-                        <a href="#" class="btn upper" disabled>View more</a>
+                        <button class="btn upper">View more</button>
                     </div>
                 </div>
-                <div id="portfolio" class="home-flex">
+                <div id="home-portfolio" class="home-flex" onclick={() => openPage("portfolio")}>
                     <div class="home-content">
                         <i class="fas fa-briefcase fa-2x"></i>
                         <h2>portfolio</h2>
                         <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
-                        <a href="#" class="btn upper">View more</a>
+                        <button class="btn upper">View more</button>
                     </div>
                 </div>
             </div>
             <div id="home-right">
-                <div id="resume" class="home-flex">
+                <div id="home-resume" class="home-flex" onclick={() => openPage("resume")}>
                     <div class="home-content">
                         <i class="fas fa-id-card fa-2x"></i>
                         <h2>resume</h2>
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing.
                         </p>
-                        <a href="#" class="btn upper">View more</a>
+                        <button class="btn upper">View more</button>
                     </div> 
                 </div>
-                <div id="blog" class="home-flex">
+                <div id="home-blog" class="home-flex" onclick={() => openPage("blog")}>
                     <div class="home-content">
                         <i class="fas fa-book fa-2x"></i>
                         <h2>blog</h2>
                         <p>Lorem ipsum dolor sit amet consectetur.</p>
-                        <a href="#" class="btn upper">View more</a>
+                        <button class="btn upper">View more</button>
                     </div>
                 </div>
             </div>

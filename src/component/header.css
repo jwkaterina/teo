@@ -79,3 +79,32 @@
   50% {top: 18px; opacity: 1;}
   100% {top: 18px; opacity: 0;}
 }
+
+@media (max-width: 1000px) {
+  #header-content {
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 1fr 1fr 1fr;
+  }
+
+  #header h1 {
+    grid-row: 2;
+  }
+
+  #header p {
+    grid-row: 3;
+  }
+
+  #header .btn-start {
+    grid-row: 4;
+  }
+
+  #header:before {
+    background: url("../img/main-mobile.jpg") no-repeat center center/cover;
+  }
+}
+
+@media (max-width: 550px) {
+  #header h1 {
+    font-size: 5rem; 
+}
+}

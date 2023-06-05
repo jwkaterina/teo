@@ -90,7 +90,7 @@ export const Contact = (props: any) => {
                             <p>This field is requied.</p>
                         </div>
                     </div>
-                    <button id="button" class="upper" type="submit">Send</button>
+                    <button class="btn-submit upper" type="submit">Send</button>
                 </form>
             </div>
         </div>

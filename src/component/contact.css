@@ -123,7 +123,7 @@ textarea {
   text-align: left;
 }
 
-button {
+.btn-submit {
   width: 100px;
   height: 3rem;
   background-color: #353535;
@@ -132,7 +132,7 @@ button {
   border-color: #9ae4b9;
 }
 
-button:hover {
+.btn-submit:hover {
   background-color: #9ae4b9;
   color: #353535;
 }
@@ -194,4 +194,51 @@ button:hover {
 #contact p {
   color: #aeaeae;
   margin-top: 1rem;
+}
+
+@media (max-width: 1000px) {
+  #contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+} 
+
+  #map {
+    height: 500px;
+  }
+}
+
+@media (max-width: 550px) {
+  form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr 2fr 3fr 1fr;
+  }
+
+  form p {
+    text-align: center;
+    grid-column: 1;
+  }
+    
+  form :nth-child(4) {
+    grid-column: 1 ;
+  }
+
+  #contact {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    align-items: end;
+  }
+
+  #map {
+    height: 200px;
+  }
+
+  .icon-group {
+    padding-bottom: 4rem;
+    border-bottom: solid 0.5px #fff;
+  }
+
+  .icon-group:last-child {
+    border-bottom: none;
+  }    
 }

@@ -11,11 +11,13 @@
 #home-left {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 #home-right {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
   
 #home-main h2 {
@@ -27,14 +29,15 @@
   font-size: small;
 }
 
-#home-a, #home-b, #home-c, #home-d{
+#home-about, #home-portfolio, #home-resume, #home-blog {
   background-color: #2A1B37;
   position: relative;
+  height: 100%;
 }
 
 /* Pseudo Elements */
 
-#home-a:before, #home-b:before, #home-c:before, #home-d:before {
+#home-about:before, #home-resume:before, #home-portfolio:before, #home-blog:before {
   content: '';
   position: absolute;
   top: 0;
@@ -45,28 +48,28 @@
   transition: opacity 0.5s;
 }
 
-#home-a:before {
+#home-about:before {
   background: url('../img/chair.jpeg') no-repeat center center/cover;
   opacity: 0.3;
 }
 
-#home-b:before {
+#home-resume:before {
   background: url("../img/TV.jpg") no-repeat center center/cover;
 }
 
-#home-c:before {
+#home-portfolio:before {
   background: url("../img/leg.jpeg") no-repeat center center/cover;
 }
 
-#home-d:before {
+#home-blog:before {
   background: url("../img/flower.jpeg") no-repeat center center/cover;
 }
 
-#home-a:hover:before, #home-b:hover:before, #home-c:hover:before, #home-d:hover:before {
+#home-about:hover:before, #home-resume:hover:before, #home-portfolio:hover:before, #home-blog:hover:before {
   opacity: 0.2;
 }
 
-#home-a:hover:before {
+#home-about:hover:before {
   opacity: 0.1;
 }
 
@@ -97,7 +100,7 @@
 }
 
 .btn {
-  text-decoration: none;
+  background-color: transparent;
   color: #fff;
   border: 0.7px solid;
   font-size: 0.6rem;
@@ -287,4 +290,100 @@
     transform: translateY(0);
     visibility: visible;
   }
+}
+
+@media (max-width: 1000px) {
+  #home-main {
+    height: 200vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #home-left {
+    height: 100vh;
+  }
+
+  #home-right {
+    height: 100vh;
+  }
+
+  .book-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+  }
+    
+  .animate-mobile {
+    animation: book-open 1s forwards;
+  } 
+
+  .keep-mobile {
+    transform: translateX(100vw);
+  }
+
+  .animate-reverse-mobile {
+    animation: book-open 1s reverse;
+  }
+
+  @keyframes book-open {
+    from {transform: translateX(0);}
+    to {transform: translateX(100vw);}
+  }
+
+  #book-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: solid;
+    border-width: 0 0 0 0;
+    border-color: #333 transparent transparent transparent;
+  }
+
+  #book-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border: solid;
+    border-width: 0 0 0 0;
+    border-color: transparent transparent #333 transparent;
+  }
+
+  .animate-top-mobile {
+    animation: book-up-mobile 1s forwards;
+  }
+
+  .animate-bottom-mobile {
+    animation: book-down-mobile 1s forwards;
+  }
+
+  .animate-top-reverse-mobile {
+    animation: book-up-mobile 1s reverse;
+  }
+
+  .animate-bottom-reverse-mobile {
+    animation: book-down-mobile 1s reverse;
+  }
+
+  @keyframes book-up-mobile {
+    from {
+      border-width: 50px 0 0 0;
+      left: 0;
+    }
+    to {
+      border-width: 0 100vw 0 0;
+      left: 0;
+    }
+  }
+
+  @keyframes book-down-mobile {
+    from {
+      border-width: 0 0 50px 0;
+      left: 0;
+    }
+    to {
+      border-width: 0 100vw 0 0;
+      left: 0;
+    }
+  } 
 }

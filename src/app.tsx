@@ -7,7 +7,6 @@ import { Contact } from "./component/contact";
 import { Footer } from "./component/footer";
 
 import "./css/main.css";
-import "./css/mobile.css";
 
 const App = (props: any) => {
 
