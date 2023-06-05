@@ -30,7 +30,7 @@ const BookAnimation = () => {
                 contacts.classList.remove('animate-mobile');
                 bookTop.classList.remove('animate-top-mobile');
                 bookBottom.classList.remove('animate-bottom-mobile');
-            }, 1000);    
+            }, 500);    
         } else {
             // Animate
             document.getElementById('home').scrollIntoView();
@@ -50,7 +50,7 @@ const BookAnimation = () => {
                 homeRight.classList.remove('animate-right');
                 bookTop.classList.remove('animate-top');
                 bookBottom.classList.remove('animate-bottom');
-            }, 1000);       
+            }, 500);       
         }
         }
 
@@ -68,7 +68,7 @@ const BookAnimation = () => {
                 header.classList.remove('keep-mobile');
                 home.classList.remove('keep-mobile');
                 contacts.classList.remove('keep-mobile');
-            },1000);
+            },500);
                 
             // Remove Animation
             setTimeout(() => {
@@ -77,7 +77,7 @@ const BookAnimation = () => {
                 contacts.classList.remove('animate-reverse-mobile');
                 bookTop.classList.remove('animate-top-reverse-mobile');
                 bookBottom.classList.remove('animate-bottom-reverse-mobile');
-            },1000);
+            },500);
         } else {
             // Reverse Animation
             homeLeft.classList.add('animate-left-reverse');
@@ -89,7 +89,7 @@ const BookAnimation = () => {
             setTimeout(() => {
                 homeLeft.classList.remove('keep-left');
                 homeRight.classList.remove('keep-right');
-            },1000);
+            },500);
                 
             // Remove Animation
             setTimeout(() => {
@@ -97,7 +97,7 @@ const BookAnimation = () => {
                 homeRight.classList.remove('animate-right-reverse');
                 bookTop.classList.remove('animate-top-reverse');
                 bookBottom.classList.remove('animate-bottom-reverse');
-            },1000);
+            },500);
         }
     }
  

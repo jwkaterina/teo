@@ -85,7 +85,7 @@
   z-index: 1;
   color: #fff;
   transform: translateY(20px);
-  transition: transform 0.5s ease-in;
+  transition: transform 0.2s ease-in;
 }
 
 .home-flex {
@@ -111,7 +111,7 @@
   border-radius: 15px;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
 }
 
 .home-flex:hover .btn {
@@ -122,11 +122,11 @@
 /* Show Book Animation */
 
 .animate-left {
-  animation: book-leftside-open 1s forwards;
+  animation: book-leftside-open 0.5s forwards;
 }
 
 .animate-right {
-  animation: book-rightside-open 1s forwards;
+  animation: book-rightside-open 0.5s forwards;
 }
 
 .keep-left {
@@ -138,11 +138,11 @@
 }
 
 .animate-left-reverse {
-  animation: book-leftside-open 1s reverse;
+  animation: book-leftside-open 0.5s reverse;
 }
 
 .animate-right-reverse {
-  animation: book-rightside-open 1s reverse;
+  animation: book-rightside-open 0.5s reverse;
 }
 
 @keyframes book-leftside-open {
@@ -174,19 +174,19 @@
 }
 
 .animate-top {
-  animation: book-up-open 1s forwards;
+  animation: book-up-open 0.5s forwards;
 }
 
 .animate-bottom {
-  animation: book-down-open 1s forwards;
+  animation: book-down-open 0.5s forwards;
 }
 
 .animate-top-reverse {
-  animation: book-up-open 1s reverse;
+  animation: book-up-open 0.5s reverse;
 }
 
 .animate-bottom-reverse {
-  animation: book-down-open 1s reverse;
+  animation: book-down-open 0.5s reverse;
 }
 
 @keyframes book-up-open {

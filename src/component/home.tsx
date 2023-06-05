@@ -21,7 +21,7 @@ export const Home = (props: any) => {
         setTimeout(() => {
             document.getElementById(page).querySelector('p').classList.remove('animate-text');
             });
-        },1200);
+        },600);
     }
 
     const closePage = (page: string) => {
