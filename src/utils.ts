@@ -1,4 +1,4 @@
-const createElement = (tag: any, props: any, ...children: any[]) => {
+export const createElement = (tag: any, props: any, ...children: any[]) => {
     if(typeof tag === 'function') {
         return tag(props, ...children);
     }
@@ -30,17 +30,11 @@ const appendChild = (parent: HTMLElement, children: any) => {
     }
 };
 
-const createFragment = (props: any, ...children: any[]) => {
+export const createFragment = (props: any, ...children: any[]) => {
     return children;
 };
 
-const renderWithHooks = (hooks: any[]) => {
+export const renderWithHooks = (hooks: any[]) => {
     //TODO
     console.log("todo");
-}
-
-export {
-    renderWithHooks,
-    createElement,
-    createFragment
 }

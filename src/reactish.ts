@@ -1,5 +1,5 @@
 
-const Reactish = (() => {
+export const Reactish = (() => {
     let index: number = 0;
     const hooks: any[] = [];
 
@@ -50,7 +50,3 @@ const Reactish = (() => {
         useEffect
     }
 })();
-
-export {
-    Reactish
-}

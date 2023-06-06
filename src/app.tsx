@@ -8,7 +8,7 @@ import { Footer } from "./component/footer";
 
 import "./css/main.css";
 
-const App = (props: any) => {
+export const App = (props: any) => {
 
     //hook functions
     // const [count, setCount] = Reactish.useState(1);
@@ -20,8 +20,4 @@ const App = (props: any) => {
         <Contact/>
         <Footer/>
     </div>
-}
-
-export {
-    App
 }

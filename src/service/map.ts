@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 
-const MapAPI = (() => {
+export const MapAPI = (() => {
 
     function create() {
         const map = createMap();
@@ -36,7 +36,3 @@ const MapAPI = (() => {
         create
     }
 })();
-
-export {
-    MapAPI
-}
