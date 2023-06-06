@@ -1,5 +1,6 @@
+import "./book-animation.css"
 
-const BookAnimation = () => {
+export const BookAnimation = () => {
     const header = document.getElementById('header');
     const home = document.getElementById('home-main');
     const homeLeft = document.getElementById('home-left');
@@ -105,7 +106,3 @@ const BookAnimation = () => {
         openAnimation, closeAnimation
     }
 };
-
-export {
-    BookAnimation
-}

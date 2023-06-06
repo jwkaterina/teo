@@ -1,0 +1,90 @@
+
+.animate-left {
+    animation: book-leftside-open 0.5s forwards;
+  }
+  
+  .animate-right {
+    animation: book-rightside-open 0.5s forwards;
+  }
+  
+  .keep-left {
+    transform: translateX(-30vw);
+  }
+  
+  .keep-right {
+    transform: translateX(30vw);
+  }
+  
+  .animate-left-reverse {
+    animation: book-leftside-open 0.5s reverse;
+  }
+  
+  .animate-right-reverse {
+    animation: book-rightside-open 0.5s reverse;
+  }
+  
+  @keyframes book-leftside-open {
+    from {transform: translateX(0);}
+    to {transform: translateX(-30vw);}
+  }
+  
+  @keyframes book-rightside-open {
+    from {transform: translateX(0);}
+    to {transform: translateX(30vw);}
+  }
+  
+  #book-top {
+    position: absolute;
+    top: 0;
+    left: 20vw;
+    border: solid;
+    border-width: 0 0 0 0;
+    border-color: #333 transparent transparent transparent;
+  }
+  
+  #book-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 20vw;
+    border: solid;
+    border-width: 0 0 0 0;
+    border-color: transparent transparent #333 transparent;
+  }
+  
+  .animate-top {
+    animation: book-up-open 0.5s forwards;
+  }
+  
+  .animate-bottom {
+    animation: book-down-open 0.5s forwards;
+  }
+  
+  .animate-top-reverse {
+    animation: book-up-open 0.5s reverse;
+  }
+  
+  .animate-bottom-reverse {
+    animation: book-down-open 0.5s reverse;
+  }
+  
+  @keyframes book-up-open {
+    from {
+      border-width: 50px 0 0 0;
+      left: 50vw;
+    }
+    to {
+      border-width: 0 30vw 0 30vw;
+      left: 20vw;
+    }
+  }
+  
+  @keyframes book-down-open {
+    from {
+      border-width: 0 0 50px 0;
+      left: 50vw;
+    }
+    to {
+      border-width: 0 30vw 0 30vw;
+      left: 20vw;
+    }
+  }
