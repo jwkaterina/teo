@@ -9,6 +9,7 @@ export const BookAnimation = () => {
     const bookTop = document.getElementById('book-top');
     const bookBottom = document.getElementById('book-bottom');
     const media = window.matchMedia("(max-width: 1000px)");
+    const duration = 500;
     
     const openAnimation = () => {
         if (media.matches) { 
@@ -31,7 +32,7 @@ export const BookAnimation = () => {
                 contacts.classList.remove('animate-mobile');
                 bookTop.classList.remove('animate-top-mobile');
                 bookBottom.classList.remove('animate-bottom-mobile');
-            }, 500);    
+            }, duration);    
         } else {
             // Animate
             document.getElementById('home').scrollIntoView();
@@ -51,7 +52,7 @@ export const BookAnimation = () => {
                 homeRight.classList.remove('animate-right');
                 bookTop.classList.remove('animate-top');
                 bookBottom.classList.remove('animate-bottom');
-            }, 500);       
+            }, duration);       
         }
         }
 
@@ -69,7 +70,7 @@ export const BookAnimation = () => {
                 header.classList.remove('keep-mobile');
                 home.classList.remove('keep-mobile');
                 contacts.classList.remove('keep-mobile');
-            },500);
+            },duration);
                 
             // Remove Animation
             setTimeout(() => {
@@ -78,7 +79,7 @@ export const BookAnimation = () => {
                 contacts.classList.remove('animate-reverse-mobile');
                 bookTop.classList.remove('animate-top-reverse-mobile');
                 bookBottom.classList.remove('animate-bottom-reverse-mobile');
-            },500);
+            },duration);
         } else {
             // Reverse Animation
             homeLeft.classList.add('animate-left-reverse');
@@ -90,7 +91,7 @@ export const BookAnimation = () => {
             setTimeout(() => {
                 homeLeft.classList.remove('keep-left');
                 homeRight.classList.remove('keep-right');
-            },500);
+            },duration);
                 
             // Remove Animation
             setTimeout(() => {
@@ -98,11 +99,11 @@ export const BookAnimation = () => {
                 homeRight.classList.remove('animate-right-reverse');
                 bookTop.classList.remove('animate-top-reverse');
                 bookBottom.classList.remove('animate-bottom-reverse');
-            },500);
+            },duration);
         }
     }
  
     return {
-        openAnimation, closeAnimation
+        openAnimation, closeAnimation, duration
     }
 };

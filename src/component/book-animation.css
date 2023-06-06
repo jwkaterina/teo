@@ -1,90 +1,170 @@
 
+:root {
+  --book-animation-duration: 0.5s;
+}
+
 .animate-left {
-    animation: book-leftside-open 0.5s forwards;
+    animation: book-leftside-open var(--book-animation-duration) forwards;
   }
   
-  .animate-right {
-    animation: book-rightside-open 0.5s forwards;
+.animate-right {
+  animation: book-rightside-open var(--book-animation-duration) forwards;
+}
+
+.keep-left {
+  transform: translateX(-30vw);
+}
+
+.keep-right {
+  transform: translateX(30vw);
+}
+
+.animate-left-reverse {
+  animation: book-leftside-open var(--book-animation-duration) reverse;
+}
+
+.animate-right-reverse {
+  animation: book-rightside-open var(--book-animation-duration) reverse;
+}
+
+@keyframes book-leftside-open {
+  from {transform: translateX(0);}
+  to {transform: translateX(-30vw);}
+}
+
+@keyframes book-rightside-open {
+  from {transform: translateX(0);}
+  to {transform: translateX(30vw);}
+}
+
+#book-top {
+  position: absolute;
+  top: 0;
+  left: 20vw;
+  border: solid;
+  border-width: 0 0 0 0;
+  border-color: #333 transparent transparent transparent;
+}
+
+#book-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 20vw;
+  border: solid;
+  border-width: 0 0 0 0;
+  border-color: transparent transparent #333 transparent;
+}
+
+.animate-top {
+  animation: book-up-open var(--book-animation-duration) forwards;
+}
+
+.animate-bottom {
+  animation: book-down-open var(--book-animation-duration) forwards;
+}
+
+.animate-top-reverse {
+  animation: book-up-open var(--book-animation-duration) reverse;
+}
+
+.animate-bottom-reverse {
+  animation: book-down-open var(--book-animation-duration) reverse;
+}
+
+@keyframes book-up-open {
+  from {
+    border-width: 50px 0 0 0;
+    left: 50vw;
   }
-  
-  .keep-left {
-    transform: translateX(-30vw);
-  }
-  
-  .keep-right {
-    transform: translateX(30vw);
-  }
-  
-  .animate-left-reverse {
-    animation: book-leftside-open 0.5s reverse;
-  }
-  
-  .animate-right-reverse {
-    animation: book-rightside-open 0.5s reverse;
-  }
-  
-  @keyframes book-leftside-open {
-    from {transform: translateX(0);}
-    to {transform: translateX(-30vw);}
-  }
-  
-  @keyframes book-rightside-open {
-    from {transform: translateX(0);}
-    to {transform: translateX(30vw);}
-  }
-  
-  #book-top {
-    position: absolute;
-    top: 0;
+  to {
+    border-width: 0 30vw 0 30vw;
     left: 20vw;
+  }
+}
+
+@keyframes book-down-open {
+  from {
+    border-width: 0 0 50px 0;
+    left: 50vw;
+  }
+  to {
+    border-width: 0 30vw 0 30vw;
+    left: 20vw;
+  }
+}
+
+@media (max-width: 1000px) {
+
+  .animate-mobile {
+    animation: book-open var(--book-animation-duration) forwards;
+  } 
+
+  .keep-mobile {
+    transform: translateX(100vw);
+  }
+
+  .animate-reverse-mobile {
+    animation: book-open var(--book-animation-duration) reverse;
+  }
+
+  @keyframes book-open {
+    from {transform: translateX(0);}
+    to {transform: translateX(100vw);}
+  }
+
+  #book-top {
+    position: fixed;
+    top: 0;
+    left: 0;
     border: solid;
     border-width: 0 0 0 0;
     border-color: #333 transparent transparent transparent;
   }
-  
+
   #book-bottom {
-    position: absolute;
+    position: fixed;
     bottom: 0;
-    left: 20vw;
+    left: 0;
     border: solid;
     border-width: 0 0 0 0;
     border-color: transparent transparent #333 transparent;
   }
-  
-  .animate-top {
-    animation: book-up-open 0.5s forwards;
+
+  .animate-top-mobile {
+    animation: book-up-mobile var(--book-animation-duration) forwards;
   }
-  
-  .animate-bottom {
-    animation: book-down-open 0.5s forwards;
+
+  .animate-bottom-mobile {
+    animation: book-down-mobile var(--book-animation-duration) forwards;
   }
-  
-  .animate-top-reverse {
-    animation: book-up-open 0.5s reverse;
+
+  .animate-top-reverse-mobile {
+    animation: book-up-mobile var(--book-animation-duration) reverse;
   }
-  
-  .animate-bottom-reverse {
-    animation: book-down-open 0.5s reverse;
+
+  .animate-bottom-reverse-mobile {
+    animation: book-down-mobile var(--book-animation-duration) reverse;
   }
-  
-  @keyframes book-up-open {
+
+  @keyframes book-up-mobile {
     from {
       border-width: 50px 0 0 0;
-      left: 50vw;
+      left: 0;
     }
     to {
-      border-width: 0 30vw 0 30vw;
-      left: 20vw;
+      border-width: 0 100vw 0 0;
+      left: 0;
     }
   }
-  
-  @keyframes book-down-open {
+
+  @keyframes book-down-mobile {
     from {
       border-width: 0 0 50px 0;
-      left: 50vw;
+      left: 0;
     }
     to {
-      border-width: 0 30vw 0 30vw;
-      left: 20vw;
+      border-width: 0 100vw 0 0;
+      left: 0;
     }
-  }
+  } 
+}
