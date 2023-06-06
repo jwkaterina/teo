@@ -2,9 +2,11 @@
 import { createElement } from "../utils";
 import { Inner } from "./inner-pages";
 
-export const About = () => {
+export const About = (porps: AboutProps) => {
 
-    return <div id="about">
+    if(porps.isOpen) {
+        console.log("About is open");
+        return <div id="about">
         <div class="book-container">
             <button class="btn-close" onclick={() => Inner().closePage('about')}>
                 <div class="cross"></div>
@@ -15,4 +17,11 @@ export const About = () => {
             </p>
         </div>
     </div>
+    } else {
+        return <span/>
+    }
+}
+
+export interface AboutProps {
+    isOpen: boolean
 }

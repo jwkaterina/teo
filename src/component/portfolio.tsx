@@ -2,7 +2,7 @@
 import { createElement } from "../utils";
 import { Inner } from "./inner-pages";
 
-export const Portfolio = () => {
+export const Portfolio = (props: PortfolioProps) => {
 
     return <div id="portfolio">
         <div class="book-container">
@@ -15,4 +15,8 @@ export const Portfolio = () => {
             </p>
         </div>
     </div>
+}
+
+export interface PortfolioProps {
+    isOpen: boolean
 }

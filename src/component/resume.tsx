@@ -2,7 +2,7 @@
 import { createElement } from "../utils";
 import { Inner } from "./inner-pages";
 
-export const Resume = () => {
+export const Resume = (props: ResumeProps) => {
 
     return <div id="resume">
         <div class="book-container">
@@ -15,4 +15,8 @@ export const Resume = () => {
             </p>
         </div>
     </div>
+}
+
+export interface ResumeProps {
+    isOpen: boolean
 }

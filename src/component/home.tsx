@@ -1,14 +1,21 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
 import { BookAnimation } from "./book-animation";
+import { Reactish } from "../reactish";
 import { About } from "./about";
 import { Resume } from "./resume";
 import { Portfolio } from "./portfolio";
 import { Blog } from "./blog";
+import { rerender } from "../rerender";
 
 import "./home.css"
 
-export const Home = (props: any) => {
+export const Home = () => {
+    const [isPageOpen, setPageOpen] = Reactish.useState(false);
+    const [isOpenAbout, setOpenAbout] = Reactish.useState(false);
+    const [isOpenResume, setOpenResume] = Reactish.useState(false);
+    const [isOpenPortfolio, setOpenPortfolio] = Reactish.useState(false);
+    const [isOpenBlog, setOpenBlog] = Reactish.useState(false);
 
     const openPage = (page: string) => {
         document.querySelector('body').style.overflow = 'hidden';
@@ -31,7 +38,7 @@ export const Home = (props: any) => {
     return  <section id="home">
         <div id="home-main">
             <div id="home-left">
-                <div id="home-about" class="home-flex" onclick={() => openPage("about")}>
+                <div id="home-about" class="home-flex" onclick={() => {setOpenAbout(true); rerender()}}>
                     <div class="home-content">
                         <i class="fas fa-cat fa-2x"></i>
                         <h2>about me</h2>
@@ -39,7 +46,7 @@ export const Home = (props: any) => {
                         <button class="btn upper">View more</button>
                     </div>
                 </div>
-                <div id="home-portfolio" class="home-flex" onclick={() => openPage("portfolio")}>
+                <div id="home-portfolio" class="home-flex" onclick={() => {setOpenPortfolio(true); rerender()}}>
                     <div class="home-content">
                         <i class="fas fa-briefcase fa-2x"></i>
                         <h2>portfolio</h2>
@@ -49,7 +56,7 @@ export const Home = (props: any) => {
                 </div>
             </div>
             <div id="home-right">
-                <div id="home-resume" class="home-flex" onclick={() => openPage("resume")}>
+                <div id="home-resume" class="home-flex" onclick={() => {setOpenResume(true); rerender()}}>
                     <div class="home-content">
                         <i class="fas fa-id-card fa-2x"></i>
                         <h2>resume</h2>
@@ -58,7 +65,7 @@ export const Home = (props: any) => {
                         <button class="btn upper">View more</button>
                     </div> 
                 </div>
-                <div id="home-blog" class="home-flex" onclick={() => openPage("blog")}>
+                <div id="home-blog" class="home-flex" onclick={() => {setOpenBlog(true); rerender()}}>
                     <div class="home-content">
                         <i class="fas fa-book fa-2x"></i>
                         <h2>blog</h2>
@@ -70,9 +77,9 @@ export const Home = (props: any) => {
         </div>
         <div id="book-top"></div>
         <div id="book-bottom"></div>
-        <About/>
-        <Resume/>
-        <Portfolio/>
-        <Blog/>
+        <About isOpen={isOpenAbout}/>
+        <Resume isOpen={isOpenResume}/>
+        <Portfolio isOpen={isOpenPortfolio}/>
+        <Blog isOpen={isOpenBlog}/>
     </section>
 }

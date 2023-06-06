@@ -2,7 +2,7 @@
 import { createElement } from "../utils";
 import { Inner } from "./inner-pages";
 
-export const Blog = () => {
+export const Blog = (props: BlogProps) => {
 
     return <div id="blog">
         <div class="book-container">
@@ -15,4 +15,8 @@ export const Blog = () => {
             </p>
         </div>
     </div>
+}
+
+export interface BlogProps {
+    isOpen: boolean
 }
