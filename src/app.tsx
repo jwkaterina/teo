@@ -14,7 +14,7 @@ export const App = (props: any) => {
     // const [count, setCount] = Reactish.useState(1);
     // Reactish.useEffect([], ()=>{ ...your code });
 
-    return <div>
+    return <div id="app">
         <Header/>
         <Home/>
         <Contact/>

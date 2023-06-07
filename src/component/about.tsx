@@ -1,6 +1,5 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
-import { Inner } from "./inner-pages";
 
 export const About = (porps: AboutProps) => {
 
@@ -8,7 +7,7 @@ export const About = (porps: AboutProps) => {
         console.log("About is open");
         return <div id="about">
         <div class="book-container">
-            <button class="btn-close" onclick={() => Inner().closePage('about')}>
+            <button class="btn-close">
                 <div class="cross"></div>
             </button>
             <h1>about me</h1>

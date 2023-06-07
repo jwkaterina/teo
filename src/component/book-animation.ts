@@ -13,27 +13,10 @@ export const BookAnimation = () => {
     
     const openAnimation = () => {
         if (media.matches) { 
-            // Animate
-            header.classList.add('animate-mobile');
-            home.classList.add('animate-mobile');
-            contacts.classList.add('animate-mobile');
-            bookTop.classList.add('animate-top-mobile');
-            bookBottom.classList.add('animate-bottom-mobile');
-        
-            // Keep in place
-            header.classList.add('keep-mobile');
-            home.classList.add('keep-mobile');
-            contacts.classList.add('keep-mobile');
-        
-            // Remove animation
-            setTimeout(() => {
-                header.classList.remove('animate-mobile');
-                home.classList.remove('animate-mobile');
-                contacts.classList.remove('animate-mobile');
-                bookTop.classList.remove('animate-top-mobile');
-                bookBottom.classList.remove('animate-bottom-mobile');
-            }, duration);    
-        } else {
+            openBookMobile();
+            keepOpenMobile();
+            setTimeout(() => {removeAnimMobile()}, duration);    
+        } else {  
             // Animate
             document.getElementById('home').scrollIntoView();
 
@@ -102,6 +85,26 @@ export const BookAnimation = () => {
             },duration);
         }
     }
+
+    const openBookMobile = () => {
+        header.classList.add('animate-mobile');
+        home.classList.add('animate-mobile');
+        contacts.classList.add('animate-mobile');
+        bookTop.classList.add('animate-top-mobile');
+        bookBottom.classList.add('animate-bottom-mobile');
+    };
+    const keepOpenMobile = () => {
+        header.classList.add('keep-mobile');
+        home.classList.add('keep-mobile');
+        contacts.classList.add('keep-mobile');
+    };
+    const removeAnimMobile = () => {
+        header.classList.remove('animate-mobile');
+        home.classList.remove('animate-mobile');
+        contacts.classList.remove('animate-mobile');
+        bookTop.classList.remove('animate-top-mobile');
+        bookBottom.classList.remove('animate-bottom-mobile');
+    };
  
     return {
         openAnimation, closeAnimation, duration

@@ -1,12 +1,12 @@
 /** @jsx createElement */
 import { createElement } from "../utils";
-import { Inner } from "./inner-pages";
+import { Preview } from "./preview";
 
 export const Resume = (props: ResumeProps) => {
 
     return <div id="resume">
         <div class="book-container">
-            <button class="btn-close" onclick={() => Inner().closePage('resume')}>
+            <button class="btn-close" onclick={() => Preview().closePage('resume')}>
                 <div class="cross"></div>
             </button>
             <h1>resume</h1>

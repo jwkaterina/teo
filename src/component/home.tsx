@@ -2,20 +2,14 @@
 import { createElement } from "../utils";
 import { BookAnimation } from "./book-animation";
 import { Reactish } from "../reactish";
-import { About } from "./about";
-import { Resume } from "./resume";
-import { Portfolio } from "./portfolio";
-import { Blog } from "./blog";
 import { rerender } from "../rerender";
+import { Preview } from "./preview";
 
 import "./home.css"
 
 export const Home = () => {
-    const [isPageOpen, setPageOpen] = Reactish.useState(false);
-    const [isOpenAbout, setOpenAbout] = Reactish.useState(false);
-    const [isOpenResume, setOpenResume] = Reactish.useState(false);
-    const [isOpenPortfolio, setOpenPortfolio] = Reactish.useState(false);
-    const [isOpenBlog, setOpenBlog] = Reactish.useState(false);
+    const [isOpenPreview, setOpenPreview] = Reactish.useState(false);
+    const [isTypePreview, setType] = Reactish.useState("");
 
     const openPage = (page: string) => {
         document.querySelector('body').style.overflow = 'hidden';
@@ -38,7 +32,13 @@ export const Home = () => {
     return  <section id="home">
         <div id="home-main">
             <div id="home-left">
-                <div id="home-about" class="home-flex" onclick={() => {setOpenAbout(true); rerender()}}>
+                <div id="home-about" class="home-flex" onclick={
+                    () => {
+                        setOpenPreview(true);
+                        setType("about");
+                        rerender()
+                    }
+                    }>
                     <div class="home-content">
                         <i class="fas fa-cat fa-2x"></i>
                         <h2>about me</h2>
@@ -46,7 +46,7 @@ export const Home = () => {
                         <button class="btn upper">View more</button>
                     </div>
                 </div>
-                <div id="home-portfolio" class="home-flex" onclick={() => {setOpenPortfolio(true); rerender()}}>
+                <div id="home-portfolio" class="home-flex" onclick={() => {setOpenPreview(true); setType("portfolio"); rerender()}}>
                     <div class="home-content">
                         <i class="fas fa-briefcase fa-2x"></i>
                         <h2>portfolio</h2>
@@ -56,7 +56,7 @@ export const Home = () => {
                 </div>
             </div>
             <div id="home-right">
-                <div id="home-resume" class="home-flex" onclick={() => {setOpenResume(true); rerender()}}>
+                <div id="home-resume" class="home-flex" onclick={() => {setOpenPreview(true); setType("resume"); rerender()}}>
                     <div class="home-content">
                         <i class="fas fa-id-card fa-2x"></i>
                         <h2>resume</h2>
@@ -65,7 +65,7 @@ export const Home = () => {
                         <button class="btn upper">View more</button>
                     </div> 
                 </div>
-                <div id="home-blog" class="home-flex" onclick={() => {setOpenBlog(true); rerender()}}>
+                <div id="home-blog" class="home-flex" onclick={() => {setOpenPreview(true); setType("blog"); rerender()}}>
                     <div class="home-content">
                         <i class="fas fa-book fa-2x"></i>
                         <h2>blog</h2>
@@ -77,9 +77,6 @@ export const Home = () => {
         </div>
         <div id="book-top"></div>
         <div id="book-bottom"></div>
-        <About isOpen={isOpenAbout}/>
-        <Resume isOpen={isOpenResume}/>
-        <Portfolio isOpen={isOpenPortfolio}/>
-        <Blog isOpen={isOpenBlog}/>
+        <Preview isOpen={isOpenPreview} isType={isTypePreview}/>
     </section>
 }
