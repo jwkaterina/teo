@@ -1,7 +1,10 @@
 //babel pragma function
-/** @jsx createElement */
-import { createElement } from "./utils";
+/** @jsx parseJSX */
 import { App } from "./app";
-import { Reactish } from "./reactish";
+import { Reactish, parseJSX } from "./reactish";
 
-Reactish.render(<App name="foo" />);
+const root = document.getElementById('root');
+
+Reactish.render(root, 
+<App name="foo" />
+);

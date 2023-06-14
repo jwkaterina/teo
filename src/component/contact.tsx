@@ -1,6 +1,5 @@
-/** @jsx createElement */
-import { createElement } from "../utils";
-import { Reactish } from "../reactish";
+/** @jsx parseJSX */
+import { Reactish, parseJSX } from "../reactish";
 import { MapAPI } from "../service/map";
 import "./contact.css";
 
@@ -22,8 +21,8 @@ export const Contact = (props: any) => {
             },2000);
             inputs.forEach(input => (input as HTMLInputElement).value = '');
         } else {
-            const emptyInput = document.querySelector('.show-message').previousElementSibling;
-            (emptyInput as HTMLInputElement).focus();
+            const emptyInput = document.querySelector('.show-message').previousElementSibling as HTMLInputElement;
+            (emptyInput).focus();
         }
     };
 

@@ -1,5 +1,5 @@
-/** @jsx createElement */
-import { createElement } from "../utils";
+/** @jsx parseJSX */
+import { Reactish, parseJSX } from "../reactish";
 import "./footer.css";
 
 export const Footer = (props: any) => {

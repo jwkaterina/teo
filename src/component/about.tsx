@@ -1,5 +1,5 @@
-/** @jsx createElement */
-import { createElement } from "../utils";
+/** @jsx parseJSX */
+import { Reactish, parseJSX } from "../reactish";
 
 export const About = (porps: AboutProps) => {
 

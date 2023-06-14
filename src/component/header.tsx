@@ -1,6 +1,5 @@
-/** @jsx createElement */
-import { createElement } from "../utils";
-import { Reactish } from "../reactish";
+/** @jsx parseJSX */
+import { Reactish, parseJSX } from "../reactish";
 import "./header.css";
 
 export const Header = (props: any) => {
