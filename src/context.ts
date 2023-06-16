@@ -1,8 +1,18 @@
 import { Reactish } from "./reactish";
 
-export const OpenPageContext = Reactish.createContext({isOpen: false} as OpenPageContextProperty);
+export enum OpenState {
+    CLOSED,
+    OPENING,
+    OPEN,
+    CLOSING
+}
+
+export const OpenPageContext = Reactish.createContext({openState: OpenState.CLOSED} as OpenPageContextProperty);
 
 export interface OpenPageContextProperty {
-    isOpen: boolean;
-    setOpen: (newValue: boolean) => void;
+    openState: OpenState;
+    setOpenState: (newValue: OpenState) => void;
 }
+
+export const TypePreviewContext = Reactish.createContext("");
+

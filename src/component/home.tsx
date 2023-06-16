@@ -2,14 +2,53 @@
 import { Reactish, parseJSX } from "../reactish";
 import { BookAnimation } from "./book-animation";
 import { Preview } from "./preview";
-import { OpenPageContext } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
+import { Envelope } from "./envelope";
 
 import "./home.css"
 
 export const Home = () => {
-    const [isOpenPreview, setOpenPreview] = Reactish.useState(false);
-    const [isTypePreview, setType] = Reactish.useState("");
-    const {isOpen, setOpen} = Reactish.useContext(OpenPageContext);
+    // const [isOpenPreview, setOpenPreview] = Reactish.useState(false);
+    const [typePreview, setType] = Reactish.useState("");
+    const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
+
+    const scrollIntoView = (element: HTMLElement) => {
+        Reactish.useEffect([openState], () => {
+            element.scrollIntoView();
+        });
+    }
+
+    const evaluateClass = (closedClass: string, openingClass: string, openClass: string, closingClass: string): string => {
+        if(openState == OpenState.CLOSED) {
+            return closedClass
+        } else if(openState == OpenState.OPENING) {
+            return openingClass
+        } else if(openState == OpenState.OPEN) {
+            return openClass
+        } else {
+            return closingClass
+        }
+    }
+
+    const onHomeClick = (type: string) => {
+        if(openState == OpenState.CLOSED) {
+            setOpenState(OpenState.OPENING);
+            setType(type);
+        } 
+        if(openState == OpenState.OPEN) {
+            setOpenState(OpenState.CLOSING);
+            setType("");
+        }
+    }
+
+    const onAnimationEnd = () => {
+        if(openState == OpenState.OPENING) {
+            setOpenState(OpenState.OPEN)
+        }
+        if(openState == OpenState.CLOSING) {
+            setOpenState(OpenState.CLOSED)
+        }
+    }
 
     const openPage = (page: string) => {
         // document.querySelector('body').style.overflow = 'hidden';
@@ -28,55 +67,49 @@ export const Home = () => {
             document.getElementById(page).querySelector('p').classList.remove('animate-text');
         },700);
     }
+    
 
-    return  <section id="home">
-        <div id="home-main">
-            <div id="home-left" class={isOpen? "animate-left keep-left" : ""}>
-                <div id="home-about" class={isOpen? "home-flex on-show" : "home-flex"} onclick={
-                    () => {
-                        setOpen(true);
-                        setOpenPreview(true);
-                        setType("about");
-                     }
-                    }>
-                    <div class="home-content">
-                        <i class="fas fa-cat fa-2x"></i>
-                        <h2>about me</h2>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
-                        <button class="btn upper">View more</button>
+    return <TypePreviewContext.Provider value={typePreview}>
+        <section apply={ openState == OpenState.OPENING ? scrollIntoView : null}>
+            <div id="home-main">
+                <div id="home-left" class={evaluateClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
+                    <div id="home-about" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("about")}>
+                        <div class="home-content">
+                            <i class="fas fa-cat fa-2x"></i>
+                            <h2>about me</h2>
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
+                            <button class="btn upper">View more</button>
+                        </div>
+                    </div>
+                    <div id="home-portfolio" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("portfolio")}>
+                        <div class="home-content">
+                            <i class="fas fa-briefcase fa-2x"></i>
+                            <h2>portfolio</h2>
+                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
+                            <button class="btn upper">View more</button>
+                        </div>
                     </div>
                 </div>
-                <div id="home-portfolio" class={isOpen? "home-flex on-show" : "home-flex"} onclick={() => {setOpenPreview(true); setType("portfolio")}}>
-                    <div class="home-content">
-                        <i class="fas fa-briefcase fa-2x"></i>
-                        <h2>portfolio</h2>
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
-                        <button class="btn upper">View more</button>
+                <div id="home-right" class={evaluateClass("", "animate-right", "keep-right", "animate-right-reverse")}>
+                    <div id="home-resume" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("resume")}>
+                        <div class="home-content">
+                            <i class="fas fa-id-card fa-2x"></i>
+                            <h2>resume</h2>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing.
+                            </p>
+                            <button class="btn upper">View more</button>
+                        </div> 
                     </div>
-                </div>
-            </div>
-            <div id="home-right" class={isOpen? "animate-right keep-right" : ""}>
-                <div id="home-resume" class={isOpen? "home-flex on-show" : "home-flex"} onclick={() => {setOpenPreview(true); setType("resume");}}>
-                    <div class="home-content">
-                        <i class="fas fa-id-card fa-2x"></i>
-                        <h2>resume</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing.
-                        </p>
-                        <button class="btn upper">View more</button>
-                    </div> 
-                </div>
-                <div id="home-blog" class={isOpen? "home-flex on-show" : "home-flex"} onclick={() => {setOpenPreview(true); setType("blog");}}>
-                    <div class="home-content">
-                        <i class="fas fa-book fa-2x"></i>
-                        <h2>blog</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur.</p>
-                        <button class="btn upper">View more</button>
+                    <div id="home-blog" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("blog")}>
+                        <div class="home-content">
+                            <i class="fas fa-book fa-2x"></i>
+                            <h2>blog</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur.</p>
+                            <button class="btn upper">View more</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="book-top" class={isOpen? "animate-top" : ""}></div>
-        <div id="book-bottom" class={isOpen? "animate-bottom" : ""}></div>
-        <Preview isOpen={isOpenPreview} isType={isTypePreview}/>
-    </section>
+        </section>
+    </TypePreviewContext.Provider>
 }

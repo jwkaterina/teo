@@ -22,6 +22,13 @@ export type ReactishChildren = ReactishComponent[] | ReactishComponent[][];
 export type TraversedEntity = TraversedComponent | TraversedComponent[];
 export type TraversedChildren = TraversedComponent[] | TraversedComponent[][];
 
+type HTMLElementFunction = (element: HTMLElement)=>void;
+
+interface DOMFunction {
+    func: HTMLElementFunction,
+    element: HTMLElement
+}
+
 /** 
  * Pragma function.
  * This is the entry point.
@@ -105,17 +112,18 @@ const runReactishComponent = (fn: Function, props: any, children: ReactishChildr
     return reactish;
 }
 
-const createMultipleDOM = (components: TraversedComponent[]): (HTMLElement | Text)[] => {
-    return components.map(component => createSingleDOM(component))
+const createMultipleDOM = (components: TraversedComponent[], domFunctions: DOMFunction[]): (HTMLElement | Text)[] => {
+    return components.map(component => createSingleDOM(component, domFunctions));
 }
 
-const createSingleDOM = (parent: TraversedComponent): HTMLElement | Text => {
+const createSingleDOM = (parent: TraversedComponent, domFunctions: DOMFunction[]): HTMLElement | Text => {
     const dom = createHTMLElement(parent);
-    updateDOM(dom, parent.props);
+    updateDOM(dom, parent.props, domFunctions);
+
     if(parent.traversedChildren) {
         for (const childEntity of parent.traversedChildren) {
             //recursion
-            appendChild(dom, childEntity);
+            appendChild(dom, childEntity, domFunctions);
         }
     }
 
@@ -131,49 +139,58 @@ const createHTMLElement = (component: TraversedComponent): HTMLElement | Text =>
 }
 
 const isEvent = (key: string) => key.startsWith('on');
+const isApply = (key: string) => key === 'apply';
+const isFunction = (value: any) => typeof value === 'function';
 
-const updateDOM = (dom: HTMLElement | Text, props: any) => {
+const updateDOM = (dom: HTMLElement | Text, props: any, domFunctions: DOMFunction[]) => {
     Object.entries(props || {}).forEach(([name, value]) => {
         if (isEvent(name) && name.toLowerCase() in window) {
-            const eventName = name.toLowerCase().substring(2);
-            const callback = value as EventListenerOrEventListenerObject;
-            dom.addEventListener(eventName, callback);
+            if(isFunction(value)) {
+                const eventName = name.toLowerCase().substring(2);
+                const callback = value as EventListenerOrEventListenerObject;
+                dom.addEventListener(eventName, callback);
+            } else {
+                console.error(`Cannot add ${name} listener. Provided callback is not a function:`, value);
+            }
+        } else if(isApply(name)) {
+            if(dom.nodeType != Node.TEXT_NODE && isFunction(value)) {
+                domFunctions.push({func: value as HTMLElementFunction, element: dom as HTMLElement});
+            }
         } else {
             if(dom.nodeType != Node.TEXT_NODE) {
                 (dom as HTMLElement).setAttribute(name, value.toString());
             }
         }
     });
+    return;
 }
 
-const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity) => {
+const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity, domFunctions: DOMFunction[]) => {
     if(Array.isArray(childEntity)) {
         //recursion
-        const children = createMultipleDOM(childEntity);
+        const children = createMultipleDOM(childEntity, domFunctions);
         for (const child of children) {
             parent.appendChild(child);
         }
     } else {
-        parent.appendChild(createSingleDOM(childEntity));
+        parent.appendChild(createSingleDOM(childEntity, domFunctions));
     }
 }
 
-let _hooks: string;
+let _state: string;
 let _root: HTMLElement;
 let _cmp: ReactishEntity;
 
-const renderWithHooks = (hooks: any[]) => {
+const renderWithHooks = (state: any[]) => {
     //first  time must be invoked by main which must supply root and component
     const render = (root: HTMLElement = _root, component: ReactishEntity = _cmp) => {
-        const hooksSnapshot = JSON.stringify(hooks);
-        if(hooksSnapshot === _hooks) {
+        const stateSnapshot = JSON.stringify(state);
+        if(stateSnapshot === _state) {
             return
         }
         _root = root;
         _cmp = component;
-
-        console.log(hooksSnapshot);
-        _hooks = hooksSnapshot;
+        _state = stateSnapshot;
 
         let traverseComponents: TraversedComponent[];
         if(Array.isArray(_cmp)) {
@@ -182,12 +199,16 @@ const renderWithHooks = (hooks: any[]) => {
             traverseComponents = traverseMultiple([_cmp])
         }
 
-        const domElements: (HTMLElement | Text)[] = createMultipleDOM(traverseComponents);
+        const domFunctions: DOMFunction[] = [];
+        const domElements: (HTMLElement | Text)[] = createMultipleDOM(traverseComponents, domFunctions);
         while(_root.firstChild) {
             _root.removeChild(_root.firstChild);
         }
         for (const dom of domElements) {
             _root.appendChild(dom);
+        }
+        for (const domFunction of domFunctions) {
+            domFunction.func(domFunction.element);
         }
     }
 
@@ -195,14 +216,16 @@ const renderWithHooks = (hooks: any[]) => {
 }
 
 export const Reactish = (() => {
-    let idx: number = 0;
+    let stateIdx: number = 0;
+    let useEffectIdx = 0;
     let contextIdx = 0;
-    const hooks: any[] = [];
+    const state: any[] = [];
+    const useEffectHooks: any[] = [];
     const contextHooks: any[] = [];
 
     const workLoop = () => {
-        idx = 0;
-        const render = renderWithHooks(hooks);
+        stateIdx = 0;
+        const render = renderWithHooks(state);
         render();
         setTimeout(workLoop, 300);
     }
@@ -211,18 +234,18 @@ export const Reactish = (() => {
 
     const useState = <T>(initVal: T): [T, (newVal: T) => void] => {
 
-        const state: any = hooks[idx] || initVal;
-        const stateIndex: number = idx;
+        const currentState: any = state[stateIdx] || initVal;
+        const stateIndex: number = stateIdx;
 
         const setState = (newVal: T): void => {
-            hooks[stateIndex] = newVal;
+            state[stateIndex] = newVal;
         }
-        idx++;
-        return [state, setState];
+        stateIdx++;
+        return [currentState, setState];
     }
 
     const useEffect = (dependencies: any[], cb: ()=>void) => {
-        const oldDeps = hooks[idx];
+        const oldDeps = useEffectHooks[useEffectIdx];
         let hasChanged: boolean = true;
         if(oldDeps) {
             hasChanged = dependencies.some((dep: any, i: number) => {
@@ -234,9 +257,9 @@ export const Reactish = (() => {
             setTimeout(cb, 0);
         }
 
-        hooks[idx] = dependencies;
+        useEffectHooks[useEffectIdx] = dependencies;
 
-        idx++;
+        useEffectIdx++;
     }
 
     const createContext = <T>(defaultVal: T): Context<T> => {
@@ -262,7 +285,7 @@ export const Reactish = (() => {
 
     const useContext = <T>(context: Context<T>): T => contextHooks[context.contextIndex] as T;
 
-    const render = renderWithHooks(hooks);
+    const render = renderWithHooks(state);
 
     return {
         render: render,

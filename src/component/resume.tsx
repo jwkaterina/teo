@@ -3,6 +3,9 @@ import { Reactish, parseJSX } from "../reactish";
 import { Preview } from "./preview";
 
 export const Resume = (props: ResumeProps) => {
+    if(props.isOpen) {
+        console.log("Resume is open");
+    }
 
     return <div id="resume">
         <div class="book-container">

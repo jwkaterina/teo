@@ -1,41 +1,108 @@
-
-:root {
-  --text-animtaion-duration: 0.2s;
+#book-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: solid;
+  border-width: 0 0 0 0;
+  border-color: #333 transparent transparent transparent;
 }
 
-.book-container {
+#book-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border: solid;
+  border-width: 0 0 0 0;
+  border-color: transparent transparent #333 transparent;
+}
+
+.animate-top {
+  animation: book-up-open 1s forwards;
+}
+
+.animate-bottom {
+  animation: book-down-open 1s forwards;
+}
+
+.animate-top-reverse {
+  animation: book-up-open 1s reverse;
+}
+
+.animate-bottom-reverse {
+  animation: book-down-open 1s reverse;
+}
+
+@keyframes book-up-open {
+  from {
+    border-width: 50px 0 0 0;
+    left: 50%;
+  }
+  to {
+    border-width: 0 30vw 0 30vw;
+    left: 0;
+  }
+}
+
+@keyframes book-down-open {
+  from {
+    border-width: 0 0 50px 0;
+    left: 50%;
+  }
+  to {
+    border-width: 0 30vw 0 30vw;
+    left: 0;
+  }
+}
+
+/* Show inner Pages */
+#preview {
   position: fixed;
   top: 0;
   left: 20vw;
   height: 100vh;
   width: 60vw;
+  display: block;
+  /* display: none; */
+}
+
+#book-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
   color: #000;
-  display: none;
   text-align: center;
   padding: 2rem 2rem;
   overflow: auto;
 }
 
-/* .book-container:focus {
-  outline: none;
-} */
+.show {
+  display: block !important;
+}
 
-.book-container h1 {
+#about, #resume, #portfolio, #blog {
+  display: none;
+}
+
+#book-container:focus {
+  outline: none;
+}
+
+#book-container h1 {
   margin: 2rem 0;
   font-weight: 100;
   font-size: 3rem;
 }
 
-.book-container p {
-  margin: 0 2rem;
+#book-container p {
+  opacity: 1;
+  margin: 0.2rem;
 }
 
 .btn-close {
-  cursor: pointer;
-  border: 0;
-  background-color: transparent;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   position: sticky;
   top: 0;
   display: block;
@@ -44,8 +111,7 @@
 
 .btn-close .cross {
   position: absolute;
-  left: 20px;
-  top: 5px;
+  left: 15px;
   height: 30px;
   width: 1px;
   background-color: black;
@@ -64,33 +130,64 @@
   transform: rotate(90deg);
 }
 
-.show {
-  display: block;
-}
-
 .animate-text {
-  animation: text var(--text-animtaion-duration);
+  animation: text 0.3s forwards;
 }
 
 .animate-text-reverse {
-  animation: text var(--text-animtaion-duration) reverse;
+  animation: text 0.3s reverse;
 }
 
 @keyframes text {
   from {
     transform: translateY(30px);
-    visibility: hidden;
+    opacity: 0;
   }
   to {
     transform: translateY(0);
-    visibility: visible;
+    opacity: 1;
   }
 }
 
 @media (max-width: 1000px) {
-  .book-container {
-    position: fixed;
-    top: 0;
+  .animate-top-mobile {
+    animation: book-up-mobile 1s forwards;
+  }
+
+  .animate-bottom-mobile {
+    animation: book-down-mobile 1s forwards;
+  }
+
+  .animate-top-reverse-mobile {
+    animation: book-up-mobile 1s reverse;
+  }
+
+  .animate-bottom-reverse-mobile {
+    animation: book-down-mobile 1s reverse;
+  }
+
+  @keyframes book-up-mobile {
+    from {
+      border-width: 50px 0 0 0;
+      left: 0;
+    }
+    to {
+      border-width: 0 100vw 0 0;
+      left: 0;
+    }
+  }
+
+@keyframes book-down-mobile {
+  from {
+    border-width: 0 0 50px 0;
+    left: 0;
+  }
+  to {
+    border-width: 0 100vw 0 0;
+    left: 0;
+  }
+}
+  #preview {
     left: 0;
     width: 100vw;
   }
