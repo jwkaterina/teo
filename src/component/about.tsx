@@ -1,5 +1,4 @@
-/** @jsx parseJSX */
-import { Reactish, parseJSX } from "../reactish";
+
 
 export const About = (porps: AboutProps) => {
 

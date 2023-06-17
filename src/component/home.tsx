@@ -1,9 +1,6 @@
-/** @jsx parseJSX */
-import { Reactish, parseJSX } from "../reactish";
+import { Reactish } from "../reactish";
 import { BookAnimation } from "./book-animation";
-import { Preview } from "./preview";
 import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
-import { Envelope } from "./envelope";
 
 import "./home.css"
 
@@ -53,15 +50,12 @@ export const Home = () => {
     const openPage = (page: string) => {
         // document.querySelector('body').style.overflow = 'hidden';
         // document.querySelectorAll('.home-flex').forEach(function(item) {
-        //     item.classList.add('on-show'); // Darken home elements
+        //     item.classList.add('dark');
         // })
         BookAnimation().openAnimation();
         setTimeout(() => {
             document.getElementById(page).querySelector('.book-container').classList.add('show');
             document.getElementById(page).querySelector('p').classList.add('animate-text');
-            // document.getElementById(page).querySelector('.book-container').focus();
-            // document.getElementById(page).querySelector('.book-container').addEventListener('blur', function() {
-            //     closePage(page);
         },BookAnimation().duration);
         setTimeout(() => {
             document.getElementById(page).querySelector('p').classList.remove('animate-text');
@@ -70,10 +64,10 @@ export const Home = () => {
     
 
     return <TypePreviewContext.Provider value={typePreview}>
-        <section apply={ openState == OpenState.OPENING ? scrollIntoView : null}>
+        <section id="home" apply={ openState == OpenState.OPENING ? scrollIntoView : null}>
             <div id="home-main">
                 <div id="home-left" class={evaluateClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
-                    <div id="home-about" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("about")}>
+                    <div id="home-about" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("about")}>
                         <div class="home-content">
                             <i class="fas fa-cat fa-2x"></i>
                             <h2>about me</h2>
@@ -81,7 +75,7 @@ export const Home = () => {
                             <button class="btn upper">View more</button>
                         </div>
                     </div>
-                    <div id="home-portfolio" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("portfolio")}>
+                    <div id="home-portfolio" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("portfolio")}>
                         <div class="home-content">
                             <i class="fas fa-briefcase fa-2x"></i>
                             <h2>portfolio</h2>
@@ -91,7 +85,7 @@ export const Home = () => {
                     </div>
                 </div>
                 <div id="home-right" class={evaluateClass("", "animate-right", "keep-right", "animate-right-reverse")}>
-                    <div id="home-resume" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("resume")}>
+                    <div id="home-resume" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("resume")}>
                         <div class="home-content">
                             <i class="fas fa-id-card fa-2x"></i>
                             <h2>resume</h2>
@@ -100,7 +94,7 @@ export const Home = () => {
                             <button class="btn upper">View more</button>
                         </div> 
                     </div>
-                    <div id="home-blog" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex on-show"} onclick={()=> onHomeClick("blog")}>
+                    <div id="home-blog" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("blog")}>
                         <div class="home-content">
                             <i class="fas fa-book fa-2x"></i>
                             <h2>blog</h2>

@@ -53,6 +53,13 @@ export const parseJSX = (tag: any, props: any, ...children: any[]): ReactishComp
     };
 }
 
+const FRAGMENT_ELEMENT = "FRAGMENT_ELEMENT";
+const isFragment = (element: HTMLElement | Text): boolean => element.nodeType != Node.TEXT_NODE && (element as HTMLElement).tagName === FRAGMENT_ELEMENT;
+
+export const parseJSXFragment = (props: any, ...children: any[]): ReactishComponent => {
+    return parseJSX(FRAGMENT_ELEMENT, props, children);
+}
+
 const TEXT_ELEMENT = "TEXT_ELEMENT";
 
 const wrapStringIntoComponent = (text: string): ReactishComponent => {
@@ -170,10 +177,19 @@ const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity, d
         //recursion
         const children = createMultipleDOM(childEntity, domFunctions);
         for (const child of children) {
-            parent.appendChild(child);
+            if(isFragment(child)) {
+                (parent as HTMLElement).append(...(child as HTMLElement).childNodes);
+            } else {
+                parent.appendChild(child);
+            }
         }
     } else {
-        parent.appendChild(createSingleDOM(childEntity, domFunctions));
+        const child = createSingleDOM(childEntity, domFunctions);
+        if(isFragment(child)) {
+            (parent as HTMLElement).append(...(child as HTMLElement).childNodes);
+        } else {
+            parent.appendChild(child);
+        }
     }
 }
 
@@ -205,7 +221,11 @@ const renderWithHooks = (state: any[]) => {
             _root.removeChild(_root.firstChild);
         }
         for (const dom of domElements) {
-            _root.appendChild(dom);
+            if(isFragment(dom)) {
+                _root.append(...dom.childNodes);
+            } else {
+                _root.appendChild(dom);
+            }
         }
         for (const domFunction of domFunctions) {
             domFunction.func(domFunction.element);
@@ -270,7 +290,7 @@ export const Reactish = (() => {
             contextHooks[contextIndex] = props.value;
 
             return {
-                tag: 'span',
+                tag: FRAGMENT_ELEMENT,
                 props,
                 children
             }

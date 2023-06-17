@@ -1,5 +1,4 @@
-/** @jsx parseJSX */
-import { Reactish, parseJSX } from "../reactish";
+import { Reactish } from "../reactish";
 import "./header.css";
 
 export const Header = (props: any) => {
@@ -10,15 +9,15 @@ export const Header = (props: any) => {
 
     const Typing = () => {
         const txtElement = document.querySelector('.txt-type');
-        const words = JSON.parse(txtElement.getAttribute('data-words'));       
-        let txt = '';
-        let wordIndex = 0;
-        const wait = parseInt(txtElement.getAttribute('data-wait'), 10);
-        let isDeleting = false;
+        const words: string[] = JSON.parse(txtElement.getAttribute('data-words'));       
+        let txt: string = '';
+        let wordIndex: number = 0;
+        const wait: number = parseInt(txtElement.getAttribute('data-wait'), 10);
+        let isDeleting: boolean = false;
     
         const type = () => {
-            const current = wordIndex % words.length;
-            const fullTxt = words[current];
+            const current: number = wordIndex % words.length;
+            const fullTxt: string = words[current];
         
             if (isDeleting) {
                 txt = fullTxt.substring(0, txt.length - 1);
@@ -26,7 +25,7 @@ export const Header = (props: any) => {
                 txt = fullTxt.substring(0, txt.length + 1);
             }
             txtElement.innerHTML = `<span class="txt">${txt}</span>`;
-            let typeSpeed = 150;
+            let typeSpeed: number = 150;
             if (isDeleting) {
                 typeSpeed /= 2;
             }

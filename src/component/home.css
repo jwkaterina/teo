@@ -68,11 +68,11 @@
   opacity: 0.1;
 }
 
-.on-show:before {
+.dark:before {
   opacity: 0.2 !important;
 }
 
-.on-show:hover .home-content, .on-show:hover .btn {
+.dark:hover .home-content, .dark:hover .btn {
   transform: translateY(20px) !important;
 }
 

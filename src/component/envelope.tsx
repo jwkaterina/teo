@@ -1,5 +1,5 @@
-/** @jsx parseJSX */
-import { Reactish, ReactishComponent, parseJSX } from "../reactish"
+
+import { ReactishComponent } from "../reactish"
 
 export const Envelope = (props: any, children: ReactishComponent[]): ReactishComponent => {
 

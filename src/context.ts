@@ -2,6 +2,7 @@ import { Reactish } from "./reactish";
 
 export enum OpenState {
     CLOSED,
+    SCROLLING,
     OPENING,
     OPEN,
     CLOSING

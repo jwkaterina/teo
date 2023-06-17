@@ -1,5 +1,4 @@
-/** @jsx parseJSX */
-import { Reactish, parseJSX } from "../reactish";
+import { Reactish } from "../reactish";
 import { Preview } from "./preview";
 
 export const Resume = (props: ResumeProps) => {

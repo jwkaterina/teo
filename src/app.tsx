@@ -1,5 +1,4 @@
-/** @jsx parseJSX */
-import { Reactish, ReactishEntity, parseJSX } from "./reactish";
+import { Reactish, ReactishEntity } from "./reactish";
 import { OpenPageContext, OpenState } from "./context";
 import { Header } from "./component/header";
 import { Home } from "./component/home";

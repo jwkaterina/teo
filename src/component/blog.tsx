@@ -1,6 +1,4 @@
-/** @jsx parseJSX */
-import { Reactish, parseJSX } from "../reactish";
-import { Preview } from "./preview";
+
 
 export const Blog = (props: BlogProps) => {
 

@@ -1,5 +1,4 @@
-/** @jsx parseJSX */
-import { Reactish, parseJSX } from "../reactish";
+import { Reactish } from "../reactish";
 import { MapAPI } from "../service/map";
 import "./contact.css";
 
@@ -22,16 +21,16 @@ export const Contact = (props: any) => {
             inputs.forEach(input => (input as HTMLInputElement).value = '');
         } else {
             const emptyInput = document.querySelector('.show-message').previousElementSibling as HTMLInputElement;
-            (emptyInput).focus();
+            emptyInput.focus();
         }
     };
 
-    const formIsValid = (inputs) => {
+    const formIsValid = (inputs: NodeList) => {
         inputs.forEach(input => {
-            const alert = input.nextElementSibling;
-            if(input.value === ''){
+            const alert = (input as HTMLElement).nextElementSibling;
+            if((input as HTMLInputElement).value === ''){
                 alert.classList.add('show-message');
-            } else if(input.id === "email" && !emailIsValid()){
+            } else if((input as HTMLElement).id === "email" && !emailIsValid()){
                 alert.classList.add('show-message');
                 alert.querySelector("p").innerHTML = "Please Enter a Valid Email Adress."
             } else {
