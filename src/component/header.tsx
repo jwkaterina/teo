@@ -1,14 +1,30 @@
 import { Reactish } from "../reactish";
-import { ScrollToHomeContext } from "../context";
+import { ScrollToHomeContext, OpenPageContext, OpenState } from "../context";
 import "./header.css";
 
 export const Header = (props: any) => {
 
-    console.log("Header");
     const {scrollToHome, setScrollToHome} = Reactish.useContext(ScrollToHomeContext);
+    const {openState} = Reactish.useContext(OpenPageContext);
 
     if(scrollToHome) {
         setScrollToHome(false);
+    }
+
+    const evaluateClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
+        const media = window.matchMedia("(max-width: 1000px)");
+        if(!media.matches) {
+            return ""
+        }
+        if(openState == OpenState.CLOSED) {
+            return closedClassMobile
+        } else if(openState == OpenState.OPENING) {
+            return openingClassMobile
+        } else if(openState == OpenState.OPEN) {
+            return openClassMobile
+        } else {
+            return closingClassMobile
+        }
     }
 
     Reactish.useEffect([], () => {
@@ -53,7 +69,7 @@ export const Header = (props: any) => {
     }
 
     return <header >
-        <div id="header">
+        <div id="header" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
             <div id="header-content">
                 <h1 id="Heading">Theodor</h1>
                 <p class="lead">I am <span class="txt-type" data-wait="3000" data-words='["a cat.", "an adventurer.", "a meat lover."]'></span></p>

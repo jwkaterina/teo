@@ -1,8 +1,27 @@
 import { Reactish } from "../reactish";
+import { ScrollToHomeContext, OpenPageContext, OpenState } from "../context";
 import { MapAPI } from "../service/map";
 import "./contact.css";
 
 export const Contact = (props: any) => {
+
+    const {openState} = Reactish.useContext(OpenPageContext);
+
+    const evaluateClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
+        const media = window.matchMedia("(max-width: 1000px)");
+        if(!media.matches) {
+            return ""
+        }
+        if(openState == OpenState.CLOSED) {
+            return closedClassMobile
+        } else if(openState == OpenState.OPENING) {
+            return openingClassMobile
+        } else if(openState == OpenState.OPEN) {
+            return openClassMobile
+        } else {
+            return closingClassMobile
+        }
+    }
 
     Reactish.useEffect([], () => {
         MapAPI.create()
@@ -53,7 +72,7 @@ export const Contact = (props: any) => {
         } else return true
     }
 
-    return <section id="contact-form">
+    return <section id="contact-form" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
         <div id="checkbox">
             <i class="far fa-check-circle fa-8x"></i>
         </div>

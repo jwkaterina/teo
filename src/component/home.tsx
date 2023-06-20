@@ -1,10 +1,10 @@
 import { Reactish } from "../reactish";
-import { BookAnimation } from "./book-animation";
 import { OpenPageContext, OpenState, TypePreviewContext, ScrollToHomeContext } from "../context";
 
 import "./home.css"
 
 export const Home = () => {
+
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {scrollToHome} = Reactish.useContext(ScrollToHomeContext);
     const {setTypePreview} = Reactish.useContext(TypePreviewContext);
@@ -27,8 +27,24 @@ export const Home = () => {
             return openingClass
         } else if(openState == OpenState.OPEN) {
             return openClass
-        } else if(openState == OpenState.CLOSING) {
+        } else {
             return closingClass
+        }
+    }
+
+    const evaluateClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
+        const media = window.matchMedia("(max-width: 1000px)");
+        if(!media.matches) {
+            return ""
+        }
+        if(openState == OpenState.CLOSED) {
+            return closedClassMobile
+        } else if(openState == OpenState.OPENING) {
+            return openingClassMobile
+        } else if(openState == OpenState.OPEN) {
+            return openClassMobile
+        } else {
+            return closingClassMobile
         }
     }
 
@@ -52,7 +68,7 @@ export const Home = () => {
         }
     }
 
-    return <section id="home" apply={scrollIntoView}>
+    return <section id="home" apply={scrollIntoView} class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
             <div id="home-main">
                 <div id="home-left" class={evaluateClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                     <div id="home-about" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("about")}>
