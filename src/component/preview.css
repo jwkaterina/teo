@@ -134,10 +134,6 @@
   animation: text 0.3s forwards;
 }
 
-.animate-text-reverse {
-  animation: text 0.3s reverse;
-}
-
 @keyframes text {
   from {
     transform: translateY(30px);

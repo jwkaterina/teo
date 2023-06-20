@@ -11,7 +11,9 @@ export const Home = () => {
 
     const scrollIntoView = (element: HTMLElement) => {
         Reactish.useEffect([openState], () => {
-            if(openState == OpenState.OPENING) {
+            const media = window.matchMedia("(max-width: 1000px)");
+
+            if(openState == OpenState.OPENING && !media.matches) {
                 element.scrollIntoView({behavior: "instant"});
             }
         });
@@ -21,6 +23,10 @@ export const Home = () => {
     }
 
     const evaluateClass = (closedClass: string, openingClass: string, openClass: string, closingClass: string): string => {
+        const media = window.matchMedia("(max-width: 1000px)");
+        if(media.matches) {
+            return ""
+        }
         if(openState == OpenState.CLOSED) {
             return closedClass
         } else if(openState == OpenState.OPENING) {
@@ -55,7 +61,6 @@ export const Home = () => {
         } 
         if(openState == OpenState.OPEN) {
             setOpenState(OpenState.CLOSING);
-            setTypePreview("");
         }
     }
 
@@ -65,6 +70,7 @@ export const Home = () => {
         }
         if(openState == OpenState.CLOSING) {
             setOpenState(OpenState.CLOSED);
+            // setTypePreview("");
         }
     }
 

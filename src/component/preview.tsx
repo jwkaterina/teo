@@ -14,7 +14,9 @@ export const Preview = () => {
     const {typePreview} = Reactish.useContext(TypePreviewContext);
 
     const evaluateClass = (openingClass: string, openingClassMobile: string, closingClass: string, closingClassMobile: string): string => {
+        
         const media = window.matchMedia("(max-width: 1000px)");
+
         if(openState == OpenState.OPENING && !media.matches) {
             return openingClass
         } else if(openState == OpenState.OPENING && media.matches) {
@@ -45,6 +47,7 @@ export const Preview = () => {
                 return <div>
                     <Blog isOpen={true}/>
                 </div>
+            default: return <span/>
         }
     }
 

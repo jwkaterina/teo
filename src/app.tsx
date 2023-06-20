@@ -14,10 +14,18 @@ export const App = (props: any): ReactishEntity => {
     const [typePreview, setTypePreview] = Reactish.useState("");
     const [scrollToHome, setScrollToHome] = Reactish.useState(false);
 
+    const media = window.matchMedia("(max-width: 1000px)");
+
     if(openState == OpenState.CLOSED) {
-        document.querySelector('body').style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
     } else {
-        document.querySelector('body').style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+    }
+
+    if(openState != OpenState.CLOSED && media.matches) {
+        document.documentElement.style.overflow = "hidden";
+    } else {
+        document.documentElement.style.overflow = "auto";
     }
     
     return <>
