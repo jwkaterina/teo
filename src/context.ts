@@ -2,7 +2,6 @@ import { Reactish } from "./reactish";
 
 export enum OpenState {
     CLOSED,
-    SCROLLING,
     OPENING,
     OPEN,
     CLOSING
@@ -15,5 +14,16 @@ export interface OpenPageContextProperty {
     setOpenState: (newValue: OpenState) => void;
 }
 
-export const TypePreviewContext = Reactish.createContext("");
+export const TypePreviewContext = Reactish.createContext({typePreview: ""} as TypePreviewContextProperty);
 
+export interface TypePreviewContextProperty {
+    typePreview: string;
+    setTypePreview: (newValue: string) => void;
+}
+
+export const ScrollToHomeContext = Reactish.createContext({scrollToHome: false} as ScrollToHomeContextProperty);
+
+export interface ScrollToHomeContextProperty {
+    scrollToHome: boolean;
+    setScrollToHome: (newValue: boolean) => void;
+}

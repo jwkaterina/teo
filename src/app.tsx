@@ -1,5 +1,5 @@
 import { Reactish, ReactishEntity } from "./reactish";
-import { OpenPageContext, OpenState } from "./context";
+import { OpenPageContext, OpenState, ScrollToHomeContext, TypePreviewContext } from "./context";
 import { Header } from "./component/header";
 import { Home } from "./component/home";
 import { Preview } from "./component/preview";
@@ -10,9 +10,9 @@ import "./css/main.css";
 
 export const App = (props: any): ReactishEntity => {
 
-    //hook functions
     const [openState, setOpenState] = Reactish.useState(OpenState.CLOSED);
-    // Reactish.useEffect([], ()=>{ ...your code });
+    const [typePreview, setTypePreview] = Reactish.useState("");
+    const [scrollToHome, setScrollToHome] = Reactish.useState(false);
 
     if(openState == OpenState.CLOSED) {
         document.querySelector('body').style.overflow = 'auto';
@@ -20,11 +20,14 @@ export const App = (props: any): ReactishEntity => {
         document.querySelector('body').style.overflow = 'hidden';
     }
     
-    return <OpenPageContext.Provider value={{openState, setOpenState}}>
+    return <>
+        <OpenPageContext.Provider value={{openState, setOpenState}}/>
+        <TypePreviewContext.Provider value={{typePreview, setTypePreview}}/>
+        <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}/>
         <Header/>
         <Home/>
         <Preview/>
         <Contact/>
         <Footer/>
-    </OpenPageContext.Provider>
-}
+    </>
+    }

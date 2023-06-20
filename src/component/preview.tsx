@@ -10,13 +10,8 @@ import "./preview.css"
 
 export const Preview = () => {
 
-    const [isOpenAbout, setOpenAbout] = Reactish.useState(false);
-    const [isOpenResume, setOpenResume] = Reactish.useState(false);
-    const [isOpenPortfolio, setOpenPortfolio] = Reactish.useState(false);
-    const [isOpenBlog, setOpenBlog] = Reactish.useState(false);
-
-    const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
-    const typePreview = Reactish.useContext(TypePreviewContext);
+    const {openState} = Reactish.useContext(OpenPageContext);
+    const {typePreview} = Reactish.useContext(TypePreviewContext);
 
     const evaluateClass = (openingClass: string, closingClass: string): string => {
         if(openState == OpenState.OPENING) {
@@ -26,22 +21,6 @@ export const Preview = () => {
         } 
         return ""
     }
-
-    // const closePage = (page: string) => {
-    //     document.getElementById(page).querySelector('p').classList.add('animate-text-reverse');
-    //     setTimeout(() => {
-    //         document.getElementById(page).querySelector('.book-container').classList.remove('show');
-    //         document.getElementById(page).querySelector('p').classList.remove('animate-text-reverse');
-    //         document.querySelectorAll('.home-flex').forEach(function(item) {
-    //             item.classList.remove('dark'); // Bring home elements back to normal
-    //         })
-    //         document.querySelector('body').style.overflow = 'auto';
-    //         BookAnimation().closeAnimation();
-    //     },200);
-    // }
-
-    // return { closePage }
-
 
     const getBookContent = (type: string): ReactishComponent => {
         switch(type) {

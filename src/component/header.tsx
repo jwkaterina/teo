@@ -1,7 +1,15 @@
 import { Reactish } from "../reactish";
+import { ScrollToHomeContext } from "../context";
 import "./header.css";
 
 export const Header = (props: any) => {
+
+    console.log("Header");
+    const {scrollToHome, setScrollToHome} = Reactish.useContext(ScrollToHomeContext);
+
+    if(scrollToHome) {
+        setScrollToHome(false);
+    }
 
     Reactish.useEffect([], () => {
         Typing().type()
@@ -49,7 +57,8 @@ export const Header = (props: any) => {
             <div id="header-content">
                 <h1 id="Heading">Theodor</h1>
                 <p class="lead">I am <span class="txt-type" data-wait="3000" data-words='["a cat.", "an adventurer.", "a meat lover."]'></span></p>
-                <a href="#home" class="btn-start"></a>
+                <a onclick={() => setScrollToHome(true)}
+                class="btn-start"></a>
             </div>
         </div>
     </header>

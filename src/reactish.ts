@@ -195,10 +195,18 @@ const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity, d
 
 let _state: string;
 let _root: HTMLElement;
+/**
+ * The tree of our Component Functions
+ */
 let _cmp: ReactishEntity;
 
 const renderWithHooks = (state: any[]) => {
-    //first  time must be invoked by main which must supply root and component
+    /**
+     * Rerenders the DOM by traversing and rerunning the tree of application components.
+     * First time it must be invoked by main.ts to supply the root element and component tree.
+     * @param root A parent dom elemet to inject our rerendered HTML Elements into
+     * @param component The tree of our application components (gonna be the subject of multiple rerunning)
+     */
     const render = (root: HTMLElement = _root, component: ReactishEntity = _cmp) => {
         const stateSnapshot = JSON.stringify(state);
         if(stateSnapshot === _state) {
@@ -208,6 +216,7 @@ const renderWithHooks = (state: any[]) => {
         _cmp = component;
         _state = stateSnapshot;
 
+        //traversing and rerunning the tree of the application components
         let traverseComponents: TraversedComponent[];
         if(Array.isArray(_cmp)) {
             traverseComponents = traverseMultiple(_cmp);
@@ -215,11 +224,16 @@ const renderWithHooks = (state: any[]) => {
             traverseComponents = traverseMultiple([_cmp])
         }
 
+        //preparing new dom
         const domFunctions: DOMFunction[] = [];
         const domElements: (HTMLElement | Text)[] = createMultipleDOM(traverseComponents, domFunctions);
+
+        //deleting the old dom
         while(_root.firstChild) {
             _root.removeChild(_root.firstChild);
         }
+
+        //adding the new dom to the root
         for (const dom of domElements) {
             if(isFragment(dom)) {
                 _root.append(...dom.childNodes);
@@ -227,6 +241,8 @@ const renderWithHooks = (state: any[]) => {
                 _root.appendChild(dom);
             }
         }
+
+        //invoking 'apply' functions on some HTML elements
         for (const domFunction of domFunctions) {
             domFunction.func(domFunction.element);
         }
@@ -237,11 +253,11 @@ const renderWithHooks = (state: any[]) => {
 
 export const Reactish = (() => {
     let stateIdx: number = 0;
-    let useEffectIdx = 0;
+    let effectIdx = 0;
     let contextIdx = 0;
     const state: any[] = [];
-    const useEffectHooks: any[] = [];
-    const contextHooks: any[] = [];
+    const effectDependency: any[] = [];
+    const contexts: any[] = [];
 
     const workLoop = () => {
         stateIdx = 0;
@@ -253,9 +269,13 @@ export const Reactish = (() => {
     setTimeout(workLoop, 0);
 
     const useState = <T>(initVal: T): [T, (newVal: T) => void] => {
-
-        const currentState: any = state[stateIdx] || initVal;
         const stateIndex: number = stateIdx;
+        let currentState: any = state[stateIndex];
+
+        if(!currentState) {
+            state[stateIndex] = initVal;
+            currentState = initVal;
+        }
 
         const setState = (newVal: T): void => {
             state[stateIndex] = newVal;
@@ -265,7 +285,7 @@ export const Reactish = (() => {
     }
 
     const useEffect = (dependencies: any[], cb: ()=>void) => {
-        const oldDeps = useEffectHooks[useEffectIdx];
+        const oldDeps = effectDependency[effectIdx];
         let hasChanged: boolean = true;
         if(oldDeps) {
             hasChanged = dependencies.some((dep: any, i: number) => {
@@ -277,17 +297,17 @@ export const Reactish = (() => {
             setTimeout(cb, 0);
         }
 
-        useEffectHooks[useEffectIdx] = dependencies;
+        effectDependency[effectIdx] = dependencies;
 
-        useEffectIdx++;
+        effectIdx++;
     }
 
     const createContext = <T>(defaultVal: T): Context<T> => {
         const contextIndex = contextIdx;
-        contextHooks[contextIndex] = defaultVal;
+        contexts[contextIndex] = defaultVal;
 
         const Provider = (props: ContextProperty<T>, ...children: any[]): ReactishEntity => {
-            contextHooks[contextIndex] = props.value;
+            contexts[contextIndex] = props.value;
 
             return {
                 tag: FRAGMENT_ELEMENT,
@@ -303,7 +323,7 @@ export const Reactish = (() => {
         }
     }
 
-    const useContext = <T>(context: Context<T>): T => contextHooks[context.contextIndex] as T;
+    const useContext = <T>(context: Context<T>): T => contexts[context.contextIndex] as T;
 
     const render = renderWithHooks(state);
 
