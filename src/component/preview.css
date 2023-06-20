@@ -1,3 +1,12 @@
+#preview {
+  position: fixed;
+  top: 0;
+  left: 20vw;
+  height: 100vh;
+  width: 60vw;
+  display: block;
+}
+
 #book-top {
   position: absolute;
   top: 0;
@@ -55,15 +64,6 @@
 }
 
 /* Show inner Pages */
-#preview {
-  position: fixed;
-  top: 0;
-  left: 20vw;
-  height: 100vh;
-  width: 60vw;
-  display: block;
-  /* display: none; */
-}
 
 #book-container {
   position: absolute;
@@ -77,17 +77,13 @@
   overflow: auto;
 }
 
-.show {
+/* .show {
   display: block !important;
-}
+} */
 
-#about, #resume, #portfolio, #blog {
+/* #about, #resume, #portfolio, #blog {
   display: none;
-}
-
-#book-container:focus {
-  outline: none;
-}
+} */
 
 #book-container h1 {
   margin: 2rem 0;
@@ -101,17 +97,21 @@
 }
 
 .btn-close {
-  height: 30px;
-  width: 30px;
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
   position: sticky;
   top: 0;
   display: block;
   float: right;
+  background-color: transparent;
+  border: none;
 }
 
 .btn-close .cross {
   position: absolute;
-  left: 15px;
+  top: 0;
+  left: 13px;
   height: 30px;
   width: 1px;
   background-color: black;
@@ -150,6 +150,10 @@
 }
 
 @media (max-width: 1000px) {
+  #preview {
+    left: 0;
+    width: 100vw;
+  }
   .animate-top-mobile {
     animation: book-up-mobile 1s forwards;
   }
@@ -177,18 +181,14 @@
     }
   }
 
-@keyframes book-down-mobile {
-  from {
-    border-width: 0 0 50px 0;
-    left: 0;
-  }
-  to {
-    border-width: 0 100vw 0 0;
-    left: 0;
-  }
-}
-  #preview {
-    left: 0;
-    width: 100vw;
+  @keyframes book-down-mobile {
+    from {
+      border-width: 0 0 50px 0;
+      left: 0;
+    }
+    to {
+      border-width: 0 100vw 0 0;
+      left: 0;
+    }
   }
 }

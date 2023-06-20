@@ -56,9 +56,6 @@ export const Preview = () => {
         <div id="book-top" class={evaluateClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
         <div id="book-bottom" class={evaluateClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
         <div id="book-container">
-            <a href="" class="btn-close">
-                <div class="cross"></div>
-            </a>
             {
                 getBookContent(typePreview)
             }

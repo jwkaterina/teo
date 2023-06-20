@@ -50,6 +50,7 @@
 } */
 
 #header .btn-start {
+  cursor: pointer;
   text-decoration: none;
   color: #fff;
   border: 2px solid;

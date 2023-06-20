@@ -124,6 +124,7 @@ textarea {
 }
 
 .btn-submit {
+  cursor: pointer;
   width: 100px;
   height: 3rem;
   background-color: #353535;
