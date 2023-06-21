@@ -1,5 +1,6 @@
 import { Reactish } from "../reactish";
 import { OpenPageContext, OpenState, TypePreviewContext, ScrollToHomeContext } from "../context";
+import { HomeGrid } from "./home-grid";
 
 import "./home.css"
 
@@ -7,7 +8,6 @@ export const Home = () => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {scrollToHome} = Reactish.useContext(ScrollToHomeContext);
-    const {setTypePreview} = Reactish.useContext(TypePreviewContext);
 
     const scrollIntoView = (element: HTMLElement) => {
         Reactish.useEffect([openState], () => {
@@ -54,15 +54,6 @@ export const Home = () => {
         }
     }
 
-    const onHomeClick = (type: string) => {
-        if(openState == OpenState.CLOSED) {
-            setOpenState(OpenState.OPENING);
-            setTypePreview(type);
-        } 
-        if(openState == OpenState.OPEN) {
-            setOpenState(OpenState.CLOSING);
-        }
-    }
 
     const onAnimationEnd = () => {
         if(openState == OpenState.OPENING) {
@@ -77,41 +68,12 @@ export const Home = () => {
     return <section id="home" apply={scrollIntoView} class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
             <div id="home-main">
                 <div id="home-left" class={evaluateClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
-                    <div id="home-about" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("about")}>
-                        <div class="home-content">
-                            <i class="fas fa-cat fa-2x"></i>
-                            <h2>about me</h2>
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing.</p>
-                            <button class="btn upper">View more</button>
-                        </div>
+                    <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>
+                    <HomeGrid id="home-portfolio" iconClass="fas fa-briefcase fa-2x" header="portfolio" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="portfolio"/>
                     </div>
-                    <div id="home-portfolio" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("portfolio")}>
-                        <div class="home-content">
-                            <i class="fas fa-briefcase fa-2x"></i>
-                            <h2>portfolio</h2>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
-                            <button class="btn upper">View more</button>
-                        </div>
-                    </div>
-                </div>
                 <div id="home-right" class={evaluateClass("", "animate-right", "keep-right", "animate-right-reverse")}>
-                    <div id="home-resume" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("resume")}>
-                        <div class="home-content">
-                            <i class="fas fa-id-card fa-2x"></i>
-                            <h2>resume</h2>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing.
-                            </p>
-                            <button class="btn upper">View more</button>
-                        </div> 
-                    </div>
-                    <div id="home-blog" class={openState == OpenState.CLOSED ? "home-flex" : "home-flex dark"} onclick={()=> onHomeClick("blog")}>
-                        <div class="home-content">
-                            <i class="fas fa-book fa-2x"></i>
-                            <h2>blog</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur.</p>
-                            <button class="btn upper">View more</button>
-                        </div>
-                    </div>
+                    <HomeGrid id="home-resume" iconClass="fas fa-file-alt fa-2x" header="resume" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="resume"/>
+                    <HomeGrid id="home-blog" iconClass="fas fa-blog fa-2x" header="blog" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="blog"/>
                 </div>
             </div>
         </section>
