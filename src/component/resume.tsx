@@ -1,6 +1,8 @@
 import { OpenPageContext, OpenState } from "../context";
 import { Reactish } from "../reactish";
 
+import "./resume.css"
+
 export const Resume = () => {
 
     const {setOpenState} = Reactish.useContext(OpenPageContext);
@@ -23,7 +25,7 @@ export const Resume = () => {
         ]
         data.push(dataUnit)
 
-        console.log(data);
+        console.log(data[data.length - 1]);
         setData(data);
     }
 
@@ -46,6 +48,10 @@ export const Resume = () => {
         google.charts.setOnLoadCallback(drawChart);
     }
 
+    const setType = (type: string) => {
+        document.getElementById("date")!.setAttribute("type", type);
+    }
+
     if(subsequentRun) {
         return <div id="resume">
             <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>
@@ -53,10 +59,10 @@ export const Resume = () => {
             </button>
             <h1>resume</h1>
             <p class="animate-text">
-                <div id="curve_chart" style="width: 90%; height: 500px">{chart()}</div>
-                <input id="weight" type="number" />
-                <input id="date" type="month" />
-                <button onclick={() => {addData()}}>Submit</button>
+                <div id="curve_chart">{chart()}</div>
+                <input id="date"  onfocus={() => setType("month")} placeholder={data[data.length - 1][0]}/>
+                <input id="weight" type="number" placeholder={data[data.length - 1][1]}/>
+                <button class="btn-submit upper" onclick={() => {addData()}}>Submit</button>
             </p>
         </div>
     } else {
