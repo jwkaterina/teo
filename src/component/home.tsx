@@ -61,11 +61,10 @@ export const Home = () => {
         }
         if(openState == OpenState.CLOSING) {
             setOpenState(OpenState.CLOSED);
-            // setTypePreview("");
         }
     }
 
-    return <section id="home" apply={scrollIntoView} class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
+    return <section id="home" apply={scrollIntoView} class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
         <div id="home-main">
             <div id="home-left" class={evaluateClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>

@@ -68,18 +68,8 @@ export const Header = (props: any) => {
         return { type }
     }
 
-    const onAnimationEnd = () => {
-        if(openState == OpenState.OPENING) {
-            setOpenState(OpenState.OPEN);
-        }
-        if(openState == OpenState.CLOSING) {
-            setOpenState(OpenState.CLOSED);
-            // setTypePreview("");
-        }
-    }
-
     return <header >
-        <div id="header" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
+        <div id="header" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
             <div id="header-content">
                 <h1 id="Heading">Theodor</h1>
                 <p class="lead">I am <span class="txt-type" data-wait="3000" data-words='["a cat.", "an adventurer.", "a meat lover."]'></span></p>
