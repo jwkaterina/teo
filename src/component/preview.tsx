@@ -33,26 +33,26 @@ export const Preview = () => {
         switch(type) {
             case "about":
                 return <div>
-                    <About isOpen={true}/>
+                    <About/>
                 </div>
             case "resume":
                 return <div>
-                    <Resume isOpen={true}/>
+                    <Resume/>
                 </div>
             case "portfolio":
                 return <div>
-                    <Portfolio isOpen={true}/>
+                    <Portfolio/>
                 </div>
             case "blog":
                 return <div>
-                    <Blog isOpen={true}/>
+                    <Blog/>
                 </div>
             default: return <span/>
         }
     }
 
-    if(openState == OpenState.CLOSED) {
-        return <span/>
+    if(openState != OpenState.OPEN) {
+        return <></>
     } 
 
     return <section id="preview">

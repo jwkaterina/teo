@@ -1,5 +1,7 @@
 import { Reactish } from "../reactish";
-import { OpenPageContext, OpenState, TypePreviewContext, ScrollToHomeContext } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
+
+import "./home-grid.css"
 
 export const HomeGrid = (props: HomeGridProps) => {
 

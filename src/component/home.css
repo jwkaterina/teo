@@ -1,8 +1,4 @@
 
-/* html {
-  scroll-behavior: smooth;
-} */
-
 #home-main {
   height: 100vh;
   display: flex;
@@ -19,107 +15,6 @@
   flex-direction: column;
   width: 100%;
 }
-  
-#home-main h2 {
-  font-size: 3.5rem;
-}
-
-#home-main p {
-  font-weight: 100;
-  font-size: small;
-}
-
-#home-about, #home-portfolio, #home-resume, #home-blog {
-  background-color: #2A1B37;
-  position: relative;
-  height: 100%;
-}
-
-/* Pseudo Elements */
-
-#home-about:before, #home-resume:before, #home-portfolio:before, #home-blog:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.4;
-  transition: opacity 0.5s;
-}
-
-#home-about:before {
-  background: url('../img/chair.jpeg') no-repeat center center/cover;
-  opacity: 0.3;
-}
-
-#home-resume:before {
-  background: url("../img/TV.jpg") no-repeat center center/cover;
-}
-
-#home-portfolio:before {
-  background: url("../img/leg.jpeg") no-repeat center center/cover;
-}
-
-#home-blog:before {
-  background: url("../img/flower.jpeg") no-repeat center center/cover;
-}
-
-#home-about:hover:before, #home-resume:hover:before, #home-portfolio:hover:before, #home-blog:hover:before {
-  opacity: 0.2;
-}
-
-#home-about:hover:before {
-  opacity: 0.1;
-}
-
-.dark:before {
-  opacity: 0.2 !important;
-}
-
-.dark:hover .home-content, .dark:hover .btn {
-  transform: translateY(20px) !important;
-}
-
-.home-content {
-  z-index: 1;
-  color: #fff;
-  transform: translateY(20px);
-  transition: transform 0.2s ease-in;
-}
-
-.home-flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.home-flex:hover .home-content {
-  transform: translateY(0px);
-}
-
-.btn {
-  cursor: pointer;
-  background-color: transparent;
-  color: #fff;
-  border: 0.7px solid;
-  font-size: 0.6rem;
-  padding: 0.7rem;
-  margin-top: 1rem;
-  display: inline-block;
-  border-radius: 15px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
-}
-
-.home-flex:hover .btn {
-  opacity: 1;
-  transform: translateY(0px);
-}
-
-/* Show Book Animation */
 
 .animate-left {
   animation: book-leftside-open 1s forwards;
