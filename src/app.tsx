@@ -18,14 +18,11 @@ export const App = (props: any): ReactishEntity => {
 
     if(openState == OpenState.CLOSED) {
         document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = "auto";
+
     } else {
         document.body.style.overflow = 'hidden';
-    }
-
-    if(openState != OpenState.CLOSED && media.matches) {
         document.documentElement.style.overflow = "hidden";
-    } else {
-        document.documentElement.style.overflow = "auto";
     }
     
     return <>
