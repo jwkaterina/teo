@@ -10,7 +10,8 @@ export const Resume = () => {
     type Data = [string, number | string][];
 
     const axis: Axis = ['Month', "Theodor's weight"];
-    const initData: Data = [axis, ['2023-04', 300], ['2023-05', 400]];
+
+    const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data') as string) : [axis];
 
 
     const {setOpenState} = Reactish.useContext(OpenPageContext);
@@ -37,9 +38,16 @@ export const Resume = () => {
             ]
             data.push(dataUnit)
             setData(data);
+            localStorage.setItem('data', JSON.stringify(data));
         } else { 
             return
         }
+    }
+
+    const deleteLast = () => {
+        data.pop();
+        setData(data);
+        localStorage.setItem('data', JSON.stringify(data));
     }
 
     const chart = () => {
@@ -60,9 +68,10 @@ export const Resume = () => {
                     titleTextStyle: {
                         fontSize: 20,
                     },
+                    showTextEvery: 5,
                 },
                 vAxis: {
-                    title: 'weight',
+                    title: 'weight, g',
                     titleTextStyle: {
                         fontSize: 20,
                     }
@@ -101,6 +110,7 @@ export const Resume = () => {
             <input id="date" apply={applyOnDate} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" apply={applyOnWeight} type="number" step="10" value={data[data.length - 1][1]}/>
             <button class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
+            <button class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>            
         </p>
     </div>
 }
