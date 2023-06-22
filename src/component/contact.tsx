@@ -85,7 +85,7 @@ export const Contact = (props: any) => {
                     <p class="upper">Drop me a line</p>
                     <div class="input-group">
                         <label class="upper" for="name">Name</label>
-                        <input id="name" type="text" class="input"></input>
+                        <input id="name" type="text" class="input"/>
                         <div class="invalid upper">
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
@@ -93,7 +93,7 @@ export const Contact = (props: any) => {
                     </div>
                     <div class="input-group">
                         <label class="upper" for="email">Email</label>
-                        <input id="email" class="input"></input>
+                        <input id="email" class="input"/>
                         <div class="invalid upper">
                             <div class="arrow"></div>
                             <p>This field is requied.</p>

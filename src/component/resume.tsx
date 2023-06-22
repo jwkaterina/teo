@@ -24,16 +24,22 @@ export const Resume = () => {
     }
     
 
-    let dateValue: string;
-    let weightValue: number;
+    let dateElement: HTMLElement;
+    let weightElement: HTMLElement;
 
     const addData = () => {
-        const dataUnit: DataUnit = [
-            dateValue, 
-            weightValue
-        ]
-        data.push(dataUnit)
-        setData(data);
+        const dateValue = (dateElement as HTMLInputElement).value;
+        const weightValue = (weightElement as HTMLInputElement).value;
+        if(dateValue != "" && weightValue != "") {
+            const dataUnit: DataUnit = [
+                dateValue, 
+                parseInt(weightValue)
+            ]
+            data.push(dataUnit)
+            setData(data);
+        } else { 
+            return
+        }
     }
 
     const chart = () => {
@@ -78,11 +84,11 @@ export const Resume = () => {
     }
 
     const applyOnDate = (element: HTMLElement) => {
-        dateValue = (element as HTMLInputElement).value;
+        dateElement = element;
     }
 
     const applyOnWeight = (element: HTMLElement) => {
-        weightValue = parseInt((element as HTMLInputElement).value);
+        weightElement = element;
     }
 
     return <div id="resume">
@@ -94,7 +100,7 @@ export const Resume = () => {
             <div id="curve_chart">{chart()}</div>
             <input id="date" apply={applyOnDate} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" apply={applyOnWeight} type="number" step="10" value={data[data.length - 1][1]}/>
-            <button class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>
+            <button class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
         </p>
     </div>
 }
