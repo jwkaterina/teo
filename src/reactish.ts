@@ -270,12 +270,7 @@ export const Reactish = (() => {
 
     const useState = <T>(initVal: T): [T, (newVal: T) => void] => {
         const stateIndex: number = stateIdx;
-        let currentState: any = state[stateIndex];
-
-        if(!currentState) {
-            state[stateIndex] = initVal;
-            currentState = initVal;
-        }
+        let currentState: any = state[stateIndex] ?? initVal;
 
         const setState = (newVal: T): void => {
             state[stateIndex] = newVal;
