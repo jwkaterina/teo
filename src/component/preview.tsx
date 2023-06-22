@@ -30,6 +30,7 @@ export const Preview = () => {
     }
 
     const getBookContent = (type: string): ReactishComponent => {
+        if(openState != OpenState.OPEN) return <></>
         switch(type) {
             case "about":
                 return <div>
@@ -51,7 +52,7 @@ export const Preview = () => {
         }
     }
 
-    if(openState != OpenState.OPEN) {
+    if(openState == OpenState.CLOSED) {
         return <></>
     } 
 
