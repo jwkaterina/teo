@@ -46,7 +46,6 @@ export const Resume = () => {
                     titleTextStyle: {
                         fontSize: 20,
                     },
-                    viewWindow: {min:"2023-04", max:"2023-05"}
                 },
                 vAxis: {
                     title: 'weight',
@@ -83,7 +82,7 @@ export const Resume = () => {
             <p class="animate-text">
                 <div id="curve_chart">{chart()}</div>
                 <input id="date"  onfocus={() => setType("month")} placeholder={data[data.length - 1][0]}/>
-                <input id="weight" type="number" placeholder={data[data.length - 1][1]}/>
+                <input id="weight" type="number" step="10" value={data[data.length - 1][1]} placeholder={data[data.length - 1][1]}/>
                 <button class="btn-submit upper" onclick={() => {addData()}}>Submit</button>
             </p>
         </div>
