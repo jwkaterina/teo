@@ -5,16 +5,17 @@ import "./resume.css"
 
 export const Resume = () => {
 
-    const {setOpenState} = Reactish.useContext(OpenPageContext);
-
     type Axis = [string, string];
     type DataUnit = [string, number];
     type Data = [string, number | string][];
-    const axis: Axis = ['Month', 'Weight'];
 
+    const axis: Axis = ['Month', "Theodor's weight"];
     const initData: Data = [axis, ['2023-04', 300], ['2023-05', 400]];
 
+
+    const {setOpenState} = Reactish.useContext(OpenPageContext);
     const [data, setData] = Reactish.useState(initData);
+
     const [subsequentRun, setSubsequentRun] = Reactish.useState(false);
     setSubsequentRun(true);
 
@@ -24,8 +25,6 @@ export const Resume = () => {
             parseInt((document.getElementById("weight") as HTMLInputElement).value)
         ]
         data.push(dataUnit)
-
-        console.log(data[data.length - 1]);
         setData(data);
     }
 
@@ -34,9 +33,32 @@ export const Resume = () => {
             const chartData = google.visualization.arrayToDataTable(data);
     
             const  options = {
-                title: "Theodor's weight",
                 curveType: 'function',
-                legend: { position: 'bottom' }
+                legend: { position: 'top',
+                    alignment: 'center',
+                    textStyle: {
+                        fontSize: 20,
+                    }
+                },
+                colors:['#9ae4b9'],
+                hAxis: {
+                    title: 'date',
+                    titleTextStyle: {
+                        fontSize: 20,
+                    },
+                    viewWindow: {min:"2023-04", max:"2023-05"}
+                },
+                vAxis: {
+                    title: 'weight',
+                    titleTextStyle: {
+                        fontSize: 20,
+                    }
+                },
+                animation: {
+                    startup: true,
+                    duration: 1000,
+                    easing: 'inAdnOut',
+                }
             };
     
             const  chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
