@@ -1,5 +1,5 @@
 import { Reactish } from "../reactish";
-import { OpenPageContext, OpenState, TypePreviewContext, ScrollToHomeContext } from "../context";
+import { OpenPageContext, OpenState, ScrollToHomeContext } from "../context";
 import { HomeGrid } from "./home-grid";
 
 import "./home.css"

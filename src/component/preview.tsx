@@ -33,22 +33,14 @@ export const Preview = () => {
         if(openState != OpenState.OPEN) return <></>
         switch(type) {
             case "about":
-                return <div>
-                    <About/>
-                </div>
+                return <About/>
             case "resume":
-                return <div>
-                    <Resume/>
-                </div>
+                return <Resume/>
             case "portfolio":
-                return <div>
-                    <Portfolio/>
-                </div>
+                return <Portfolio/>
             case "blog":
-                return <div>
-                    <Blog/>
-                </div>
-            default: return <span/>
+                return <Blog/>
+            default: return <></>
         }
     }
 
