@@ -98,7 +98,7 @@ export const Resume = () => {
             <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>
             <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
-            <button id="undo-chart" class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>            
+            <button id="undo-chart" class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>
         </p>
     </div>
 }

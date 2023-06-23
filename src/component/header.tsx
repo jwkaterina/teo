@@ -7,6 +7,8 @@ export const Header = (props: any) => {
     const {scrollToHome, setScrollToHome} = Reactish.useContext(ScrollToHomeContext);
     const {openState} = Reactish.useContext(OpenPageContext);
     const [txtElementRef] = Reactish.useRef<HTMLElement>();
+    //example of how to use useRef to store a value outside the state.
+    const [clicksRef, setClicks] = Reactish.useRef(0);
 
     if(scrollToHome) {
         setScrollToHome(false);
@@ -70,9 +72,12 @@ export const Header = (props: any) => {
     return <header >
         <div id="header" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
             <div id="header-content">
-                <h1 id="Heading">Theodor</h1>
+                <h1 id="Heading">Theodor ({clicksRef.current})</h1>
                 <p class="lead">I am <span ref={txtElementRef} class="txt-type" data-wait="3000" data-words='["a cat.", "an adventurer.", "a meat lover."]'></span></p>
-                <a onclick={() => setScrollToHome(true)}
+                <a onclick={() => {
+                    setClicks(clicksRef.current + 1);
+                    setScrollToHome(true);
+                }}
                 class="btn-start"></a>
             </div>
         </div>
