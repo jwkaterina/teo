@@ -6,6 +6,7 @@ export const Header = (props: any) => {
 
     const {scrollToHome, setScrollToHome} = Reactish.useContext(ScrollToHomeContext);
     const {openState} = Reactish.useContext(OpenPageContext);
+    const [txtElementRef] = Reactish.useRef<HTMLElement>();
 
     if(scrollToHome) {
         setScrollToHome(false);
@@ -26,17 +27,15 @@ export const Header = (props: any) => {
             return closingClassMobile
         }
     }
+    
+    setTimeout(() => Typing(txtElementRef.current).type(), 0);
 
-    Reactish.useEffect([], () => {
-        Typing().type()
-    });
+    const Typing = (element: HTMLElement) => {
 
-    const Typing = () => {
-        const txtElement = document.querySelector('.txt-type');
-        const words: string[] = JSON.parse(txtElement.getAttribute('data-words'));       
+        const words: string[] = JSON.parse(element.getAttribute('data-words'));       
         let txt: string = '';
         let wordIndex: number = 0;
-        const wait: number = parseInt(txtElement.getAttribute('data-wait'), 10);
+        const wait: number = parseInt(element.getAttribute('data-wait'), 10);
         let isDeleting: boolean = false;
     
         const type = () => {
@@ -48,7 +47,7 @@ export const Header = (props: any) => {
             } else {
                 txt = fullTxt.substring(0, txt.length + 1);
             }
-            txtElement.innerHTML = `<span class="txt">${txt}</span>`;
+            element.innerHTML = `<span class="txt">${txt}</span>`;
             let typeSpeed: number = 150;
             if (isDeleting) {
                 typeSpeed /= 2;
@@ -72,7 +71,7 @@ export const Header = (props: any) => {
         <div id="header" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
             <div id="header-content">
                 <h1 id="Heading">Theodor</h1>
-                <p class="lead">I am <span apply={Typing} class="txt-type" data-wait="3000" data-words='["a cat.", "an adventurer.", "a meat lover."]'></span></p>
+                <p class="lead">I am <span ref={txtElementRef} class="txt-type" data-wait="3000" data-words='["a cat.", "an adventurer.", "a meat lover."]'></span></p>
                 <a onclick={() => setScrollToHome(true)}
                 class="btn-start"></a>
             </div>

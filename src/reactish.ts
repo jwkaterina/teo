@@ -22,11 +22,8 @@ export type ReactishChildren = ReactishComponent[] | ReactishComponent[][];
 export type TraversedEntity = TraversedComponent | TraversedComponent[];
 export type TraversedChildren = TraversedComponent[] | TraversedComponent[][];
 
-type HTMLElementFunction = (element: HTMLElement)=>void;
-
-interface DOMFunction {
-    func: HTMLElementFunction,
-    element: HTMLElement
+interface HTMLElementOwner {
+    current: HTMLElement | Text | null;
 }
 
 /** 
@@ -119,18 +116,18 @@ const runReactishComponent = (fn: Function, props: any, children: ReactishChildr
     return reactish;
 }
 
-const createMultipleDOM = (components: TraversedComponent[], domFunctions: DOMFunction[]): (HTMLElement | Text)[] => {
-    return components.map(component => createSingleDOM(component, domFunctions));
+const createMultipleDOM = (components: TraversedComponent[]): (HTMLElement | Text)[] => {
+    return components.map(component => createSingleDOM(component));
 }
 
-const createSingleDOM = (parent: TraversedComponent, domFunctions: DOMFunction[]): HTMLElement | Text => {
+const createSingleDOM = (parent: TraversedComponent): HTMLElement | Text => {
     const dom = createHTMLElement(parent);
-    updateDOM(dom, parent.props, domFunctions);
+    updateDOM(dom, parent.props);
 
     if(parent.traversedChildren) {
         for (const childEntity of parent.traversedChildren) {
             //recursion
-            appendChild(dom, childEntity, domFunctions);
+            appendChild(dom, childEntity);
         }
     }
 
@@ -146,10 +143,10 @@ const createHTMLElement = (component: TraversedComponent): HTMLElement | Text =>
 }
 
 const isEvent = (key: string) => key.startsWith('on');
-const isApply = (key: string) => key === 'apply';
+const isRef = (key: string) => key === 'ref';
 const isFunction = (value: any) => typeof value === 'function';
 
-const updateDOM = (dom: HTMLElement | Text, props: any, domFunctions: DOMFunction[]) => {
+const updateDOM = (dom: HTMLElement | Text, props: any) => {
     Object.entries(props || {}).forEach(([name, value]) => {
         if (isEvent(name) && name.toLowerCase() in window) {
             if(isFunction(value)) {
@@ -159,10 +156,8 @@ const updateDOM = (dom: HTMLElement | Text, props: any, domFunctions: DOMFunctio
             } else {
                 console.error(`Cannot add ${name} listener. Provided callback is not a function:`, value);
             }
-        } else if(isApply(name)) {
-            if(dom.nodeType != Node.TEXT_NODE && isFunction(value)) {
-                domFunctions.push({func: value as HTMLElementFunction, element: dom as HTMLElement});
-            }
+        } else if(isRef(name)) {
+            (value as HTMLElementOwner).current = dom;
         } else {
             if(dom.nodeType != Node.TEXT_NODE) {
                 (dom as HTMLElement).setAttribute(name, value.toString());
@@ -172,10 +167,10 @@ const updateDOM = (dom: HTMLElement | Text, props: any, domFunctions: DOMFunctio
     return;
 }
 
-const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity, domFunctions: DOMFunction[]) => {
+const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity) => {
     if(Array.isArray(childEntity)) {
         //recursion
-        const children = createMultipleDOM(childEntity, domFunctions);
+        const children = createMultipleDOM(childEntity);
         for (const child of children) {
             if(isFragment(child)) {
                 (parent as HTMLElement).append(...(child as HTMLElement).childNodes);
@@ -184,7 +179,7 @@ const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity, d
             }
         }
     } else {
-        const child = createSingleDOM(childEntity, domFunctions);
+        const child = createSingleDOM(childEntity);
         if(isFragment(child)) {
             (parent as HTMLElement).append(...(child as HTMLElement).childNodes);
         } else {
@@ -230,8 +225,7 @@ const renderWithState = (state: any[]) => {
         }
 
         //preparing new dom
-        const domFunctions: DOMFunction[] = [];
-        const domElements: (HTMLElement | Text)[] = createMultipleDOM(traverseComponents, domFunctions);
+        const domElements: (HTMLElement | Text)[] = createMultipleDOM(traverseComponents);
 
         //deleting the old dom
         while(_root.firstChild) {
@@ -246,23 +240,21 @@ const renderWithState = (state: any[]) => {
                 _root.appendChild(dom);
             }
         }
-
-        //invoking 'apply' functions on some HTML elements
-        for (const domFunction of domFunctions) {
-            domFunction.func(domFunction.element);
-        }
 }
 
 export const Reactish = (() => {
     let stateIdx = 0;
+    let refIdx = 0;
     let effectIdx = 0;
     let contextIdx = 0;
     const state: any[] = [];
+    const refs: any[] = [];
     const effectDependency: any[] = [];
     const contexts: any[] = [];
 
     const workLoop = () => {
         stateIdx = 0;
+        refIdx = 0;
         effectIdx = 0;
         contextIdx = 0;
         renderWithState(state);
@@ -280,6 +272,26 @@ export const Reactish = (() => {
         }
         stateIdx++;
         return [currentState, setState];
+    }
+
+    interface Ref<T> {
+        current: T;
+    }
+
+    const useRef = <T>(initVal: T = null): [Ref<T>, (newVal: T) => void] => {
+        const refIndex: number = refIdx;
+        let currentRef: any = refs[refIndex] ?? {current: initVal};
+
+        const setVal = (newVal: T): void => {
+            const ref: any = refs[refIndex];
+            if(ref) {
+                ref.current = newVal;
+                return;
+            }
+            refs[refIndex] = {current: newVal};
+        }
+        refIdx++;
+        return [currentRef, setVal];
     }
 
     const useEffect = (dependencies: any[], cb: ()=>void) => {
@@ -326,6 +338,7 @@ export const Reactish = (() => {
     return {
         render: setVirtualDOM,
         useState,
+        useRef,
         useEffect,
         createContext,
         useContext

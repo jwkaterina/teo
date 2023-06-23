@@ -8,19 +8,21 @@ export const Home = () => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {scrollToHome} = Reactish.useContext(ScrollToHomeContext);
+    const [homeRef] = Reactish.useRef<HTMLElement>();
 
-    const scrollIntoView = (element: HTMLElement) => {
-        Reactish.useEffect([openState], () => {
-            const media = window.matchMedia("(max-width: 1000px)");
+    Reactish.useEffect([openState], () => {
+        const media = window.matchMedia("(max-width: 1000px)");
 
-            if(openState == OpenState.OPENING && !media.matches) {
-                element.scrollIntoView({behavior: "instant"});
-            }
-        });
-        if(scrollToHome) {
-            element.scrollIntoView({behavior: "smooth"});
+        if(openState == OpenState.OPENING && !media.matches) {
+            homeRef.current.scrollIntoView({behavior: "instant"});
         }
-    }
+    });
+
+    Reactish.useEffect([scrollToHome], () => {
+        if(scrollToHome) {
+            homeRef.current.scrollIntoView({behavior: "smooth"});
+        }
+    });
 
     const evaluateClass = (closedClass: string, openingClass: string, openClass: string, closingClass: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
@@ -64,7 +66,7 @@ export const Home = () => {
         }
     }
 
-    return <section id="home" apply={scrollIntoView} class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
+    return <section id="home" ref={homeRef} class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
         <div id="home-main">
             <div id="home-left" class={evaluateClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>
