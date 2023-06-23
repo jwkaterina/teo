@@ -7,7 +7,6 @@
 #weight, #date {
     width: 30%;
     height: 40px;
-    border: 1.5px solid #9ae4b9;
     padding: 5px 20px;
     font-size: 16px;
     margin-bottom: 10px;
@@ -16,6 +15,7 @@
     font-weight: 300;
     background-color: white;
     color: black;
+    border: 1.5px solid #9ae4b9;
 }
 
 #weight:focus, #date:focus {
@@ -29,7 +29,6 @@
 #resume .btn-submit {
     width: 65%;
     height: 40px;
-    border: 1.5px solid #9ae4b9;
     padding: 5px;
     font-size: 14px;
     margin-bottom: 10px;
@@ -37,11 +36,27 @@
     outline: none;
     font-weight: 300;
     cursor: pointer;
-    background-color: #9ae4b9;
-    color: black;
+ 
 }
 
-#resume .btn-submit:hover {
+#submit-chart {
+    background-color: #9ae4b9;
+    color: black;
+    border: 1.5px solid #9ae4b9;
+}
+
+#submit-chart:hover {
     background-color: white;
     border-color: black;
+}
+
+#undo-chart {
+    background-color: white;
+    color: black;
+    border: 1.5px solid black;
+}
+
+#undo-chart:hover {
+    background-color: #9ae4b9;
+    border: 1.5px solid #9ae4b9;
 }
