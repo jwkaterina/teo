@@ -14,23 +14,22 @@ export const Resume = () => {
     const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data') as string) : [axis];
 
 
-    const {setOpenState} = Reactish.useContext(OpenPageContext);
+    const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const [data, setData] = Reactish.useState(initData);
 
-    const evaluateClass = (className: string): string => {
-        Reactish.useEffect([OpenState], () => {
-            return className
-        })
-        return ""
-    }
-    
+    const applyOnP = (element: HTMLElement) => {
 
-    let dateElement: HTMLElement;
-    let weightElement: HTMLElement;
+        Reactish.useEffect([openState], () => {
+            element.classList.add("animate-text");
+        })
+    }
+
+    let dateElement: HTMLInputElement;
+    let weightElement: HTMLInputElement;
 
     const addData = () => {
-        const dateValue = (dateElement as HTMLInputElement).value;
-        const weightValue = (weightElement as HTMLInputElement).value;
+        const dateValue = dateElement.value;
+        const weightValue = weightElement.value;
         if(dateValue != "" && weightValue != "") {
             const dataUnit: DataUnit = [
                 dateValue, 
@@ -92,11 +91,11 @@ export const Resume = () => {
         google.charts.setOnLoadCallback(drawChart);
     }
 
-    const applyOnDate = (element: HTMLElement) => {
+    const applyOnDate = (element: HTMLInputElement) => {
         dateElement = element;
     }
 
-    const applyOnWeight = (element: HTMLElement) => {
+    const applyOnWeight = (element: HTMLInputElement) => {
         weightElement = element;
     }
 
@@ -105,12 +104,12 @@ export const Resume = () => {
         <div class="cross"></div>
         </button>
         <h1>resume</h1>
-        <p class={evaluateClass("animate-text")}>
+        <p apply={applyOnP}>
             <div id="curve_chart">{chart()}</div>
             <input id="date" apply={applyOnDate} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" apply={applyOnWeight} type="number" step="10" value={data[data.length - 1][1]}/>
-            <button class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
-            <button class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>            
+            <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
+            <button id="undo-chart" class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>            
         </p>
     </div>
 }

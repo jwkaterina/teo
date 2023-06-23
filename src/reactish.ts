@@ -261,6 +261,8 @@ export const Reactish = (() => {
 
     const workLoop = () => {
         stateIdx = 0;
+        effectIdx = 0;
+        contextIdx = 0;
         const render = renderWithHooks(state);
         render();
         setTimeout(workLoop, 300);
