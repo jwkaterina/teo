@@ -17,11 +17,11 @@
 }
 
 .animate-left {
-  animation: book-leftside-open 1s forwards;
+  animation: book-leftside-open 0.6s forwards;
 }
 
 .animate-right {
-  animation: book-rightside-open 1s forwards;
+  animation: book-rightside-open 0.6s forwards;
 }
 
 .keep-left {
@@ -33,11 +33,11 @@
 }
 
 .animate-left-reverse {
-  animation: book-leftside-open 1s reverse;
+  animation: book-leftside-open 0.6s reverse;
 }
 
 .animate-right-reverse {
-  animation: book-rightside-open 1s reverse;
+  animation: book-rightside-open 0.6s reverse;
 }
 
 @keyframes book-leftside-open {
@@ -67,7 +67,7 @@
   }
 
   .animate-mobile {
-    animation: book-open 1s forwards;
+    animation: book-open 0.6s forwards;
   } 
   
   .keep-mobile {
@@ -75,7 +75,7 @@
   }
   
   .animate-reverse-mobile {
-    animation: book-open 1s reverse;
+    animation: book-open 0.6s reverse;
   }
   
   @keyframes book-open {
