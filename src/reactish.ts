@@ -198,30 +198,35 @@ let _root: HTMLElement;
 /**
  * The tree of our Component Functions
  */
-let _cmp: ReactishEntity;
+let virtualDOM: ReactishEntity;
 
-const renderWithHooks = (state: any[]) => {
-    /**
-     * Rerenders the DOM by traversing and rerunning the tree of application components.
-     * First time it must be invoked by main.ts to supply the root element and component tree.
-     * @param root A parent dom elemet to inject our rerendered HTML Elements into
-     * @param component The tree of our application components (gonna be the subject of multiple rerunning)
-     */
-    const render = (root: HTMLElement = _root, component: ReactishEntity = _cmp) => {
-        const stateSnapshot = JSON.stringify(state);
+/**
+ * Invoked by main.tsx to supply the root element and component tree (which is virtualDOM).
+ * @param root A parent dom elemet to inject our rerendered HTML Elements into
+ * @param component The tree of our application components (virtualDOM). Gonna be the subject of multiple running.
+ */
+const setVirtualDOM = (root: HTMLElement, component: ReactishEntity) => {
+    _root = root;
+    virtualDOM = component;
+}
+
+/**
+ * Rerenders the DOM by traversing and rerunning the tree of virtualDOM.
+ */
+const renderWithState = (state: any[]) => {
+
+    const stateSnapshot = JSON.stringify(state);
         if(stateSnapshot === _state) {
             return
         }
-        _root = root;
-        _cmp = component;
         _state = stateSnapshot;
 
         //traversing and rerunning the tree of the application components
         let traverseComponents: TraversedComponent[];
-        if(Array.isArray(_cmp)) {
-            traverseComponents = traverseMultiple(_cmp);
+        if(Array.isArray(virtualDOM)) {
+            traverseComponents = traverseMultiple(virtualDOM);
         } else {
-            traverseComponents = traverseMultiple([_cmp])
+            traverseComponents = traverseMultiple([virtualDOM])
         }
 
         //preparing new dom
@@ -246,13 +251,10 @@ const renderWithHooks = (state: any[]) => {
         for (const domFunction of domFunctions) {
             domFunction.func(domFunction.element);
         }
-    }
-
-    return render
 }
 
 export const Reactish = (() => {
-    let stateIdx: number = 0;
+    let stateIdx = 0;
     let effectIdx = 0;
     let contextIdx = 0;
     const state: any[] = [];
@@ -263,8 +265,7 @@ export const Reactish = (() => {
         stateIdx = 0;
         effectIdx = 0;
         contextIdx = 0;
-        const render = renderWithHooks(state);
-        render();
+        renderWithState(state);
         setTimeout(workLoop, 300);
     }
 
@@ -322,10 +323,8 @@ export const Reactish = (() => {
 
     const useContext = <T>(context: Context<T>): T => contexts[context.contextIndex] as T;
 
-    const render = renderWithHooks(state);
-
     return {
-        render: render,
+        render: setVirtualDOM,
         useState,
         useEffect,
         createContext,
