@@ -1,11 +1,7 @@
 import mapboxgl from "mapbox-gl";
+import "./map.css"
 
-export const MapAPI = (() => {
-
-    function create() {
-        const map = createMap();
-        createMarker(map);
-    }
+export const Map = () => {
 
     const createMarker =(map: mapboxgl.Map) => {
         // Create Marker
@@ -32,7 +28,12 @@ export const MapAPI = (() => {
         return map;
     }
 
-    return {
-        create
-    }
-})();
+    setTimeout(() => {
+        const map = createMap();
+        createMarker(map);
+    }, 0);
+
+    return   <div id="map-container">
+        <div id="map"></div>
+    </div>
+};

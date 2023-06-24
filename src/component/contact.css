@@ -10,34 +10,11 @@
   align-items: center;
 } 
 
-#map-container {
-  height: 100%;
-  width: 100%;
-}
-
-#map {
-  height: 100%;
-  width: 100%;
-}
-
-.marker {
-  display: block;
-  position: absolute;
-  border: none;
-  border-radius: 50% 50% 50% 0;
-  cursor: pointer;
-  padding: 0;
-  background: url("../img/marker.jpeg") no-repeat center center/cover;
-  width: 50px;
-  height: 50px;
-}
-
 #form {
   background-color: #353535;
   height: 100%;
   width: 100%;
   color: #58c797;
-  
 }
 
 form {
@@ -201,11 +178,7 @@ textarea {
   #contact-grid {
     display: grid;
     grid-template-columns: 1fr;
-} 
-
-  #map {
-    height: 500px;
-  }
+  } 
 }
 
 @media (max-width: 550px) {
@@ -228,10 +201,6 @@ textarea {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(3, 1fr);
     align-items: end;
-  }
-
-  #map {
-    height: 200px;
   }
 
   .icon-group {

@@ -1,11 +1,12 @@
 import { Reactish } from "../reactish";
-import { ScrollToHomeContext, OpenPageContext, OpenState } from "../context";
-import { MapAPI } from "../service/map";
+import { OpenPageContext, OpenState } from "../context";
+import { Map } from "../service/map";
 import "./contact.css";
 
 export const Contact = (props: any) => {
 
     const {openState} = Reactish.useContext(OpenPageContext);
+    const [checkboxRef] = Reactish.useRef<HTMLElement>();
 
     const evaluateClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
@@ -22,20 +23,15 @@ export const Contact = (props: any) => {
             return closingClassMobile
         }
     }
-
-    Reactish.useEffect([], () => {
-        MapAPI.create()
-        //do we have enough places
-    });
     
     const validateForm = (e: SubmitEvent) => {
         e.preventDefault();
     
         const inputs = document.querySelectorAll(".input");
         if(formIsValid(inputs)) {
-            document.getElementById('checkbox').className = 'animate-checkbox';
+            checkboxRef.current.className = 'animate-checkbox';
             setTimeout(() => {
-                document.getElementById('checkbox').classList.remove('animate-checkbox');
+                checkboxRef.current.classList.remove('animate-checkbox');
             },2000);
             inputs.forEach(input => (input as HTMLInputElement).value = '');
         } else {
@@ -73,13 +69,11 @@ export const Contact = (props: any) => {
     }
 
     return <section id="contact-form" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
-        <div id="checkbox">
+        <div id="checkbox" ref={checkboxRef}>
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">
-            <div id="map-container">
-                <div id="map"></div>
-            </div>
+            <Map/>
             <div id="form" onsubmit={(e: SubmitEvent) => validateForm(e)}>
                 <form action="">
                     <p class="upper">Drop me a line</p>
