@@ -1,6 +1,6 @@
 import { Reactish } from "../reactish";
 import { OpenPageContext, OpenState } from "../context";
-import { Map } from "../service/map";
+import { Map } from "./map";
 import "./contact.css";
 
 export const Contact = (props: any) => {

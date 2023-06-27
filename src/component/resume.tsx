@@ -19,6 +19,7 @@ export const Resume = () => {
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
     const [pRef] = Reactish.useRef<HTMLElement>();
+    const [chartRef] = Reactish.useRef<HTMLElement>();
 
     Reactish.useEffect([openState], () => {
         pRef.current.classList.add("animate-text");
@@ -79,7 +80,7 @@ export const Resume = () => {
                 }
             };
     
-            const  chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            const  chart = new google.visualization.LineChart(chartRef.current);
     
             chart.draw(chartData, options);
         }
@@ -94,7 +95,7 @@ export const Resume = () => {
         </button>
         <h1>resume</h1>
         <p ref={pRef}>
-            <div id="curve_chart">{chart()}</div>
+            <div id="curve_chart" ref={chartRef}>{chart()}</div>
             <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>
             <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
