@@ -24,7 +24,7 @@ export const Home = () => {
         }
     });
 
-    const evaluateClass = (closedClass: string, openingClass: string, openClass: string, closingClass: string): string => {
+    const evaluateOpenClass = (closedClass: string, openingClass: string, openClass: string, closingClass: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
         if(media.matches) {
             return ""
@@ -40,7 +40,7 @@ export const Home = () => {
         }
     }
 
-    const evaluateClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
+    const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
         if(!media.matches) {
             return ""
@@ -66,13 +66,13 @@ export const Home = () => {
         }
     }
 
-    return <section id="home" ref={homeRef} class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
+    return <section id="home" ref={homeRef} class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
         <div id="home-main">
-            <div id="home-left" class={evaluateClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
+            <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>
                 <HomeGrid id="home-portfolio" iconClass="fas fa-briefcase fa-2x" header="portfolio" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="portfolio"/>
                 </div>
-            <div id="home-right" class={evaluateClass("", "animate-right", "keep-right", "animate-right-reverse")}>
+            <div id="home-right" class={evaluateOpenClass("", "animate-right", "keep-right", "animate-right-reverse")}>
                 <HomeGrid id="home-resume" iconClass="fas fa-file-alt fa-2x" header="resume" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="resume"/>
                 <HomeGrid id="home-blog" iconClass="fas fa-blog fa-2x" header="blog" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="blog"/>
             </div>

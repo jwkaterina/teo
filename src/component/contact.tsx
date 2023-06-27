@@ -3,12 +3,30 @@ import { OpenPageContext, OpenState } from "../context";
 import { Map } from "./map";
 import "./contact.css";
 
-export const Contact = (props: any) => {
+export const Contact = () => {
 
+    enum SubmitState {
+        NOT_SUBMITTED = "NOT_SUBMITTED",
+        SUBMITTING = "SUBMITTING",
+        SUBMIT_ERROR = "SUBMIT_ERROR",
+        SUBMIT_SUCCESS = "SUBMIT_SUCCESS",
+    }
+
+    type Inputs = {
+        name: string,
+        email: string,
+        message: string
+    }
+
+    const [submitState, setSubmitState] = Reactish.useState(SubmitState.NOT_SUBMITTED);
+    const [inputs, setInputs] = Reactish.useState<Inputs>({name: "", email: "", message: ""});
     const {openState} = Reactish.useContext(OpenPageContext);
     const [checkboxRef] = Reactish.useRef<HTMLElement>();
+    const [nameRef] = Reactish.useRef<HTMLElement>();
+    const [emailRef] = Reactish.useRef<HTMLElement>();
+    const [messageRef] = Reactish.useRef<HTMLElement>();
 
-    const evaluateClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
+    const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
         if(!media.matches) {
             return ""
@@ -23,10 +41,32 @@ export const Contact = (props: any) => {
             return closingClassMobile
         }
     }
+
+
+    const submit = () => {
+        setSubmitState(SubmitState.SUBMITTING);
+        setInputs({
+            name: (nameRef.current as HTMLInputElement).value, 
+            email: (emailRef.current as HTMLInputElement).value, 
+            message: (messageRef.current as HTMLInputElement).value
+        });
+    }
+
+    const evaluateAlertClass = (key: string, showClass: string, notShowClass: string) => {
+        if(submitState != SubmitState.SUBMITTING) {
+            return notShowClass
+        }
+        if(inputs[key] === '') {
+            return showClass
+        } else {
+            return notShowClass
+        }
+    }
     
     const validateForm = (e: SubmitEvent) => {
         e.preventDefault();
     
+        // console.log(submitState);
         const inputs = document.querySelectorAll(".input");
         if(formIsValid(inputs)) {
             checkboxRef.current.className = 'animate-checkbox';
@@ -61,42 +101,45 @@ export const Contact = (props: any) => {
     }
 
     const emailIsValid = () => {
-        const email = document.getElementById("email");
         const re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-        if(!re.test((email as HTMLInputElement).value)) {
+        if(!re.test((emailRef.current as HTMLInputElement).value)) {
             return false
         } else return true
     }
 
-    return <section id="contact-form" class={evaluateClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
+    return <section id="contact-form" class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
         <div id="checkbox" ref={checkboxRef}>
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">
             <Map/>
-            <div id="form" onsubmit={(e: SubmitEvent) => validateForm(e)}>
+            <div id="form" onsubmit={(e: SubmitEvent) => {
+                e.preventDefault();
+                submit();
+                // validateForm(e)
+            }}>
                 <form action="">
                     <p class="upper">Drop me a line</p>
                     <div class="input-group">
                         <label class="upper" for="name">Name</label>
-                        <input id="name" type="text" class="input"/>
-                        <div class="invalid upper">
+                        <input id="name" type="text" class="input" ref={nameRef}/>
+                        <div class={evaluateAlertClass("name", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
                         </div>
                     </div>
                     <div class="input-group">
                         <label class="upper" for="email">Email</label>
-                        <input id="email" class="input"/>
-                        <div class="invalid upper">
+                        <input id="email" class="input" ref={emailRef}/>
+                        <div class={evaluateAlertClass("email", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
                         </div>
                     </div>
                     <div  class="input-group">
                         <label class="upper" for="message">Message</label>
-                        <textarea name="message" class="input" id="message"></textarea>
-                        <div class="invalid upper">
+                        <textarea name="message" class="input" id="message" ref={messageRef}></textarea>
+                        <div class={evaluateAlertClass("message", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
                         </div>

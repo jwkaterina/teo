@@ -13,7 +13,7 @@ export const Preview = () => {
     const {openState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
 
-    const evaluateClass = (openingClass: string, openingClassMobile: string, closingClass: string, closingClassMobile: string): string => {
+    const evaluateOpenClass = (openingClass: string, openingClassMobile: string, closingClass: string, closingClassMobile: string): string => {
         
         const media = window.matchMedia("(max-width: 1000px)");
 
@@ -49,8 +49,8 @@ export const Preview = () => {
     } 
 
     return <section id="preview">
-        <div id="book-top" class={evaluateClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
-        <div id="book-bottom" class={evaluateClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
+        <div id="book-top" class={evaluateOpenClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
+        <div id="book-bottom" class={evaluateOpenClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
         <div id="book-container">
             {
                 getBookContent(typePreview)
