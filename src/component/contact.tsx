@@ -83,6 +83,16 @@ export const Contact = () => {
             return false
         } else return true
     }
+
+    const evaluateValue = (key: string) => {
+        if(submitState == SubmitState.SUBMITTING) {
+            console.log(inputs[key]);
+            return inputs[key]
+        } else {
+            console.log("empty")
+            return ""
+        }
+    }
     
     const validateForm = (e: SubmitEvent) => {
         e.preventDefault();
@@ -131,7 +141,7 @@ export const Contact = () => {
                     <p class="upper">Drop me a line</p>
                     <div class="input-group">
                         <label class="upper" for="name">Name</label>
-                        <input id="name" type="text" class="input" ref={nameRef}/>
+                        <input id="name" type="text" class="input" ref={nameRef} value={evaluateValue("name")}/>
                         <div class={evaluateAlertClass("name", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
@@ -139,7 +149,7 @@ export const Contact = () => {
                     </div>
                     <div class="input-group">
                         <label class="upper" for="email">Email</label>
-                        <input id="email" class="input" ref={emailRef}/>
+                        <input id="email" class="input" ref={emailRef} value={evaluateValue("email")}/>
                         <div class={evaluateAlertClass("email", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
                             <p>{evaluateAlertText("This field is requied.", "Please Enter a Valid Email Adress.")}</p>
@@ -147,7 +157,7 @@ export const Contact = () => {
                     </div>
                     <div  class="input-group">
                         <label class="upper" for="message">Message</label>
-                        <textarea name="message" class="input" id="message" ref={messageRef}></textarea>
+                        <input name="message" class="input" id="message" ref={messageRef} value={evaluateValue("message")}></input>
                         <div class={evaluateAlertClass("message", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
                             <p>This field is requied.</p>

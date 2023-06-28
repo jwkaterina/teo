@@ -56,7 +56,7 @@ input:focus, textarea:focus{
   border-color: #9ae4b9;
 }
 
-textarea {
+#message {
   height: 6rem;
   width: 100%;
   background-color: #353535;
@@ -64,7 +64,6 @@ textarea {
   border-color: #387f60;
   color: #fff;
   padding: 1rem;
-
 }
 
 .input-group {
