@@ -57,7 +57,7 @@ export const Home = () => {
     }
 
 
-    const onAnimationEnd = () => {
+    const openAnimationEnd = () => {
         if(openState == OpenState.OPENING) {
             setOpenState(OpenState.OPEN);
         }
@@ -66,9 +66,9 @@ export const Home = () => {
         }
     }
 
-    return <section id="home" ref={homeRef} class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
+    return <section id="home" ref={homeRef} class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={openAnimationEnd}>
         <div id="home-main">
-            <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
+            <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={openAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>
                 <HomeGrid id="home-portfolio" iconClass="fas fa-briefcase fa-2x" header="portfolio" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="portfolio"/>
                 </div>

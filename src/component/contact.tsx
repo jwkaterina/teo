@@ -6,10 +6,9 @@ import "./contact.css";
 export const Contact = () => {
 
     enum SubmitState {
-        NOT_SUBMITTED = "NOT_SUBMITTED",
-        SUBMITTING = "SUBMITTING",
-        SUBMIT_ERROR = "SUBMIT_ERROR",
-        SUBMIT_SUCCESS = "SUBMIT_SUCCESS",
+        DEFAULT,
+        SUBMIT_ERROR,
+        SUBMIT_SUCCESS,
     }
 
     type Inputs = {
@@ -18,13 +17,12 @@ export const Contact = () => {
         message: string
     }
 
-    const [submitState, setSubmitState] = Reactish.useState(SubmitState.NOT_SUBMITTED);
+    const [submitState, setSubmitState] = Reactish.useState(SubmitState.DEFAULT);
     const [inputs, setInputs] = Reactish.useState<Inputs>({name: "", email: "", message: ""});
     const {openState} = Reactish.useContext(OpenPageContext);
-    const [checkboxRef] = Reactish.useRef<HTMLElement>();
-    const [nameRef] = Reactish.useRef<HTMLElement>();
-    const [emailRef] = Reactish.useRef<HTMLElement>();
-    const [messageRef] = Reactish.useRef<HTMLElement>();
+    const [nameRef] = Reactish.useRef<HTMLInputElement>();
+    const [emailRef] = Reactish.useRef<HTMLInputElement>();
+    const [messageRef] = Reactish.useRef<HTMLInputElement>();
 
     const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
@@ -44,20 +42,31 @@ export const Contact = () => {
 
     const submit = (e: SubmitEvent) => {
         e.preventDefault();
+        const name = nameRef.current.value;
+        const email = emailRef.current.value;
+        const message = messageRef.current.value;
 
-        setSubmitState(SubmitState.SUBMITTING);
         setInputs({
-            name: (nameRef.current as HTMLInputElement).value, 
-            email: (emailRef.current as HTMLInputElement).value, 
-            message: (messageRef.current as HTMLInputElement).value
+            name, 
+            email, 
+            message
         });
+
+        if(name != '' && email != '' && emailIsValid(email) && message != '') {
+            setSubmitState(SubmitState.SUBMIT_SUCCESS);
+        } else {
+            setSubmitState(SubmitState.SUBMIT_ERROR)
+        }
     }
 
     const evaluateAlertClass = (key: string, showClass: string, notShowClass: string) => {
-        if(submitState != SubmitState.SUBMITTING) {
+        if(submitState != SubmitState.SUBMIT_ERROR) {
             return notShowClass
         }
         if(inputs[key] === '' || (key === "email" && !emailIsValid())) {
+            // console.log(key + "Ref.current" )
+            // console.log(nameRef);
+            // add focus to input
             return showClass
         } else {
             return notShowClass
@@ -65,7 +74,7 @@ export const Contact = () => {
     }
 
     const evaluateAlertText = (emptyClass: string, notValidClass: string) => {
-        if(submitState != SubmitState.SUBMITTING) {
+        if(submitState != SubmitState.SUBMIT_ERROR) {
             return ""
         }
         if(inputs.email === '') {
@@ -77,61 +86,36 @@ export const Contact = () => {
         }
     }
 
-    const emailIsValid = () => {
+    const emailIsValid = (email = inputs.email) => {
         const re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-        if(!re.test(inputs.email)) {
+        if(!re.test(email)) {
             return false
         } else return true
     }
 
     const evaluateValue = (key: string) => {
-        if(submitState == SubmitState.SUBMITTING) {
-            console.log(inputs[key]);
+        if(submitState == SubmitState.SUBMIT_ERROR) {
             return inputs[key]
         } else {
-            console.log("empty")
             return ""
         }
     }
-    
-    const validateForm = (e: SubmitEvent) => {
-        e.preventDefault();
-    
-        const inputs = document.querySelectorAll(".input");
-        if(formIsValid(inputs)) {
-            checkboxRef.current.className = 'animate-checkbox';
-            setTimeout(() => {
-                checkboxRef.current.classList.remove('animate-checkbox');
-            },2000);
-            inputs.forEach(input => (input as HTMLInputElement).value = '');
-        } else {
-            const emptyInput = document.querySelector('.show-message').previousElementSibling as HTMLInputElement;
-            emptyInput.focus();
-        }
-    };
 
-    const formIsValid = (inputs: NodeList) => {
-        // inputs.forEach(input => {
-        //     const alert = (input as HTMLElement).nextElementSibling;
-        //     if((input as HTMLInputElement).value === ''){
-        //         alert.classList.add('show-message');
-        //     } else if((input as HTMLElement).id === "email" && !emailIsValid()){
-        //         alert.classList.add('show-message');
-        //         alert.querySelector("p").innerHTML = "Please Enter a Valid Email Adress."
-        //     } else {
-        //         alert.classList.remove('show-message');            }
-        // });
-
-        const alerts = Array.from(document.querySelectorAll(".invalid"));
-        if (alerts.every(alert => !alert.classList.contains("show-message"))) {
-            return true
+    const evaluateCheckboxClass = (notShowClass: string, showClass: string) => {
+        if(submitState == SubmitState.SUBMIT_SUCCESS) {
+            return showClass
         } else {
-            return false
+            return notShowClass
         }
     }
 
+    const checkboxAnimationEnd = () => {
+        setSubmitState(SubmitState.DEFAULT);
+        setInputs({name: "", email: "", message: ""});
+    }
+
     return <section id="contact-form" class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
-        <div id="checkbox" ref={checkboxRef}>
+        <div id="checkbox" class={evaluateCheckboxClass("", "animate-checkbox")} onAnimationend={checkboxAnimationEnd}>
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">
