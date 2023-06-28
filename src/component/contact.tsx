@@ -42,8 +42,9 @@ export const Contact = () => {
         }
     }
 
+    const submit = (e: SubmitEvent) => {
+        e.preventDefault();
 
-    const submit = () => {
         setSubmitState(SubmitState.SUBMITTING);
         setInputs({
             name: (nameRef.current as HTMLInputElement).value, 
@@ -56,17 +57,36 @@ export const Contact = () => {
         if(submitState != SubmitState.SUBMITTING) {
             return notShowClass
         }
-        if(inputs[key] === '') {
+        if(inputs[key] === '' || (key === "email" && !emailIsValid())) {
             return showClass
         } else {
             return notShowClass
         }
     }
+
+    const evaluateAlertText = (emptyClass: string, notValidClass: string) => {
+        if(submitState != SubmitState.SUBMITTING) {
+            return ""
+        }
+        if(inputs.email === '') {
+            return emptyClass
+        } else if(!emailIsValid()) {
+            return notValidClass
+        } else {
+            return ""
+        }
+    }
+
+    const emailIsValid = () => {
+        const re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+        if(!re.test(inputs.email)) {
+            return false
+        } else return true
+    }
     
     const validateForm = (e: SubmitEvent) => {
         e.preventDefault();
     
-        // console.log(submitState);
         const inputs = document.querySelectorAll(".input");
         if(formIsValid(inputs)) {
             checkboxRef.current.className = 'animate-checkbox';
@@ -81,16 +101,16 @@ export const Contact = () => {
     };
 
     const formIsValid = (inputs: NodeList) => {
-        inputs.forEach(input => {
-            const alert = (input as HTMLElement).nextElementSibling;
-            if((input as HTMLInputElement).value === ''){
-                alert.classList.add('show-message');
-            } else if((input as HTMLElement).id === "email" && !emailIsValid()){
-                alert.classList.add('show-message');
-                alert.querySelector("p").innerHTML = "Please Enter a Valid Email Adress."
-            } else {
-                alert.classList.remove('show-message');            }
-        });
+        // inputs.forEach(input => {
+        //     const alert = (input as HTMLElement).nextElementSibling;
+        //     if((input as HTMLInputElement).value === ''){
+        //         alert.classList.add('show-message');
+        //     } else if((input as HTMLElement).id === "email" && !emailIsValid()){
+        //         alert.classList.add('show-message');
+        //         alert.querySelector("p").innerHTML = "Please Enter a Valid Email Adress."
+        //     } else {
+        //         alert.classList.remove('show-message');            }
+        // });
 
         const alerts = Array.from(document.querySelectorAll(".invalid"));
         if (alerts.every(alert => !alert.classList.contains("show-message"))) {
@@ -100,24 +120,13 @@ export const Contact = () => {
         }
     }
 
-    const emailIsValid = () => {
-        const re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-        if(!re.test((emailRef.current as HTMLInputElement).value)) {
-            return false
-        } else return true
-    }
-
     return <section id="contact-form" class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
         <div id="checkbox" ref={checkboxRef}>
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">
             <Map/>
-            <div id="form" onsubmit={(e: SubmitEvent) => {
-                e.preventDefault();
-                submit();
-                // validateForm(e)
-            }}>
+            <div id="form" onsubmit={(e: SubmitEvent) => submit(e)}>
                 <form action="">
                     <p class="upper">Drop me a line</p>
                     <div class="input-group">
@@ -133,7 +142,7 @@ export const Contact = () => {
                         <input id="email" class="input" ref={emailRef}/>
                         <div class={evaluateAlertClass("email", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
-                            <p>This field is requied.</p>
+                            <p>{evaluateAlertText("This field is requied.", "Please Enter a Valid Email Adress.")}</p>
                         </div>
                     </div>
                     <div  class="input-group">
