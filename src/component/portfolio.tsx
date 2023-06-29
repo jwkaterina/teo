@@ -1,9 +1,12 @@
-import { OpenPageContext, OpenState } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
 import { Reactish } from "../reactish";
 
 export const Portfolio = () => {
 
-    const {setOpenState} = Reactish.useContext(OpenPageContext);
+    const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
+    const {typePreview} = Reactish.useContext(TypePreviewContext);
+
+    if(openState != OpenState.OPEN || typePreview !== "portfolio") return <></>
 
     return <div id="portfolio">
         <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>

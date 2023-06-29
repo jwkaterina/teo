@@ -1,10 +1,13 @@
-import { OpenPageContext, OpenState } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
 import { Reactish } from "../reactish";
 
 export const About = () => {
 
-    const {setOpenState} = Reactish.useContext(OpenPageContext);
+    const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
+    const {typePreview} = Reactish.useContext(TypePreviewContext);
    
+    if(openState != OpenState.OPEN || typePreview !== "about") return <></>
+
     return <div id="about">
         <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>
         <div class="cross"></div>

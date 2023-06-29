@@ -1,5 +1,5 @@
-import { Reactish, ReactishComponent } from "../reactish";
-import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
+import { Reactish } from "../reactish";
+import { OpenPageContext, OpenState } from "../context";
 
 import { About } from "./about";
 import { Resume } from "./resume";
@@ -11,7 +11,6 @@ import "./preview.css"
 export const Preview = () => {
 
     const {openState} = Reactish.useContext(OpenPageContext);
-    const {typePreview} = Reactish.useContext(TypePreviewContext);
 
     const evaluateOpenClass = (openingClass: string, openingClassMobile: string, closingClass: string, closingClassMobile: string): string => {
         
@@ -29,32 +28,14 @@ export const Preview = () => {
         return ""
     }
 
-    const getBookContent = (type: string): ReactishComponent => {
-        if(openState != OpenState.OPEN) return <></>
-        switch(type) {
-            case "about":
-                return <About/>
-            case "resume":
-                return <Resume/>
-            case "portfolio":
-                return <Portfolio/>
-            case "blog":
-                return <Blog/>
-            default: return <></>
-        }
-    }
-
-    if(openState == OpenState.CLOSED) {
-        return <></>
-    } 
-
-    return <section id="preview">
+    return <section id="preview" class={openState === OpenState.OPEN ? "show" : ""}>
         <div id="book-top" class={evaluateOpenClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
         <div id="book-bottom" class={evaluateOpenClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
         <div id="book-container">
-            {
-                getBookContent(typePreview)
-            }
+            <About/>
+            <Resume/>
+            <Portfolio/>
+            <Blog/>
         </div>
     </section>
 }

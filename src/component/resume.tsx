@@ -1,4 +1,4 @@
-import { OpenPageContext, OpenState } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
 import { Reactish } from "../reactish";
 
 import "./resume.css"
@@ -15,6 +15,8 @@ export const Resume = () => {
 
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
+    const {typePreview} = Reactish.useContext(TypePreviewContext);
+
     const [data, setData] = Reactish.useState(initData);
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
@@ -88,6 +90,8 @@ export const Resume = () => {
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
     }
+
+    if(openState != OpenState.OPEN || typePreview !== "resume") return <></>
 
     return <div id="resume">
         <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>
