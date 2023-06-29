@@ -24,8 +24,10 @@ export const Resume = () => {
     const [chartRef] = Reactish.useRef<HTMLElement>();
 
     Reactish.useEffect([openState], () => {
-        pRef.current.classList.add("animate-text");
-    });
+        if(openState == OpenState.OPEN && typePreview == "resume") {
+            pRef.current.classList.add("animate-text")
+        }
+    })
 
     const addData = () => {
         const dateValue = dateRef.current.value;
