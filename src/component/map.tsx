@@ -1,7 +1,10 @@
+import { Reactish, Ref } from "../reactish";
 import mapboxgl from "mapbox-gl";
 import "./map.css"
 
 export const Map = () => {
+
+    const [mapRef] = Reactish.useRef<HTMLElement>();
 
     const createMarker =(map: mapboxgl.Map) => {
         // Create Marker
@@ -33,7 +36,13 @@ export const Map = () => {
         createMarker(map);
     }, 0);
 
-    return   <div id="map-container">
-        <div id="map"></div>
-    </div>
+    return {
+        entity: <div id="map" ref={mapRef}></div>,
+        ref: mapRef
+    }
 };
+
+export interface MapResult {
+    element: HTMLElement,
+    ref: Ref<HTMLElement>
+}

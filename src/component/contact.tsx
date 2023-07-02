@@ -23,6 +23,7 @@ export const Contact = () => {
     const [nameRef] = Reactish.useRef<HTMLInputElement>();
     const [emailRef] = Reactish.useRef<HTMLInputElement>();
     const [messageRef] = Reactish.useRef<HTMLInputElement>();
+    const memoaizedMap = Reactish.useMemo([], () => Map());
 
     const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
@@ -129,7 +130,7 @@ export const Contact = () => {
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">
-            <Map/>
+            <div id="map-container" dangerouslySetInnerHTML={memoaizedMap} />
             <div id="form" onsubmit={(e: SubmitEvent) => submit(e)}>
                 <form action="">
                     <p class="upper">Drop me a line</p>

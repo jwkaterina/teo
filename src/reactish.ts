@@ -26,6 +26,11 @@ interface HTMLElementOwner {
     current: HTMLElement | Text | null;
 }
 
+interface DomOrReactishComponent {
+    ref: Ref<HTMLElement | Text>;
+    entity: ReactishEntity;
+}
+
 /** 
  * Pragma function.
  * This is the entry point.
@@ -144,6 +149,7 @@ const createHTMLElement = (component: TraversedComponent): HTMLElement | Text =>
 
 const isEvent = (key: string) => key.startsWith('on');
 const isRef = (key: string) => key === 'ref';
+const isInnerHTML = (key: string) => key === 'dangerouslySetInnerHTML';
 const isFunction = (value: any) => typeof value === 'function';
 
 const updateDOM = (dom: HTMLElement | Text, props: any) => {
@@ -158,6 +164,20 @@ const updateDOM = (dom: HTMLElement | Text, props: any) => {
             }
         } else if(isRef(name)) {
             (value as HTMLElementOwner).current = dom;
+        } else if(isInnerHTML(name)) {
+            const innerHTML = value as DomOrReactishComponent;
+            if(innerHTML.ref.current) {
+                dom.appendChild(innerHTML.ref.current);
+            } else {
+                const entity = innerHTML.entity;
+                if(Array.isArray(entity)) {
+                    const traversedEntity = traverseMultiple(entity);
+                    appendChild(dom, traversedEntity);
+                } else {
+                    const traversedEntity = traverseSingle(entity);
+                    appendChild(dom, traversedEntity);
+                }
+            }
         } else {
             if(dom.nodeType != Node.TEXT_NODE) {
                 (dom as HTMLElement).setAttribute(name, value.toString());
@@ -246,16 +266,20 @@ export const Reactish = (() => {
     let stateIdx = 0;
     let refIdx = 0;
     let effectIdx = 0;
+    let memoIdx = 0;
     let contextIdx = 0;
     const state: any[] = [];
     const refs: any[] = [];
     const effectDependency: any[] = [];
+    const memoDependency: any[] = [];
+    const memoState: any[] = [];
     const contexts: any[] = [];
 
     const workLoop = () => {
         stateIdx = 0;
         refIdx = 0;
         effectIdx = 0;
+        memoIdx = 0;
         contextIdx = 0;
         renderWithState(state);
         setTimeout(workLoop, 300);
@@ -267,15 +291,13 @@ export const Reactish = (() => {
         const stateIndex: number = stateIdx;
         let currentState: any = state[stateIndex] ?? initVal;
 
+        // console.log(`currentState at index: ${stateIndex} `, state[stateIndex]);
+
         const setState = (newVal: T): void => {
             state[stateIndex] = newVal;
         }
         stateIdx++;
         return [currentState, setState];
-    }
-
-    interface Ref<T> {
-        current: T;
     }
 
     const useRef = <T>(initVal: T = null): [Ref<T>, (newVal: T) => void] => {
@@ -312,6 +334,26 @@ export const Reactish = (() => {
         effectIdx++;
     }
 
+    const useMemo = (dependencies: any[], cb: ()=>any) => {
+        const currentIndex: number = memoIdx;
+        memoIdx++;
+        const oldDeps = memoDependency[currentIndex];
+        let hasChanged: boolean = true;
+        if(oldDeps) {
+            hasChanged = dependencies.some((dep: any, i: number) => {
+                return !Object.is(dep, oldDeps[i]);
+            })
+        }
+
+        if(hasChanged) {
+            memoState[currentIndex] = cb();
+        }
+
+        memoDependency[currentIndex] = dependencies;
+
+        return memoState[currentIndex];
+    }
+
     const createContext = <T>(defaultVal: T): Context<T> => {
         const contextIndex = contextIdx;
         contexts[contextIndex] = defaultVal;
@@ -340,10 +382,15 @@ export const Reactish = (() => {
         useState,
         useRef,
         useEffect,
+        useMemo,
         createContext,
         useContext
     }
 })();
+
+export interface Ref<T> {
+    current: T;
+}
 
 export interface Context<T> {
     Provider: (props: ContextProperty<T>, ...children: any[]) => ReactishEntity;
