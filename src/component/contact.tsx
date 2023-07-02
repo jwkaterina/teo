@@ -55,7 +55,7 @@ export const Contact = () => {
         if(name != '' && email != '' && emailIsValid(email) && message != '') {
             setSubmitState(SubmitState.SUBMIT_SUCCESS);
         } else {
-            setSubmitState(SubmitState.SUBMIT_ERROR)
+            setSubmitState(SubmitState.SUBMIT_ERROR);
         }
     }
 
@@ -64,9 +64,6 @@ export const Contact = () => {
             return notShowClass
         }
         if(inputs[key] === '' || (key === "email" && !emailIsValid())) {
-            // console.log(key + "Ref.current" )
-            // console.log(nameRef);
-            // add focus to input
             return showClass
         } else {
             return notShowClass
@@ -113,6 +110,19 @@ export const Contact = () => {
         setSubmitState(SubmitState.DEFAULT);
         setInputs({name: "", email: "", message: ""});
     }
+
+    const focusInput = () => {
+        if(submitState != SubmitState.SUBMIT_ERROR) return
+        if(inputs.name === '') {
+            nameRef.current.focus();
+        } else if(inputs.email === '') {
+            emailRef.current.focus();
+        } else if(inputs.message === '') {
+            messageRef.current.focus();
+        }
+    }
+
+    setTimeout(() => focusInput(), 0);
 
     return <section id="contact-form" class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
         <div id="checkbox" class={evaluateCheckboxClass("", "animate-checkbox")} onAnimationend={checkboxAnimationEnd}>
