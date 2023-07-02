@@ -46,6 +46,7 @@ export const Contact = () => {
         const name = nameRef.current.value;
         const email = emailRef.current.value;
         const message = messageRef.current.value;
+        console.log(name, email, message);
 
         setInputs({
             name, 
@@ -152,7 +153,8 @@ export const Contact = () => {
                     </div>
                     <div  class="input-group">
                         <label class="upper" for="message">Message</label>
-                        <input name="message" class="input" id="message" ref={messageRef} value={evaluateValue("message")}></input>
+                        <textarea name="message" class="input" id="message" ref={messageRef}
+                        >{evaluateValue("message")}</textarea>
                         <div class={evaluateAlertClass("message", "show-message invalid upper", "invalid upper")}>
                             <div class="arrow"></div>
                             <p>This field is requied.</p>
