@@ -12,6 +12,8 @@ module.exports = {
       overlay: true
     },
     hot: true,
+    port: 3000,
+    allowedHosts: "all",
     // static: {
     //   directory: path.join(__dirname, "./"),
     // },
