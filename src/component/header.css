@@ -84,19 +84,19 @@
 @media (max-width: 1000px) {
   #header-content {
     grid-template-columns: 1fr;
-    grid-template-rows: 3fr 1fr 1fr 1fr;
+    grid-template-rows: 0.5fr 2.5fr 1fr 1fr 1fr;
   }
 
   #header h1 {
-    grid-row: 2;
-  }
-
-  #header p {
     grid-row: 3;
   }
 
-  #header .btn-start {
+  #header p {
     grid-row: 4;
+  }
+
+  #header .btn-start {
+    grid-row: 5;
   }
 
   #header:before {

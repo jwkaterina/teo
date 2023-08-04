@@ -4,6 +4,7 @@
     justify-self: end;
     margin-right: 2rem;
 }
+
 .btn-log {
     padding: 0.5rem 1rem;
     border: 1px solid #fff;
@@ -17,4 +18,10 @@
 .btn-log:hover {
     background-color: #fff;
     color: #000;
+}
+
+@media (max-width: 1000px) {
+    #auth {
+        grid-column: 1;
+    }
 }
