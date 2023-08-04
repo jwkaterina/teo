@@ -1,5 +1,7 @@
 import { Reactish } from "../reactish";
 import { ScrollToHomeContext, OpenPageContext, OpenState } from "../context";
+import { Auth } from "./auth";
+
 import "./header.css";
 
 export const Header = (props: any) => {
@@ -72,6 +74,7 @@ export const Header = (props: any) => {
     return <header >
         <div id="header" class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
             <div id="header-content">
+                <Auth/>
                 <h1 id="Heading">Theodor 
                 {/* ({clicksRef.current}) */}
                 </h1>

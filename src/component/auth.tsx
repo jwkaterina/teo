@@ -1,6 +1,8 @@
 import { Reactish, ReactishEntity } from "../reactish";
 import { Hub, Auth as AmplifyAuth } from "aws-amplify";
 
+import "./auth.css";
+
 export const Auth = (props: any): ReactishEntity => {
   Reactish.useEffect([], () => {
     const listener = async (data) => {
@@ -73,16 +75,16 @@ export const Auth = (props: any): ReactishEntity => {
     return Promise.resolve();
   }
 
-  return <>
-    <button onclick={() => AmplifyAuth.federatedSignIn()}> Login </button>
-    <button onclick={() => {
-        (async () => {
-            try {
-                await AmplifyAuth.signOut();
-            } catch (err) {
-                console.log('error signing out: ', err);
-            }
-        })();
-    }}> Logout </button>
-  </>;
-};
+  return <div id="auth">
+      <button class="btn-log" onclick={() => AmplifyAuth.federatedSignIn()}> Login </button>
+      {/* <button class="btn-log" onclick={() => {
+          (async () => {
+              try {
+                  await AmplifyAuth.signOut();
+              } catch (err) {
+                  console.log('error signing out: ', err);
+              }
+          })();
+      }}> Logout </button> */}
+    </div>;
+}

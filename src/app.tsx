@@ -5,10 +5,10 @@ import { Home } from "./component/home";
 import { Preview } from "./component/preview";
 import { Contact } from "./component/contact";
 import { Footer } from "./component/footer";
-import { Auth } from "./component/auth";
+// import { Auth } from "./component/auth";
 
 import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports';
+// import awsconfig from './aws-exports';
 
 import "./css/main.css";
 
@@ -18,9 +18,9 @@ export const App = (props: any): ReactishEntity => {
     const [typePreview, setTypePreview] = Reactish.useState("");
     const [scrollToHome, setScrollToHome] = Reactish.useState(false);
     Reactish.useEffect([], () => {
-        awsconfig.oauth.redirectSignIn = `${window.location.origin}/`;
-        awsconfig.oauth.redirectSignOut = `${window.location.origin}/`;
-        Amplify.configure(awsconfig);
+        // awsconfig.oauth.redirectSignIn = `${window.location.origin}/`;
+        // awsconfig.oauth.redirectSignOut = `${window.location.origin}/`;
+        // Amplify.configure(awsconfig);
     });
 
     const media = window.matchMedia("(max-width: 1000px)");
@@ -38,7 +38,7 @@ export const App = (props: any): ReactishEntity => {
         <OpenPageContext.Provider value={{openState, setOpenState}}/>
         <TypePreviewContext.Provider value={{typePreview, setTypePreview}}/>
         <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}/>
-        <Auth/>
+        {/* <Auth/> */}
         <Header/>
         <Home/>
         <Preview/>
