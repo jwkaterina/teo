@@ -114,7 +114,7 @@ export const Contact = () => {
     }
 
     const focusInput = () => {
-        if(submitState != SubmitState.SUBMIT_ERROR) return
+        if(submitState != SubmitState.SUBMIT_ERROR || openState !== OpenState.CLOSED) return
         if(inputs.name === '') {
             nameRef.current.focus();
         } else if(inputs.email === '') {
