@@ -10,6 +10,11 @@
       "StackName": "amplify-teo-dev-154903",
       "StackId": "arn:aws:cloudformation:eu-central-1:258557321580:stack/amplify-teo-dev-154903/ad5027e0-32cd-11ee-a728-0a81f551ce24",
       "AmplifyAppId": "dfufv0uyl5hkx"
+    },
+    "categories": {
+      "auth": {
+        "teoc22c33e4": {}
+      }
     }
   }
 }
