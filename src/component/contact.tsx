@@ -25,6 +25,13 @@ export const Contact = () => {
     const [messageRef] = Reactish.useRef<HTMLInputElement>();
     const memoaizedMap = Reactish.useMemo([], () => Map());
 
+    Reactish.useEffect([openState], () => {
+        if(openState == OpenState.OPEN) {
+            setSubmitState(SubmitState.DEFAULT);
+            setInputs({name: "", email: "", message: ""});
+        }
+    })
+
     const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
         const media = window.matchMedia("(max-width: 1000px)");
         if(!media.matches) {
