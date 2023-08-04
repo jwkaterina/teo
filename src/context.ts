@@ -27,3 +27,10 @@ export interface ScrollToHomeContextProperty {
     scrollToHome: boolean;
     setScrollToHome: (newValue: boolean) => void;
 }
+
+export const AuthContext = Reactish.createContext({logged: false} as AuthContextProperty);
+
+export interface AuthContextProperty {
+    logged: boolean;
+    setLogged: (newValue: boolean) => void;
+}

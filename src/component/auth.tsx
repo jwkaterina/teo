@@ -1,9 +1,13 @@
 import { Reactish, ReactishEntity } from "../reactish";
 import { Hub, Auth as AmplifyAuth } from "aws-amplify";
+import { AuthContext } from "../context";
+
 
 import "./auth.css";
 
 export const Auth = (props: any): ReactishEntity => {
+  const {logged, setLogged} = Reactish.useContext(AuthContext);
+
   Reactish.useEffect([], () => {
     const listener = async (data) => {
       if (data.payload.event == "signOut") {
@@ -11,14 +15,20 @@ export const Auth = (props: any): ReactishEntity => {
       }
     };
 
-    return Hub.listen("auth", listener);
+    Hub.listen("auth", listener);
+
+    checkUser()
+    .catch((err) => console.log("Cannot check for current user:", err));
   });
 
   const checkUser = async () => {
     try {
       const user = await getUser();
       if (user) {
-        processUser(user);
+        setLogged(true);
+        // processUser(user);
+      } else {
+        setLogged(false);
       }
     } catch (err) {
       console.log("Cannot check for current user:", err);
@@ -75,16 +85,20 @@ export const Auth = (props: any): ReactishEntity => {
     return Promise.resolve();
   }
 
+  let button = (<button class="btn-log" onclick={() => AmplifyAuth.federatedSignIn()}> Login </button>);
+  if (logged) {
+    button = (<button class="btn-log" onclick={() => {
+      (async () => {
+          try {
+              await AmplifyAuth.signOut();
+          } catch (err) {
+              console.log('error signing out: ', err);
+          }
+      })();
+    }}> Logout </button>);
+  }
+
   return <div id="auth">
-      <button class="btn-log" onclick={() => AmplifyAuth.federatedSignIn()}> Login </button>
-      {/* <button class="btn-log" onclick={() => {
-          (async () => {
-              try {
-                  await AmplifyAuth.signOut();
-              } catch (err) {
-                  console.log('error signing out: ', err);
-              }
-          })();
-      }}> Logout </button> */}
+    {button}
     </div>;
 }

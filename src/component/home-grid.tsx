@@ -1,14 +1,16 @@
 import { Reactish } from "../reactish";
-import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext, AuthContext } from "../context";
 
 import "./home-grid.css"
 
 export const HomeGrid = (props: HomeGridProps) => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
+    const {logged} = Reactish.useContext(AuthContext);
     const {setTypePreview} = Reactish.useContext(TypePreviewContext);
 
     const onHomeClick = (type: string) => {
+        if(!logged) return;
         if(openState == OpenState.CLOSED) {
             setOpenState(OpenState.OPENING);
             setTypePreview(props.typePreview);
