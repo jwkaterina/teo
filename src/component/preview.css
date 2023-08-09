@@ -1,3 +1,8 @@
+:root {
+  --book-animation-duration: 0.4s;
+  --text-animation-duration: 0.3s;
+}
+
 #preview {
   position: fixed;
   top: 0;
@@ -31,19 +36,19 @@
 }
 
 .animate-top {
-  animation: book-up-open 0.6s forwards;
+  animation: book-up-open var(--book-animation-duration) forwards;
 }
 
 .animate-bottom {
-  animation: book-down-open 0.6s forwards;
+  animation: book-down-open var(--book-animation-duration) forwards;
 }
 
 .animate-top-reverse {
-  animation: book-up-open 0.6s reverse;
+  animation: book-up-open var(--book-animation-duration) reverse;
 }
 
 .animate-bottom-reverse {
-  animation: book-down-open 0.6s reverse;
+  animation: book-down-open var(--book-animation-duration) reverse;
 }
 
 @keyframes book-up-open {
@@ -136,7 +141,7 @@
 }
 
 .animate-text {
-  animation: text 0.3s forwards;
+  animation: text var(--text-animation-duration) forwards;
 }
 
 @keyframes text {
@@ -156,19 +161,19 @@
     width: 100vw;
   }
   .animate-top-mobile {
-    animation: book-up-mobile 0.6s forwards;
+    animation: book-up-mobile var(--book-animation-duration) forwards;
   }
 
   .animate-bottom-mobile {
-    animation: book-down-mobile 0.6s forwards;
+    animation: book-down-mobile var(--book-animation-duration) forwards;
   }
 
   .animate-top-reverse-mobile {
-    animation: book-up-mobile 0.6s reverse;
+    animation: book-up-mobile var(--book-animation-duration) reverse;
   }
 
   .animate-bottom-reverse-mobile {
-    animation: book-down-mobile 0.6s reverse;
+    animation: book-down-mobile var(--book-animation-duration) reverse;
   }
 
   @keyframes book-up-mobile {
