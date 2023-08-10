@@ -18,6 +18,10 @@ export const Resume = () => {
     const {typePreview} = Reactish.useContext(TypePreviewContext);
 
     const [data, setData] = Reactish.useState(initData);
+    const prevYear = parseInt(data[data.length - 1][0].slice(0, 4));
+    const prevMonth = parseInt(data[data.length - 1][0].slice(5, 7));
+    const prevWeight = data[data.length - 1][1] as number ;
+
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
     const [pRef] = Reactish.useRef<HTMLElement>();
@@ -38,14 +42,12 @@ export const Resume = () => {
                 parseInt(weightValue)
             ]
             const newYear = parseInt(dateValue.slice(0, 4));
-            const prevYear = parseInt(data[data.length - 1][0].slice(0, 4));
             const newMonth = parseInt(dateValue.slice(5, 7));
-            const prevMonth = parseInt(data[data.length - 1][0].slice(5, 7));
             if((newYear === prevYear && newMonth <= prevMonth) || newYear < prevYear) {
                 alert("You can't add data from the past");
                 return
             }
-            if(newMonth - prevMonth > 1) {
+            if(newMonth - prevMonth > 1 || newYear !== prevYear) {
                 fillMonths(dataUnit, prevMonth, newMonth);
                 return
             }
@@ -58,13 +60,23 @@ export const Resume = () => {
     }
 
     const fillMonths = (dataUnit: DataUnit, prevMonth: number, newMonth: number) => {
+        const newWeight: number = dataUnit[1] as number ;
+        const newYear = parseInt(dataUnit[0].slice(0, 4));
         let filledData = [];
-        for(let i = 1; i < newMonth - prevMonth; i++) {
-            const prevWeight = data[data.length - 1][1] as number ;
-            const newWeight: number = dataUnit[1] as number ;
-
-            const nextWeight = ((newWeight - prevWeight) * i / (newMonth - prevMonth)) + prevWeight;
-            const nextMonth = dataUnit[0].slice(0, 5) + (prevMonth < 9 ? "0" + (prevMonth + 1) : prevMonth + 1);
+        let diff: number;
+        if(newMonth > prevMonth) { 
+            diff = newMonth - prevMonth;
+        } else {
+            diff = 12 - prevMonth + newMonth;
+        }
+        for(let i = 1; i < diff; i++) {
+            const nextWeight = ((newWeight - prevWeight) * i / diff) + prevWeight;
+            let nextMonth: string;
+            if(prevMonth + i < 13) {
+                nextMonth = prevYear + "-"  + (prevMonth + i < 10 ? "0" + (prevMonth + i) : prevMonth + i);
+            } else {
+                nextMonth = newYear + "-" + (prevMonth + i - 12 < 10 ? "0" + (prevMonth + i - 12) : prevMonth + i - 12);
+            }
             const nextDataUnit = [nextMonth, nextWeight];
             filledData.push(nextDataUnit);
         }
