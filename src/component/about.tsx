@@ -9,7 +9,7 @@ export const About = () => {
 
     Reactish.useEffect([openState], () => {
         if(openState == OpenState.OPEN && typePreview == "about") {
-            pRef.current.classList.add("animate-text")
+            pRef.current.classList.add("animate-text");
         }
     })
    
@@ -17,7 +17,7 @@ export const About = () => {
 
     return <div id="about">
         <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>
-        <div class="cross"></div>
+            <div class="cross"></div>
         </button>
         <h1>about me</h1>
         <p ref={pRef}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quisquam id sequi, eveniet est inventore laborum eum blanditiis mollitia nostrum illo, maxime quidem non magnam porro, consequatur qui! Eos praesentium sapiente, illo porro quas beatae corporis possimus inventore nulla voluptatem impedit repudiandae itaque magni. Inventore exercitationem corporis eius impedit aut asperiores beatae eligendi sapiente dolor in. Consequuntur ullam iusto repudiandae, adipisci nulla obcaecati, omnis repellendus quasi quod tempore commodi nobis sit alias explicabo perferendis aliquam exercitationem maxime consequatur optio ad blanditiis in ab officiis. Repellendus ipsa labore velit debitis laboriosam nisi veritatis commodi, atque, natus facere voluptates ullam officia necessitatibus repellat?

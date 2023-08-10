@@ -1,3 +1,8 @@
+:root {
+  --book-animation-duration: 0.4s;
+  --text-animation-duration: 0.3s;
+}
+
 #preview {
   position: fixed;
   top: 0;
@@ -31,19 +36,19 @@
 }
 
 .animate-top {
-  animation: book-up-open 0.6s forwards;
+  animation: book-up-open var(--book-animation-duration) forwards;
 }
 
 .animate-bottom {
-  animation: book-down-open 0.6s forwards;
+  animation: book-down-open var(--book-animation-duration) forwards;
 }
 
 .animate-top-reverse {
-  animation: book-up-open 0.6s reverse;
+  animation: book-up-open var(--book-animation-duration) reverse;
 }
 
 .animate-bottom-reverse {
-  animation: book-down-open 0.6s reverse;
+  animation: book-down-open var(--book-animation-duration) reverse;
 }
 
 @keyframes book-up-open {
@@ -82,14 +87,6 @@
   overflow: auto;
 }
 
-/* .show {
-  display: block !important;
-} */
-
-/* #about, #resume, #portfolio, #blog {
-  display: none;
-} */
-
 #book-container h1 {
   margin: 2rem 0;
   font-weight: 100;
@@ -99,6 +96,25 @@
 #book-container p {
   opacity: 0;
   margin: 0.2rem;
+}
+
+.animate-text {
+  animation: text var(--text-animation-duration) forwards;
+}
+
+.keep-text {
+  opacity: 1;
+}
+
+@keyframes text {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .btn-close {
@@ -135,20 +151,6 @@
   transform: rotate(90deg);
 }
 
-.animate-text {
-  animation: text 0.3s forwards;
-}
-
-@keyframes text {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 
 @media (max-width: 1000px) {
   #preview {
@@ -156,19 +158,19 @@
     width: 100vw;
   }
   .animate-top-mobile {
-    animation: book-up-mobile 0.6s forwards;
+    animation: book-up-mobile var(--book-animation-duration) forwards;
   }
 
   .animate-bottom-mobile {
-    animation: book-down-mobile 0.6s forwards;
+    animation: book-down-mobile var(--book-animation-duration) forwards;
   }
 
   .animate-top-reverse-mobile {
-    animation: book-up-mobile 0.6s reverse;
+    animation: book-up-mobile var(--book-animation-duration) reverse;
   }
 
   .animate-bottom-reverse-mobile {
-    animation: book-down-mobile 0.6s reverse;
+    animation: book-down-mobile var(--book-animation-duration) reverse;
   }
 
   @keyframes book-up-mobile {
