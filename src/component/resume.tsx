@@ -60,10 +60,11 @@ export const Resume = () => {
     const fillMonths = (dataUnit: DataUnit, prevMonth: number, newMonth: number) => {
         let filledData = [];
         for(let i = 1; i < newMonth - prevMonth; i++) {
-            const nextMonth = dataUnit[0].slice(0, 5) + (prevMonth < 9 ? "0" + (prevMonth + 1) : prevMonth + 1);
             const prevWeight = data[data.length - 1][1] as number ;
             const newWeight: number = dataUnit[1] as number ;
+
             const nextWeight = ((newWeight - prevWeight) * i / (newMonth - prevMonth)) + prevWeight;
+            const nextMonth = dataUnit[0].slice(0, 5) + (prevMonth < 9 ? "0" + (prevMonth + 1) : prevMonth + 1);
             const nextDataUnit = [nextMonth, nextWeight];
             filledData.push(nextDataUnit);
         }
