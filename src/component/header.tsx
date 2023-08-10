@@ -25,7 +25,7 @@ export const Header = (props: any) => {
             return closedClassMobile
         } else if(openState == OpenState.OPENING) {
             return openingClassMobile
-        } else if(openState == OpenState.OPEN) {
+        } else if(openState == OpenState.OPEN || openState == OpenState.EFFECT) {
             return openClassMobile
         } else {
             return closingClassMobile

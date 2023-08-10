@@ -33,7 +33,7 @@ export const Home = () => {
             return closedClass
         } else if(openState == OpenState.OPENING) {
             return openingClass
-        } else if(openState == OpenState.OPEN) {
+        } else if(openState == OpenState.EFFECT || openState == OpenState.OPEN) {
             return openClass
         } else {
             return closingClass
@@ -49,7 +49,7 @@ export const Home = () => {
             return closedClassMobile
         } else if(openState == OpenState.OPENING) {
             return openingClassMobile
-        } else if(openState == OpenState.OPEN) {
+        } else if(openState == OpenState.OPEN || openState == OpenState.EFFECT) {
             return openClassMobile
         } else {
             return closingClassMobile
@@ -57,18 +57,18 @@ export const Home = () => {
     }
 
 
-    const openAnimationEnd = () => {
+    const onAnimationEnd = () => {
         if(openState == OpenState.OPENING) {
-            setOpenState(OpenState.OPEN);
+            setOpenState(OpenState.EFFECT);
         }
         if(openState == OpenState.CLOSING) {
             setOpenState(OpenState.CLOSED);
         }
     }
 
-    return <section id="home" ref={homeRef} class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={openAnimationEnd}>
+    return <section id="home" ref={homeRef} class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
         <div id="home-main">
-            <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={openAnimationEnd}>
+        <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>
                 <HomeGrid id="home-portfolio" iconClass="fas fa-briefcase fa-2x" header="portfolio" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="portfolio"/>
                 </div>

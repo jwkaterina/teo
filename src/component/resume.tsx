@@ -24,14 +24,23 @@ export const Resume = () => {
 
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
-    const [pRef] = Reactish.useRef<HTMLElement>();
     const [chartRef] = Reactish.useRef<HTMLElement>();
 
-    Reactish.useEffect([openState], () => {
-        if(openState == OpenState.OPEN && typePreview == "resume") {
-            pRef.current.classList.add("animate-text")
+    const evaluateTextClass = (hideClass: string, animateClass: string, keepClass: string): string => {
+        if(openState == OpenState.OPENING || openState == OpenState.CLOSING || openState == OpenState.CLOSED) {
+            return hideClass
+        } else if(openState == OpenState.EFFECT) {
+            return animateClass
+        } else {if(openState == OpenState.OPEN)
+            return keepClass
         }
-    })
+    }
+
+    const onAnimationEnd = () => {
+        if(openState == OpenState.EFFECT) {
+            setOpenState(OpenState.OPEN);
+        }
+    }
 
     const addData = () => {
         const dateValue = dateRef.current.value;
@@ -134,14 +143,14 @@ export const Resume = () => {
         google.charts.setOnLoadCallback(drawChart);
     }
 
-    if(openState != OpenState.OPEN || typePreview !== "resume") return <></>
+    if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "resume") return <></>
 
     return <div id="resume">
         <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>
         <div class="cross"></div>
         </button>
         <h1>resume</h1>
-        <p ref={pRef}>
+        <p class={evaluateTextClass("hide-text", "animate-text", "keep-text")} onanimationend={onAnimationEnd}>
             <div id="curve_chart" ref={chartRef}>{chart()}</div>
             <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>

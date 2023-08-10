@@ -28,7 +28,7 @@ export const Preview = () => {
         return ""
     }
 
-    return <section id="preview" class={openState === OpenState.OPEN ? "show" : ""}>
+    return <section id="preview" class={(openState === OpenState.OPEN || openState === OpenState.EFFECT) ? "show" : ""}>
         <div id="book-top" class={evaluateOpenClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
         <div id="book-bottom" class={evaluateOpenClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
         <div id="book-container">
