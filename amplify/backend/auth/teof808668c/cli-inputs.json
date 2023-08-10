@@ -45,7 +45,7 @@
     "authProvidersUserPool": [
       "Google"
     ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\",\"custom:id_token\":\"id_token\",\"custom:access_token\":\"access_token\"}}]",
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile https://www.googleapis.com/auth/photoslibrary.readonly\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\",\"custom:id_token\":\"id_token\",\"custom:access_token\":\"access_token\"}}]",
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://main.dfufv0uyl5hkx.amplifyapp.com/\",\"http://localhost:3000/\"],\"LogoutURLs\":[\"https://main.dfufv0uyl5hkx.amplifyapp.com/\",\"http://localhost:3000/\"]}",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
