@@ -234,6 +234,10 @@ const renderWithState = (state: any[]) => {
         if(stateSnapshot === _state) {
             return
         }
+
+        // console.log("===rerendering");
+        // console.log("old state: ", _state);
+        // console.log("new state: ", stateSnapshot);
         _state = stateSnapshot;
 
         //traversing and rerunning the tree of the application components

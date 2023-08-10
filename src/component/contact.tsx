@@ -25,9 +25,15 @@ export const Contact = () => {
     const [messageRef] = Reactish.useRef<HTMLInputElement>();
     const memoaizedMap = Reactish.useMemo([], () => Map());
 
+    Reactish.useEffect([], () => {
+        setInputs({name: "", email: "", message: ""});
+        setSubmitState(SubmitState.DEFAULT);
+    })
+
     Reactish.useEffect([openState], () => {
         if(openState == OpenState.OPEN) {
             setSubmitState(SubmitState.DEFAULT);
+            console.log("reset inputs");
             setInputs({name: "", email: "", message: ""});
         }
     })

@@ -87,14 +87,6 @@
   overflow: auto;
 }
 
-/* .show {
-  display: block !important;
-} */
-
-/* #about, #resume, #portfolio, #blog {
-  display: none;
-} */
-
 #book-container h1 {
   margin: 2rem 0;
   font-weight: 100;
@@ -104,6 +96,25 @@
 #book-container p {
   opacity: 0;
   margin: 0.2rem;
+}
+
+.animate-text {
+  animation: text var(--text-animation-duration) forwards;
+}
+
+.keep-text {
+  opacity: 1;
+}
+
+@keyframes text {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .btn-close {
@@ -140,20 +151,6 @@
   transform: rotate(90deg);
 }
 
-.animate-text {
-  animation: text var(--text-animation-duration) forwards;
-}
-
-@keyframes text {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 
 @media (max-width: 1000px) {
   #preview {
