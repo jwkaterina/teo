@@ -1,6 +1,22 @@
 {
+  "api": {
+    "teo": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "teoAPI"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
-    "teoc22c33e4": {
+    "teof808668c": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -27,6 +43,31 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "function": {
+    "teoAPI": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_teoAPI_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teoAPI"
+        }
+      ]
+    },
+    "AMPLIFY_function_teoAPI_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teoAPI"
+        }
+      ]
     }
   }
 }

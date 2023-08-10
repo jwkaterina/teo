@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "paths": {
+    "/photos": {
+      "name": "/photos",
+      "lambdaFunction": "teoAPI",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "read"
+        ]
+      }
+    }
+  }
+}

@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "teoc22c33e4_identitypool_c22c33e4",
+    "identityPoolName": "teof808668c_identitypool_f808668c",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "teoc22c33e4",
-    "userPoolName": "teoc22c33e4_userpool_c22c33e4",
+    "resourceNameTruncated": "teof808668c",
+    "userPoolName": "teof808668c_userpool_f808668c",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -25,45 +25,31 @@
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
-    "userpoolClientWriteAttributes": [],
-    "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "teoc22c22c33e4_userpoolclient_lambda_role",
+    "userpoolClientWriteAttributes": [
+      "email"
+    ],
+    "userpoolClientReadAttributes": [
+      "email"
+    ],
+    "userpoolClientLambdaRole": "teof80f808668c_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "c22c33e4",
-    "resourceName": "teoc22c33e4",
+    "sharedId": "f808668c",
+    "resourceName": "teof808668c",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "manual",
+    "useDefault": "defaultSocial",
     "hostedUI": true,
     "usernameAttributes": [
       "email"
     ],
-    "hostedUIDomainName": "teoc22c33e4-c22c33e4",
+    "hostedUIDomainName": "teo-website",
     "authProvidersUserPool": [
       "Google"
     ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\",\"custom:id_token\":\"id_token\",\"custom:access_token\":\"access_token\"}}]",
     "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://main.dfufv0uyl5hkx.amplifyapp.com/\",\"http://localhost:3000/\"],\"LogoutURLs\":[\"https://main.dfufv0uyl5hkx.amplifyapp.com/\",\"http://localhost:3000/\"]}",
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
-    "useEnabledMfas": true,
-    "authRoleArn": {
-      "Fn::GetAtt": [
-        "AuthRole",
-        "Arn"
-      ]
-    },
-    "unauthRoleArn": {
-      "Fn::GetAtt": [
-        "UnauthRole",
-        "Arn"
-      ]
-    },
-    "breakCircularDependency": true,
-    "dependsOn": [],
-    "userPoolGroups": false,
-    "adminQueries": false,
-    "thirdPartyAuth": false,
-    "authProviders": []
+    "useEnabledMfas": true
   }
 }

@@ -1,15 +1,25 @@
-import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext, AuthContext } from "../context";
 import { Reactish } from "../reactish";
+import { getPhotos } from "../service/photos";
 
 export const Portfolio = () => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
+    const {logged} = Reactish.useContext(AuthContext);
     const [pRef] = Reactish.useRef<HTMLElement>();
 
     Reactish.useEffect([openState], () => {
         if(openState == OpenState.OPEN && typePreview == "portfolio") {
             pRef.current.classList.add("animate-text")
+        }
+        if(logged) {
+            getPhotos()
+            .then((photos) => {
+                console.log(photos);
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     })
 

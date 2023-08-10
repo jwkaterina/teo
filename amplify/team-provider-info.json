@@ -9,11 +9,22 @@
       "UnauthRoleName": "amplify-teo-dev-154903-unauthRole",
       "StackName": "amplify-teo-dev-154903",
       "StackId": "arn:aws:cloudformation:eu-central-1:258557321580:stack/amplify-teo-dev-154903/ad5027e0-32cd-11ee-a728-0a81f551ce24",
-      "AmplifyAppId": "dfufv0uyl5hkx"
+      "AmplifyAppId": "dfufv0uyl5hkx",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-teo-dev-154903-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
+      "function": {
+        "photosLambda": {},
+        "teoAPI": {
+          "deploymentBucketName": "amplify-teo-dev-154903-deployment",
+          "s3Key": "amplify-builds/teoAPI-57304e442f4955524a55-build.zip"
+        }
+      },
       "auth": {
-        "teoc22c33e4": {}
+        "teof808668c": {}
+      },
+      "api": {
+        "teo": {}
       }
     }
   }
