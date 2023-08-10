@@ -3,6 +3,7 @@ import { Reactish } from "./reactish";
 export enum OpenState {
     CLOSED,
     OPENING,
+    EFFECT,
     OPEN,
     CLOSING
 }

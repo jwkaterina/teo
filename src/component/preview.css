@@ -94,8 +94,11 @@
 }
 
 #book-container p {
-  opacity: 0;
   margin: 0.2rem;
+}
+
+.hide-text {
+  opacity: 0;
 }
 
 .animate-text {
