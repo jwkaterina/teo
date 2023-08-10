@@ -23,78 +23,89 @@ See the License for the specific language governing permissions and limitations 
 
 
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const express = require('express');
+const bodyParser = require('body-parser');
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+
+const {
+  returnPhotos,
+  returnError,
+  libraryApiGetAlbums,
+  getFromAlbumCache,
+  putInAlbumCache,
+  clearAlbumCache,
+} = require('./photoActions.js');
+
+const { getGoogleIdToken } = require('./jwtActions.js');
 
 // declare a new express app
-const app = express()
-app.use(bodyParser.json())
-app.use(awsServerlessExpressMiddleware.eventContext())
+const app = express();
+app.use(bodyParser.json());
+app.use(awsServerlessExpressMiddleware.eventContext());
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "*")
-  next()
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
 });
 
 
-/**********************
- * Example get method *
- **********************/
+const albumIdKey = "albumId";
+const basePath = "/photos";
+const albumsPath = `${basePath}/albums`;
+const albumKeyPath = '/:' + albumIdKey;
 
-app.get('/photos', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+
+// Handles selections from the album page where an album ID is submitted.
+// The user has selected an album and wants to load photos from an album
+// into the photo frame.
+// Submits a search for all media items in an album to the Library API.
+// Returns a list of photos if this was successful, or an error otherwise.
+app.get(albumsPath + albumKeyPath, async (req, res) => {
+  const albumId = req.params[albumIdKey];
+  const cognitoToken = req.headers.authorization;
+  const authToken = getGoogleIdToken(cognitoToken);
+
+  console.log(`Importing album: ${albumId}`);
+
+  // To list all media in an album, construct a search request
+  // where the only parameter is the album ID.
+  // Note that no other filters can be set, so this search will
+  // also return videos that are otherwise filtered out in libraryApiSearch(..).
+  const parameters = {albumId};
+
+  // Submit the search request to the API and wait for the result.
+  // const data = await libraryApiSearch(authToken, parameters);
+
+  // returnPhotos(res, userId, data, parameters);
+
+  res.json(authToken);
+
 });
 
-app.get('/photos/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
+// Returns all albums owned by the user.
+app.get(albumsPath, async (req, res) => {
+  console.log('Loading albums');
+
+  console.log('Loading albums from API.');
+    // Albums not in cache, retrieve the albums from the Library API
+    // and return them
+    const cognitoToken = req.headers.authorization;
+    const authToken = getGoogleIdToken(cognitoToken);
+    const data = await libraryApiGetAlbums(authToken);
+    if (data.error) {
+      // Error occured during the request. Albums could not be loaded.
+      returnError(res, data);
+    } else {
+      // Albums were successfully loaded from the API. Cache them
+      // temporarily to speed up the next request and return them.
+      // The cache implementation automatically clears the data when the TTL is
+      // reached.
+      res.status(200).send(data);
+    }
 });
 
-/****************************
-* Example post method *
-****************************/
-
-app.post('/photos', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
-
-app.post('/photos/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
-
-/****************************
-* Example put method *
-****************************/
-
-app.put('/photos', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
-
-app.put('/photos/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
-
-/****************************
-* Example delete method *
-****************************/
-
-app.delete('/photos', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/photos/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
 
 app.listen(3000, function() {
     console.log("App started")
