@@ -37,18 +37,46 @@ export const Resume = () => {
                 dateValue, 
                 parseInt(weightValue)
             ]
-            data.push(dataUnit)
-            setData(data);
-            localStorage.setItem('data', JSON.stringify(data));
+            const newYear = parseInt(dateValue.slice(0, 4));
+            const prevYear = parseInt(data[data.length - 1][0].slice(0, 4));
+            const newMonth = parseInt(dateValue.slice(5, 7));
+            const prevMonth = parseInt(data[data.length - 1][0].slice(5, 7));
+            if((newYear === prevYear && newMonth <= prevMonth) || newYear < prevYear) {
+                alert("You can't add data from the past");
+                return
+            }
+            if(newMonth - prevMonth > 1) {
+                fillMonths(dataUnit, prevMonth, newMonth);
+                return
+            }
+            const newData = [...data, dataUnit];
+            setData(newData);
+            localStorage.setItem('data', JSON.stringify(newData));
         } else { 
             return
         }
     }
 
+    const fillMonths = (dataUnit: DataUnit, prevMonth: number, newMonth: number) => {
+        let filledData = [];
+        for(let i = 1; i < newMonth - prevMonth; i++) {
+            const nextMonth = dataUnit[0].slice(0, 5) + (prevMonth < 9 ? "0" + (prevMonth + 1) : prevMonth + 1);
+            const prevWeight = data[data.length - 1][1] as number ;
+            const newWeight: number = dataUnit[1] as number ;
+            const nextWeight = ((newWeight - prevWeight) * i / (newMonth - prevMonth)) + prevWeight;
+            const nextDataUnit = [nextMonth, nextWeight];
+            filledData.push(nextDataUnit);
+        }
+        const newData = [...data, ...filledData, dataUnit];
+        setData(newData);
+        localStorage.setItem('data', JSON.stringify(newData));
+    }
+
+
     const deleteLast = () => {
-        data.pop();
-        setData(data);
-        localStorage.setItem('data', JSON.stringify(data));
+        const newData = data.filter((_, index) => index != data.length - 1);
+        setData(newData);
+        localStorage.setItem('data', JSON.stringify(newData));
     }
 
     const chart = () => {
@@ -80,7 +108,7 @@ export const Resume = () => {
                 animation: {
                     startup: true,
                     duration: 700,
-                    easing: 'inAdnOut',
+                    easing: 'inAndOut',
                 }
             };
     
