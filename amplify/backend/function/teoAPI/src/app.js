@@ -5,7 +5,7 @@ const aws = require('aws-sdk');
 
 const { Parameters } = await (new aws.SSM())
   .getParameters({
-    Names: ["GooglePhotosId","GooglePhotosSecret"].map(secretName => process.env[secretName]),
+    Names: ["teoAlbumId"].map(secretName => process.env[secretName]),
     WithDecryption: true,
   })
   .promise();
@@ -22,21 +22,19 @@ See the License for the specific language governing permissions and limitations 
 
 
 
-
+const aws = require('aws-sdk');
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 
 const {
-  returnPhotos,
   returnError,
+  returnPhotos,
+  libraryApiSearch,
   libraryApiGetAlbums,
-  getFromAlbumCache,
-  putInAlbumCache,
-  clearAlbumCache,
 } = require('./photoActions.js');
 
-const { getGoogleIdToken } = require('./jwtActions.js');
+const { getGoogleAccessToken } = require('./jwtActions.js');
 
 // declare a new express app
 const app = express();
@@ -62,10 +60,16 @@ const albumKeyPath = '/:' + albumIdKey;
 // into the photo frame.
 // Submits a search for all media items in an album to the Library API.
 // Returns a list of photos if this was successful, or an error otherwise.
-app.get(albumsPath + albumKeyPath, async (req, res) => {
-  const albumId = req.params[albumIdKey];
+app.get(basePath, async (req, res) => {
+  const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["teoAlbumId"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  }).promise();
+  const albumId = Parameters[0].Value;
+
   const cognitoToken = req.headers.authorization;
-  const authToken = getGoogleIdToken(cognitoToken);
+  const authToken = getGoogleAccessToken(cognitoToken);
 
   console.log(`Importing album: ${albumId}`);
 
@@ -73,15 +77,12 @@ app.get(albumsPath + albumKeyPath, async (req, res) => {
   // where the only parameter is the album ID.
   // Note that no other filters can be set, so this search will
   // also return videos that are otherwise filtered out in libraryApiSearch(..).
-  const parameters = {albumId};
+  const params = {albumId};
 
   // Submit the search request to the API and wait for the result.
-  // const data = await libraryApiSearch(authToken, parameters);
+  const data = await libraryApiSearch(authToken, params);
 
-  // returnPhotos(res, userId, data, parameters);
-
-  res.json(authToken);
-
+  returnPhotos(res, data, params);
 });
 
 // Returns all albums owned by the user.
@@ -92,7 +93,7 @@ app.get(albumsPath, async (req, res) => {
     // Albums not in cache, retrieve the albums from the Library API
     // and return them
     const cognitoToken = req.headers.authorization;
-    const authToken = getGoogleIdToken(cognitoToken);
+    const authToken = getGoogleAccessToken(cognitoToken);
     const data = await libraryApiGetAlbums(authToken);
     if (data.error) {
       // Error occured during the request. Albums could not be loaded.

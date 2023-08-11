@@ -68,6 +68,14 @@
           "resourceName": "teoAPI"
         }
       ]
+    },
+    "AMPLIFY_function_teoAPI_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "teoAPI"
+        }
+      ]
     }
   }
 }

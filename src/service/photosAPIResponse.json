@@ -1,0 +1,47 @@
+{
+    "parameters": {
+        "albumId": "qdsdfhdsdkq1234"
+    },
+    "photos": [
+        {
+            "baseUrl": "https://lh3.googleusercontent.com/lr/AJUiC1xvNO",
+            "filename": "IMG_20190101_123456.jpg",
+            "id": "qdsdfhdsdkq1234",
+            "mediaMetadata": {
+                "creationTime": "2023-04-18T16:04:02Z",
+                "height": "3024",
+                "photo": {
+                    "apertureFNumber": 1.7,
+                    "cameraMake": "samsung",
+                    "cameraModel": "SM-G950F",
+                    "exposureTime": "0.000625",
+                    "focalLength": 4.25,
+                    "isoEquivalent": 50
+                },
+                "width": "4032"
+            },
+            "mimeType": "image/jpeg",
+            "productUrl": "https://photos.google.com/lr/album/qdsdfhdsdkq1234/photo/123456789123456789"
+        },
+        {
+            "baseUrl": "https://lh3.googleusercontent.com/lr/AJUiC1xvNO",
+            "filename": "IMG_20190101_123456.jpg",
+            "id": "qdsdfhdsdkq1234",
+            "mediaMetadata": {
+                "creationTime": "2023-04-18T16:04:02Z",
+                "height": "3024",
+                "photo": {
+                    "apertureFNumber": 1.7,
+                    "cameraMake": "samsung",
+                    "cameraModel": "SM-G950F",
+                    "exposureTime": "0.000625",
+                    "focalLength": 4.25,
+                    "isoEquivalent": 50
+                },
+                "width": "4032"
+            },
+            "mimeType": "image/jpeg",
+            "productUrl": "https://photos.google.com/lr/album/qdsdfhdsdkq1234/photo/123456789123456789"
+        }
+    ]
+}
