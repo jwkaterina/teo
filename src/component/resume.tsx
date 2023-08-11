@@ -8,19 +8,23 @@ export const Resume = () => {
     type Axis = [string, string];
     type DataUnit = [string, number];
     type Data = [string, number | string][];
+    
+    //TODO: CLEAR TIPES
 
     const axis: Axis = ['Month', "Theodor's weight"];
 
     const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data') as string) : [axis];
 
-
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
-
     const [data, setData] = Reactish.useState(initData);
-    const prevYear = parseInt(data[data.length - 1][0].slice(0, 4));
-    const prevMonth = parseInt(data[data.length - 1][0].slice(5, 7));
-    const prevWeight = data[data.length - 1][1] as number ;
+
+    const prevYear = data.length > 1 ? parseInt(data[data.length - 1][0].slice(0, 4)) : null;
+    const prevMonth = data.length > 1 ? parseInt(data[data.length - 1][0].slice(5, 7)) : null;
+    const prevWeight = data.length > 1 ? data[data.length - 1][1] as number : null;
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+    const currentDate = currentYear + "-" + (currentMonth < 10 ? "0"  + currentMonth  : currentMonth);
 
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
@@ -52,6 +56,12 @@ export const Resume = () => {
             ]
             const newYear = parseInt(dateValue.slice(0, 4));
             const newMonth = parseInt(dateValue.slice(5, 7));
+            if(!prevYear || !prevMonth || (newYear == prevYear && newMonth - prevMonth == 1)) {
+                const newData = [...data, dataUnit];
+                setData(newData);
+                localStorage.setItem('data', JSON.stringify(newData));
+                return
+            }
             if((newYear === prevYear && newMonth <= prevMonth) || newYear < prevYear) {
                 alert("You can't add data from the past");
                 return
@@ -60,9 +70,6 @@ export const Resume = () => {
                 fillMonths(dataUnit, prevMonth, newMonth);
                 return
             }
-            const newData = [...data, dataUnit];
-            setData(newData);
-            localStorage.setItem('data', JSON.stringify(newData));
         } else { 
             return
         }
@@ -96,6 +103,9 @@ export const Resume = () => {
 
 
     const deleteLast = () => {
+        if(data.length < 2) {
+            return
+        }
         const newData = data.filter((_, index) => index != data.length - 1);
         setData(newData);
         localStorage.setItem('data', JSON.stringify(newData));
@@ -152,8 +162,8 @@ export const Resume = () => {
         <h1>resume</h1>
         <p class={evaluateTextClass("hide-text", "animate-text", "keep-text")} onanimationend={onAnimationEnd}>
             <div id="curve_chart" ref={chartRef}>{chart()}</div>
-            <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
-            <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>
+            <input id="date" ref={dateRef} type="month" value={data.length > 1 ? data[data.length - 1][0] : currentDate}/>
+            <input id="weight" ref={weightRef} type="number" step="10" value={data.length > 1 ? data[data.length - 1][1] : 0}/>
             <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
             <button id="undo-chart" class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>
         </p>
