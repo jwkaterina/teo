@@ -52,6 +52,7 @@ app.use(function(req, res, next) {
 const albumIdKey = "albumId";
 const basePath = "/photos";
 const albumsPath = `${basePath}/albums`;
+const sharedAlbumsPath = `${basePath}/sharedAlbums`;
 const albumKeyPath = '/:' + albumIdKey;
 
 
@@ -88,13 +89,31 @@ app.get(basePath, async (req, res) => {
 // Returns all albums owned by the user.
 app.get(albumsPath, async (req, res) => {
   console.log('Loading albums');
-
-  console.log('Loading albums from API.');
     // Albums not in cache, retrieve the albums from the Library API
     // and return them
     const cognitoToken = req.headers.authorization;
     const authToken = getGoogleAccessToken(cognitoToken);
     const data = await libraryApiGetAlbums(authToken);
+    if (data.error) {
+      // Error occured during the request. Albums could not be loaded.
+      returnError(res, data);
+    } else {
+      // Albums were successfully loaded from the API. Cache them
+      // temporarily to speed up the next request and return them.
+      // The cache implementation automatically clears the data when the TTL is
+      // reached.
+      res.status(200).send(data);
+    }
+});
+
+// Returns all albums owned by the user.
+app.get(sharedAlbumsPath, async (req, res) => {
+  console.log('Loading shared albums');
+    // Albums not in cache, retrieve the albums from the Library API
+    // and return them
+    const cognitoToken = req.headers.authorization;
+    const authToken = getGoogleAccessToken(cognitoToken);
+    const data = await libraryApiGetAlbums(authToken, true);
     if (data.error) {
       // Error occured during the request. Albums could not be loaded.
       returnError(res, data);
