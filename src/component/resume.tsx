@@ -112,48 +112,6 @@ export const Resume = () => {
         localStorage.setItem('data', JSON.stringify(newData));
     }
 
-    // const chart = () => {
-    //     const drawChart = () => {
-    //         const chartData = google.visualization.arrayToDataTable(data);
-    
-    //         const  options = {
-    //             curveType: 'function',
-    //             legend: { position: 'top',
-    //                 alignment: 'center',
-    //                 textStyle: {
-    //                     fontSize: 20,
-    //                 }
-    //             },
-    //             colors:['#9ae4b9'],
-    //             hAxis: {
-    //                 title: 'date',
-    //                 titleTextStyle: {
-    //                     fontSize: 20,
-    //                 },
-    //                 showTextEvery: 5,
-    //             },
-    //             vAxis: {
-    //                 title: 'weight, g',
-    //                 titleTextStyle: {
-    //                     fontSize: 20,
-    //                 }
-    //             },
-    //             animation: {
-    //                 startup: true,
-    //                 duration: 700,
-    //                 easing: 'inAndOut',
-    //             }
-    //         };
-    
-    //         const  chart = new google.visualization.LineChart(chartRef.current);
-    
-    //         chart.draw(chartData, options);
-    //     }
-    //     const google = (window as any).google;
-    //     google.charts.load('current', {'packages':['corechart']});
-    //     google.charts.setOnLoadCallback(drawChart);
-    // }
-
     const chart = () => {
         const drawChart = () => {
 
@@ -162,26 +120,25 @@ export const Resume = () => {
             chartData.addColumn('number', "Theodor's Weight");
     
             chartData.addRows(data);
-
-            //TODO: style chartt
     
             var options = {
             chart: {
                 title: "Theodor's Weight",
                 subtitle: 'in grams'
             },
+            titleTextStyle : {
+                fontSize: 25,
+            },
             legend: { 
                 position: 'none',
             },
             colors:['#9ae4b9'],
             hAxis: {
-                showTextEvery: 5,
+                titleTextStyle: {
+                    fontSize: 15,
+                    italic: true,
+                },
             },
-            animation: {
-                startup: true,
-                duration: 700,
-                easing: 'inAndOut',
-            }
             };
     
             var chart = new google.charts.Line(chartRef.current);    

@@ -10,7 +10,7 @@ export const HomeGrid = (props: HomeGridProps) => {
     const {setTypePreview} = Reactish.useContext(TypePreviewContext);
 
     const onHomeClick = (type: string) => {
-        // if(!logged) return;
+        if(!logged) return;
         if(openState == OpenState.CLOSED) {
             setOpenState(OpenState.OPENING);
             setTypePreview(props.typePreview);
