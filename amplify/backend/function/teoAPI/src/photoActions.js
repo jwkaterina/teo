@@ -120,7 +120,7 @@ function constructDate(year, month, day) {
 
 // Returns a list of all albums owner by the logged in user from the Library
 // API.
-async function libraryApiGetAlbums(authToken) {
+async function libraryApiGetAlbums(authToken, shared = false) {
   let albums = [];
   let error = null;
 
@@ -134,7 +134,8 @@ async function libraryApiGetAlbums(authToken) {
       console.log(`Loading albums. Received so far: ${albums.length}`);
       // Make a GET request to load the albums with optional parameters (the
       // pageToken if set).
-      const albumResponse = await fetch(config.apiEndpoint + '/v1/albums?' + parameters, {
+      const suffix = shared ? '/v1/sharedAlbums?' : '/v1/albums?';
+      const albumResponse = await fetch(config.apiEndpoint + suffix + parameters, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
