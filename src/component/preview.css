@@ -93,8 +93,8 @@
   font-size: 3rem;
 }
 
-#book-container p {
-  margin: 0.2rem;
+#book-container section {
+  margin: 1rem;
 }
 
 .hide-text {

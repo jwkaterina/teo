@@ -106,7 +106,7 @@ export const Resume = () => {
         if(data.length < 2) {
             return
         }
-        const newData = data.filter((_, index) => index != data.length - 1);
+        const newData = data.filter((dataUnit, index) => index != data.length - 1);
         setData(newData);
         localStorage.setItem('data', JSON.stringify(newData));
     }
@@ -160,12 +160,12 @@ export const Resume = () => {
         <div class="cross"></div>
         </button>
         <h1>resume</h1>
-        <p class={evaluateTextClass("hide-text", "animate-text", "keep-text")} onanimationend={onAnimationEnd}>
+        <section class={evaluateTextClass("hide-text", "animate-text", "keep-text")} onanimationend={onAnimationEnd}>
             <div id="curve_chart" ref={chartRef}>{chart()}</div>
             <input id="date" ref={dateRef} type="month" value={data.length > 1 ? data[data.length - 1][0] : currentDate}/>
             <input id="weight" ref={weightRef} type="number" step="10" value={data.length > 1 ? data[data.length - 1][1] : 0}/>
             <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
             <button id="undo-chart" class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>
-        </p>
+        </section>
     </div>
 }
