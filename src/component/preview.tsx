@@ -10,7 +10,7 @@ import "./preview.css"
 
 export const Preview = () => {
 
-    const {openState} = Reactish.useContext(OpenPageContext);
+    const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
 
     const evaluateOpenClass = (openingClass: string, openingClassMobile: string, closingClass: string, closingClassMobile: string): string => {
         
@@ -28,16 +28,30 @@ export const Preview = () => {
         return ""
     }
 
-    //TODO: move common logic to props
+    let textClass: string = "";
+        if(openState == OpenState.OPENING || openState == OpenState.CLOSING || openState == OpenState.CLOSED) {
+            textClass = "hide-text"
+        } else if(openState == OpenState.EFFECT) {
+            textClass = "animate-text"
+        } else {if(openState == OpenState.OPEN)
+            textClass = "keep-text"
+        }
+
+
+    const onAnimationEnd = () => {
+        if(openState == OpenState.EFFECT) {
+            setOpenState(OpenState.OPEN);
+        }
+    }
 
     return <section id="preview" class={(openState === OpenState.OPEN || openState === OpenState.EFFECT) ? "show" : ""}>
         <div id="book-top" class={evaluateOpenClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
         <div id="book-bottom" class={evaluateOpenClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
         <div id="book-container">
-            <About/>
-            <Resume/>
-            <Portfolio/>
-            <Blog/>
+            <About textClass={textClass} onAnimationEnd={onAnimationEnd}/>
+            <Resume textClass={textClass} onAnimationEnd={onAnimationEnd}/>
+            <Portfolio textClass={textClass} onAnimationEnd={onAnimationEnd}/>
+            <Blog textClass={textClass} onAnimationEnd={onAnimationEnd}/>
         </div>
     </section>
 }
