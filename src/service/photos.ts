@@ -10,7 +10,7 @@ export const getPhotos = async () => {
                 Authorization: token,
             }
         };
-        const res = await API.get("teo", "/photos/albums", myInit);
+        const res = await API.get("teo", "/photos", myInit);
         return res;
     } catch (e) {
         console.log(e);
