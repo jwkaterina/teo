@@ -4,7 +4,7 @@ import { HomeGrid } from "./home-grid";
 
 import "./home.css"
 
-export const Home = () => {
+export const Home = ({ openClassMobile }) => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {scrollToHome} = Reactish.useContext(ScrollToHomeContext);
@@ -40,23 +40,6 @@ export const Home = () => {
         }
     }
 
-    const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
-        const media = window.matchMedia("(max-width: 1000px)");
-        if(!media.matches) {
-            return ""
-        }
-        if(openState == OpenState.CLOSED) {
-            return closedClassMobile
-        } else if(openState == OpenState.OPENING) {
-            return openingClassMobile
-        } else if(openState == OpenState.OPEN || openState == OpenState.EFFECT) {
-            return openClassMobile
-        } else {
-            return closingClassMobile
-        }
-    }
-
-
     const onAnimationEnd = () => {
         if(openState == OpenState.OPENING) {
             setOpenState(OpenState.EFFECT);
@@ -66,7 +49,7 @@ export const Home = () => {
         }
     }
 
-    return <section id="home" ref={homeRef} class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")} onanimationend={onAnimationEnd}>
+    return <section id="home" ref={homeRef} class={openClassMobile} onanimationend={onAnimationEnd}>
         <div id="home-main">
         <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>

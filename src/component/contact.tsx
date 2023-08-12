@@ -3,7 +3,7 @@ import { OpenPageContext, OpenState } from "../context";
 import { Map } from "./map";
 import "./contact.css";
 
-export const Contact = () => {
+export const Contact = ( { openClassMobile }) => {
 
     enum SubmitState {
         DEFAULT,
@@ -31,22 +31,6 @@ export const Contact = () => {
             setInputs({name: "", email: "", message: ""});
         }
     })
-
-    const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
-        const media = window.matchMedia("(max-width: 1000px)");
-        if(!media.matches) {
-            return ""
-        }
-        if(openState == OpenState.CLOSED) {
-            return closedClassMobile
-        } else if(openState == OpenState.OPENING) {
-            return openingClassMobile
-        } else if(openState == OpenState.OPEN || openState == OpenState.EFFECT) {
-            return openClassMobile
-        } else {
-            return closingClassMobile
-        }
-    }
 
     const submit = (e: SubmitEvent) => {
         e.preventDefault();
@@ -107,13 +91,12 @@ export const Contact = () => {
         }
     }
 
-    const evaluateCheckboxClass = (notShowClass: string, showClass: string) => {
+    let checkboxClass: string;
         if(submitState == SubmitState.SUBMIT_SUCCESS) {
-            return showClass
+            checkboxClass = "animate-checkbox"
         } else {
-            return notShowClass
+            checkboxClass = ""
         }
-    }
 
     const checkboxAnimationEnd = () => {
         setSubmitState(SubmitState.DEFAULT);
@@ -133,8 +116,8 @@ export const Contact = () => {
 
     setTimeout(() => focusInput(), 0);
 
-    return <section id="contact-form" class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
-        <div id="checkbox" class={evaluateCheckboxClass("", "animate-checkbox")} onAnimationend={checkboxAnimationEnd}>
+    return <section id="contact-form" class={openClassMobile}>
+        <div id="checkbox" class={checkboxClass} onAnimationend={checkboxAnimationEnd}>
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">

@@ -1,35 +1,18 @@
 import { Reactish } from "../reactish";
-import { ScrollToHomeContext, OpenPageContext, OpenState } from "../context";
+import { ScrollToHomeContext } from "../context";
 import { Auth } from "./auth";
 
 import "./header.css";
 
-export const Header = (props: any) => {
+export const Header = ({ openClassMobile }) => {
 
     const {scrollToHome, setScrollToHome} = Reactish.useContext(ScrollToHomeContext);
-    const {openState} = Reactish.useContext(OpenPageContext);
     const [txtElementRef] = Reactish.useRef<HTMLElement>();
     //example of how to use useRef to store a value outside the state.
     // const [clicksRef, setClicks] = Reactish.useRef(0);
 
     if(scrollToHome) {
         setScrollToHome(false);
-    }
-
-    const evaluateOpenClassMobile = (closedClassMobile: string, openingClassMobile: string, openClassMobile: string, closingClassMobile: string): string => {
-        const media = window.matchMedia("(max-width: 1000px)");
-        if(!media.matches) {
-            return ""
-        }
-        if(openState == OpenState.CLOSED) {
-            return closedClassMobile
-        } else if(openState == OpenState.OPENING) {
-            return openingClassMobile
-        } else if(openState == OpenState.OPEN || openState == OpenState.EFFECT) {
-            return openClassMobile
-        } else {
-            return closingClassMobile
-        }
     }
     
     setTimeout(() => Typing(txtElementRef.current).type(), 0);
@@ -72,7 +55,7 @@ export const Header = (props: any) => {
     }
 
     return <header >
-        <div id="header" class={evaluateOpenClassMobile("", "animate-mobile", "keep-mobile", "animate-reverse-mobile")}>
+        <div id="header" class={openClassMobile}>
             <div id="header-content">
                 <Auth/>
                 <h1 id="Heading">Theodor 

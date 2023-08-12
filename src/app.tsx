@@ -26,6 +26,17 @@ export const App = (props: any): ReactishEntity => {
 
     const media = window.matchMedia("(max-width: 1000px)");
 
+    let openClassMobile: string;
+    if(!media.matches || openState == OpenState.CLOSED) {
+        openClassMobile = ""
+    } else if(openState == OpenState.OPENING) {
+        openClassMobile = "animate-mobile"
+    } else if(openState == OpenState.OPEN || openState == OpenState.EFFECT) {
+        openClassMobile = "keep-mobile"
+    } else {
+        openClassMobile = "animate-reverse-mobile"
+    }
+
     if(openState == OpenState.CLOSED) {
         document.body.style.overflow = 'auto';
         document.documentElement.style.overflow = "auto";
@@ -40,10 +51,10 @@ export const App = (props: any): ReactishEntity => {
         <TypePreviewContext.Provider value={{typePreview, setTypePreview}}/>
         <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}/>
         <AuthContext.Provider value={{logged, setLogged}}/>
-        <Header/>
-        <Home/>
+        <Header openClassMobile={openClassMobile}/>
+        <Home openClassMobile={openClassMobile}/>
         <Preview/>
-        <Contact/>
+        <Contact openClassMobile={openClassMobile}/>
         <Footer/>
     </>
     }

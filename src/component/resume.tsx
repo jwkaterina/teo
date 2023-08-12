@@ -9,7 +9,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     type Data = DataUnit[];
 
     const dateOfBirth = "2021-08";
-    const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data') as string) : [[dateOfBirth, 0]];
+    const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [[dateOfBirth, 0]];
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
@@ -19,9 +19,9 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     const prevMonth: number = parseInt(data[data.length - 1][0].slice(5, 7));
     const prevWeight: number = data[data.length - 1][1];
 
-    const currentYear: number = new Date().getFullYear();
-    const currentMonth: number = new Date().getMonth() + 1;
-    const currentDate: string = currentYear + "-" + (currentMonth < 10 ? "0"  + currentMonth  : currentMonth);
+    // const currentYear: number = new Date().getFullYear();
+    // const currentMonth: number = new Date().getMonth() + 1;
+    // const currentDate: string = currentYear + "-" + (currentMonth < 10 ? "0"  + currentMonth  : currentMonth);
 
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
