@@ -36,7 +36,15 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
                 </div>
               );
         } else {
-            return <p>loading...</p>
+            let divs = [];
+            for(let i = 0; i < 20; i++) {
+                divs.push(<div class="gallery-item animate-item"></div>);
+            }
+            return (
+                <div id="gallery">
+                    {divs}
+                </div>
+            );
         }
     }
 
