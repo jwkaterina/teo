@@ -15,8 +15,14 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
     Reactish.useEffect([], () => {
         getPhotos()
             .then((photos) => {
-                setPhotos(photos.photos);
-                // console.log(photos);
+                let photosArray = photos.photos.map((photo) => {
+                    return {
+                        id: photo.id, 
+                        url: photo.baseUrl, 
+                        date: photo.mediaMetadata.creationTime
+                    }
+                });
+                setPhotos(photosArray);
             }).catch((err) => {
                 console.log(err);
             });
@@ -29,8 +35,8 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
             return (
                 <div id="gallery">
                     {photos.map((photo) => 
-                    <div class="gallery-item">
-                        <img src={`${photo.baseUrl}=w${width}-h${height}`} alt="" />
+                    <div key={photo.id} date={photo.date} class="gallery-item">
+                        <img src={`${photo.url}=w${width}-h${height}`} alt="" />
                     </div>
                     )}
                 </div>
@@ -48,6 +54,12 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
         }
     }
 
+    const sortPhotos = (year) => {
+        const thisPhotos = photos.filter(photo => {
+            return photo.date.substring(0, 4) == year
+        })
+    }
+
     if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "portfolio") return <></>
 
     return <div id="portfolio">
@@ -56,6 +68,11 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
             </button>
             <h1>portfolio</h1>
             <section class={textClass} onanimationend={onAnimationEnd}>
+                <div id="dates">
+                    <div class="date" onclick={() => sortPhotos(2021)}>2021</div>
+                    <div class="date" onclick={() => sortPhotos(2022)}>2022</div>
+                    <div class="date" onclick={() => sortPhotos(2023)}>2023</div>
+                </div>
                 {loadPhotos()}
             </section>
     </div>

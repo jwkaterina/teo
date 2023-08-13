@@ -16,10 +16,27 @@
 }
 
 .animate-item {
-    background: linear-gradient(-45deg,#9ae4b9, #f3f6f4, #9ae4b9);
+    background: linear-gradient(-45deg, #9ae4b9, #f3f6f4, #9ae4b9);
     background-size: 400% 400%;
     border: none;
     animation: gradient 3s ease infinite;
+}
+
+#dates {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1rem 0;
+    cursor: pointer;
+}
+
+.date {
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.date:hover {
+    color: #9ae4b9;
 }
 
 @keyframes gradient {
