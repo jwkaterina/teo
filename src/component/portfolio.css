@@ -15,6 +15,25 @@
     height: 100%;
 }
 
+.animate-item {
+    background: linear-gradient(-45deg,#9ae4b9, #f3f6f4, #9ae4b9);
+    background-size: 400% 400%;
+    border: none;
+    animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+    }
+}
+
 @media (max-width: 700px) {
     #gallery {
         grid-template-columns: repeat(1, 1fr);
