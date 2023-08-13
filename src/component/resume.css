@@ -36,7 +36,6 @@
     outline: none;
     font-weight: 300;
     cursor: pointer;
- 
 }
 
 #submit-chart {
@@ -59,4 +58,18 @@
 #undo-chart:hover {
     background-color: #9ae4b9;
     border: 1.5px solid #9ae4b9;
+}
+
+@media (max-width: 700px) {
+    #resume .btn-submit {
+        width: 100%;
+    }
+
+    #weight, #date {
+        width: 45%;
+    }
+
+    #date {
+        margin-right: 10%;
+    }
 }

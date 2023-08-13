@@ -88,6 +88,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
 
     const deleteLast = () => {
+        //TODO: delete last array
         if(data.length < 2) {
             return
         }
@@ -99,13 +100,13 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     const chart = () => {
         const drawChart = () => {
 
-            var chartData = new google.visualization.DataTable();
+            const chartData = new google.visualization.DataTable();
             chartData.addColumn('string', 'Date');
             chartData.addColumn('number', "Theodor's Weight");
     
             chartData.addRows(data);
     
-            var options = {
+            const options = {
             chart: {
                 title: "Theodor's Weight",
                 subtitle: 'in grams'
@@ -125,7 +126,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
             },
             };
     
-            var chart = new google.charts.Line(chartRef.current);    
+            const chart = new google.charts.Line(chartRef.current);    
             chart.draw(chartData, google.charts.Line.convertOptions(options));
         }
 
@@ -133,6 +134,9 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         google.charts.load('current', {'packages':['line']});
         google.charts.setOnLoadCallback(drawChart);
     }
+
+    // const memorizedChart = Reactish.useMemo([openState], () => chart());
+
 
     if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "resume") return <></>
 

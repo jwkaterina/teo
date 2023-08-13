@@ -23,7 +23,7 @@ export const Contact = ( { openClassMobile }) => {
     const [nameRef] = Reactish.useRef<HTMLInputElement>();
     const [emailRef] = Reactish.useRef<HTMLInputElement>();
     const [messageRef] = Reactish.useRef<HTMLInputElement>();
-    const memoaizedMap = Reactish.useMemo([], () => Map());
+    const memorizedMap = Reactish.useMemo([], () => Map());
 
     Reactish.useEffect([openState], () => {
         if(openState == OpenState.OPEN) {
@@ -121,7 +121,7 @@ export const Contact = ( { openClassMobile }) => {
             <i class="far fa-check-circle fa-8x"></i>
         </div>
         <div id="contact-grid">
-            <div id="map-container" dangerouslySetInnerHTML={memoaizedMap} />
+            <div id="map-container" dangerouslySetInnerHTML={memorizedMap} />
             <div id="form" onsubmit={(e: SubmitEvent) => submit(e)}>
                 <form action="">
                     <p class="upper">Drop me a line</p>

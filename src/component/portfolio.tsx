@@ -23,8 +23,8 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
     })
 
     const loadPhotos = () => {
-        const width = 240;
-        const height = 240;
+        const width = 200;
+        const height = 150;
         if(photos.length > 0) {
             return (
                 <div id="gallery">
