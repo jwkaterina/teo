@@ -23,7 +23,11 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
                         date: photo.mediaMetadata.creationTime
                     }
                 });
-                setPhotos(photosArray);
+                const shuffledArray = photosArray
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(({ value }) => value)
+                setPhotos(shuffledArray);
             }).catch((err) => {
                 console.log(err);
             });
@@ -56,6 +60,7 @@ const Gallery = ({photos, year}) => {
         setPhoto(url);
     }
 
+
     const width = 200;
     const height = 150;
     let thisPhotos;
@@ -68,10 +73,11 @@ const Gallery = ({photos, year}) => {
     }
    
     if(photos.length > 0) {
+
         return (
             <div id="gallery">
                 {thisPhotos.map((photo) => 
-                <div key={photo.id} date={photo.date} class="gallery-item" onclick={() => openPhoto(photo.url)}>
+                <div key={photo.id} date={photo.date} class="gallery-item fade-in" onclick={() => openPhoto(photo.url)}>
                     <img src={`${photo.url}=w${width}-h${height}`} alt="" />
                 </div>
                 )}
@@ -80,7 +86,7 @@ const Gallery = ({photos, year}) => {
     } else {   
         let divs = [];
         for(let i = 0; i < 20; i++) {
-            divs.push(<div class="gallery-item animate-item"></div>);
+            divs.push(<div class="animate-item"></div>);
         }
         return (
             <div id="gallery">

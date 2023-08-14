@@ -12,15 +12,30 @@
     transition: all 0.3s ease;
 }
 
+.fade-in {
+    animation: fade-in 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .gallery-item img {
     height: 100%;
 }
 
 .gallery-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 .animate-item {
+    width: 250px;
+    height: 150px;
     background: linear-gradient(-45deg, #9ae4b9, #f3f6f4, #9ae4b9);
     background-size: 400% 400%;
     border: none;
