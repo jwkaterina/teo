@@ -54,6 +54,7 @@ const Gallery = ({photos, year}) => {
 
     const openPhoto = (id) => {
         setOpaque(true);
+        console.log(id);
     }
     
     const width = 200;

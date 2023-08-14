@@ -1,5 +1,5 @@
 import { Reactish } from "../reactish";
-import { OpenPageContext, OpenState, ScrollToHomeContext } from "../context";
+import { OpenPageContext, OpenState, ScrollToHomeContext, OpaqueContext } from "../context";
 import { HomeGrid } from "./home-grid";
 
 import "./home.css"
@@ -8,6 +8,7 @@ export const Home = ({ openClassMobile }) => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {scrollToHome} = Reactish.useContext(ScrollToHomeContext);
+    const {opaque} = Reactish.useContext(OpaqueContext);
     const [homeRef] = Reactish.useRef<HTMLElement>();
 
     Reactish.useEffect([openState], () => {
@@ -50,7 +51,7 @@ export const Home = ({ openClassMobile }) => {
     }
 
     return <section id="home" ref={homeRef} class={openClassMobile} onanimationend={onAnimationEnd}>
-        <div id="home-main">
+        <div id="home-main" class={opaque? "opaque" : ""}>
             <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>
                 <HomeGrid id="home-portfolio" iconClass="fas fa-briefcase fa-2x" header="portfolio" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="portfolio"/>
