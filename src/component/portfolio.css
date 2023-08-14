@@ -9,10 +9,15 @@
     width: 250px;
     height: 150px;
     border: 1px solid #9ae4b9;
+    transition: all 0.3s ease;
 }
 
 .gallery-item img {
     height: 100%;
+}
+
+.gallery-item:hover {
+    transform: scale(1.1);
 }
 
 .animate-item {

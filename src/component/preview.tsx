@@ -1,5 +1,5 @@
 import { Reactish } from "../reactish";
-import { OpenPageContext, OpenState } from "../context";
+import { OpenPageContext, OpenState, OpaqueContext } from "../context";
 
 import { About } from "./about";
 import { Resume } from "./resume";
@@ -11,6 +11,7 @@ import "./preview.css"
 export const Preview = () => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
+    const {opaque} = Reactish.useContext(OpaqueContext);
 
     const evaluateOpenClass = (openingClass: string, openingClassMobile: string, closingClass: string, closingClassMobile: string): string => {
         
@@ -44,7 +45,16 @@ export const Preview = () => {
         }
     }
 
-    return <section id="preview" class={(openState === OpenState.OPEN || openState === OpenState.EFFECT) ? "show" : ""}>
+    let previewClass = "";
+    if((openState == OpenState.OPEN || openState == OpenState.EFFECT) && opaque) {
+        previewClass = "show opaque";
+    } else if((openState == OpenState.OPEN || openState == OpenState.EFFECT) && !opaque) {
+        previewClass = "show";
+    } else {
+        previewClass = ""
+    }
+
+    return <section id="preview" class={previewClass}>
         <div id="book-top" class={evaluateOpenClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
         <div id="book-bottom" class={evaluateOpenClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
         <div id="book-container">

@@ -1,4 +1,4 @@
-import { OpenPageContext, OpenState, TypePreviewContext, AuthContext } from "../context";
+import { OpenPageContext, OpenState, TypePreviewContext, AuthContext, OpaqueContext } from "../context";
 import { Reactish } from "../reactish";
 import { getPhotos } from "../service/photos";
 
@@ -50,6 +50,12 @@ export const Portfolio = ({ textClass, onAnimationEnd }) => {
 }
 
 const Gallery = ({photos, year}) => {
+    const {setOpaque} = Reactish.useContext(OpaqueContext);
+
+    const openPhoto = (id) => {
+        setOpaque(true);
+        
+
     const width = 200;
     const height = 150;
     let thisPhotos;
@@ -65,7 +71,7 @@ const Gallery = ({photos, year}) => {
         return (
             <div id="gallery">
                 {thisPhotos.map((photo) => 
-                <div key={photo.id} date={photo.date} class="gallery-item">
+                <div key={photo.id} date={photo.date} class="gallery-item" onclick={() => openPhoto(photo.id)}>
                     <img src={`${photo.url}=w${width}-h${height}`} alt="" />
                 </div>
                 )}
