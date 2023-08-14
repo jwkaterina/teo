@@ -36,9 +36,9 @@ export interface AuthContextProperty {
     setLogged: (newValue: boolean) => void;
 }
 
-export const OpaqueContext = Reactish.createContext({opaque: false} as OpaqueContextProperty);
+export const PhotoContext = Reactish.createContext({photo: null} as PhotoContextProperty);
 
-export interface OpaqueContextProperty {
-    opaque: boolean;
-    setOpaque: (newValue: boolean) => void;
+export interface PhotoContextProperty {
+    photo: string | null;
+    setPhoto: (newValue: string | null) => void;
 }
