@@ -7,13 +7,17 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
     type DataUnit = [string, number];
     type Data = DataUnit[];
+    type History = Data[];
 
+    // localStorage.clear();
     const dateOfBirth = "2021-08";
     const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [[dateOfBirth, 0]];
+    const initHistory: History = localStorage.getItem('history') ? JSON.parse(localStorage.getItem('history')) : [initData];
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
     const [data, setData] = Reactish.useState(initData);
+    const [history, setHistory] = Reactish.useState(initHistory);
 
     const prevYear: number = parseInt(data[data.length - 1][0].slice(0, 4));
     const prevMonth: number = parseInt(data[data.length - 1][0].slice(5, 7));
@@ -40,8 +44,11 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
             const newMonth: number = parseInt(dateValue.slice(5, 7));
             if(newYear == prevYear && newMonth - prevMonth == 1) {
                 const newData = [...data, dataUnit];
+                const newHistory = [...history, newData];
                 setData(newData);
+                setHistory(newHistory);
                 localStorage.setItem('data', JSON.stringify(newData));
+                localStorage.setItem('history', JSON.stringify(newHistory));
                 return
             }
             if((newYear === prevYear && newMonth <= prevMonth) || newYear < prevYear) {
@@ -82,19 +89,25 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
             filledData.push(nextDataUnit);
         }
         const newData = [...data, ...filledData, dataUnit];
-        setData([...data, ...filledData, dataUnit]);
+        const newHistory = [...history, newData];
+        setData(newData);
+        setHistory(newHistory);
         localStorage.setItem('data', JSON.stringify(newData));
+        localStorage.setItem('history', JSON.stringify(newHistory));
     }
 
 
     const deleteLast = () => {
         //TODO: delete last array
-        if(data.length < 2) {
+        if(history.length < 2) {
             return
         }
-        const newData = data.filter((dataUnit, index) => index != data.length - 1);
-        setData(newData);
-        localStorage.setItem('data', JSON.stringify(newData));
+        const currentHistory = history.filter((item, index) => index !== history.length - 1);
+        setHistory(currentHistory);
+        const currentData: Data = currentHistory[currentHistory.length - 1];
+        setData(currentData);
+        localStorage.setItem('data', JSON.stringify(currentData));
+        localStorage.setItem('history', JSON.stringify(currentHistory));
     }
 
     const chart = () => {
