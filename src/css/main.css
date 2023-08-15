@@ -1,3 +1,6 @@
+:root {
+  --book-animation-duration : 0.3s;
+}
 
 * {
   margin: 0;
