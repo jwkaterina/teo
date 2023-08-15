@@ -98,7 +98,6 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
 
     const deleteLast = () => {
-        //TODO: delete last array
         if(history.length < 2) {
             return
         }
