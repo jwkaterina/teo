@@ -19,9 +19,10 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     const [data, setData] = Reactish.useState(initData);
     const [history, setHistory] = Reactish.useState(initHistory);
 
+    // console.log(new Date(data[data.length - 1][0]));
     const prevYear: number = parseInt(data[data.length - 1][0].slice(0, 4));
     const prevMonth: number = parseInt(data[data.length - 1][0].slice(5, 7));
-    const prevWeight: number = data[data.length - 1][1];
+    // const prevWeight: number = data[data.length - 1][1];
 
     // const currentYear: number = new Date().getFullYear();
     // const currentMonth: number = new Date().getMonth() + 1;
@@ -29,7 +30,6 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
-    const [chartRef] = Reactish.useRef<HTMLElement>();
 
     const addData = () => {
         const dateValue: string = dateRef.current.value;
@@ -56,7 +56,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
                 return
             }
             if(newMonth - prevMonth > 1 || newYear !== prevYear) {
-                fillMonths(dataUnit, prevMonth, newMonth);
+                fillMonths(dataUnit, newMonth, newYear);
                 return
             }
         } else { 
@@ -64,31 +64,24 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         }
     }
 
-    const fillMonths = (dataUnit: DataUnit, prevMonth: number, newMonth: number) => {
-        const newWeight: number = dataUnit[1];
-        const newYear: number = parseInt(dataUnit[0].slice(0, 4));
+    const fillMonths = (dataUnit: DataUnit, newMonth: number, newYear: number) => {
         let filledData: Data = [];
-        let diff: number;
-        if(newMonth > prevMonth) { 
-            diff = newMonth - prevMonth;
-        } else {
-            diff = 12 - prevMonth + newMonth;
-        }
-
-        //TODO: fill gap in years
-
-        for(let i = 1; i < diff; i++) {
+        const [prevDate, prevWeight] = data[data.length - 1];
+        const [newDate, newWeight] = dataUnit;
+        const diff = (newMonth - prevMonth) + 12 * (newYear - prevYear);
+    
+        for(let i = 1; i <= diff; i++) {
             const nextWeight: number = ((newWeight - prevWeight) * i / diff) + prevWeight;
-            let nextMonth: string;
-            if(prevMonth + i < 13) {
-                nextMonth = prevYear + "-"  + (prevMonth + i < 10 ? "0" + (prevMonth + i) : prevMonth + i);
-            } else {
-                nextMonth = newYear + "-" + (prevMonth + i - 12 < 10 ? "0" + (prevMonth + i - 12) : prevMonth + i - 12);
-            }
+
+            const date = new Date(prevDate);
+            date.setMonth(prevMonth - 1 + i);
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const nextMonth = `${year}-${month}`;
             const nextDataUnit: DataUnit = [nextMonth, nextWeight];
             filledData.push(nextDataUnit);
         }
-        const newData = [...data, ...filledData, dataUnit];
+        const newData = [...data, ...filledData];
         const newHistory = [...history, newData];
         setData(newData);
         setHistory(newHistory);
@@ -109,13 +102,84 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         localStorage.setItem('history', JSON.stringify(currentHistory));
     }
 
+    const [chartRef] = Reactish.useRef<HTMLElement>();
+
     const chart = () => {
+
         const drawChart = () => {
+
 
             const chartData = new google.visualization.DataTable();
             chartData.addColumn('string', 'Date');
             chartData.addColumn('number', "Theodor's Weight");
     
+            // console.log(data);
+
+            chartData.addRows(data);
+    
+            const options = {
+            chart: {
+                title: "Theodor's Weight",
+                subtitle: 'in grams'
+            },
+            titleTextStyle : {
+                fontSize: 25,
+            },
+            legend: { 
+                position: 'none',
+            },
+            colors:['#9ae4b9'],
+            hAxis: {
+                titleTextStyle: {
+                    fontSize: 15,
+                    italic: true,
+                },
+            },
+            };
+    
+            const chart = new google.charts.Line(chartRef.current);    
+            chart.draw(chartData, google.charts.Line.convertOptions(options));
+        }
+
+        const google = (window as any).google;
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+    }
+
+    if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "resume") return <></>
+
+    return <div id="resume">
+        <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>
+        <div class="cross"></div>
+        </button>
+        <h1>resume</h1>
+        <section class={textClass} onanimationend={onAnimationEnd}>
+            {/* <Chart data={data}/> */}
+            return <div id="curve_chart" ref={chartRef}>{chart()}</div>
+
+            <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
+            <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>
+            <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
+            <button id="undo-chart" class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>
+        </section>
+    </div>
+}
+
+const Chart = (data) => {
+
+    const [chartRef] = Reactish.useRef<HTMLElement>();
+
+    const chart = () => {
+
+        const drawChart = () => {
+
+
+            const chartData = new google.visualization.DataTable();
+            chartData.addColumn('string', 'Date');
+            chartData.addColumn('number', "Theodor's Weight");
+    
+            console.log(chartData);
+
             chartData.addRows(data);
     
             const options = {
@@ -149,20 +213,5 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
     // const memorizedChart = Reactish.useMemo([openState], () => chart());
 
-
-    if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "resume") return <></>
-
-    return <div id="resume">
-        <button class="btn-close"  onclick={() => setOpenState(OpenState.CLOSING)}>
-        <div class="cross"></div>
-        </button>
-        <h1>resume</h1>
-        <section class={textClass} onanimationend={onAnimationEnd}>
-            <div id="curve_chart" ref={chartRef}>{chart()}</div>
-            <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
-            <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>
-            <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
-            <button id="undo-chart" class="btn-submit upper"  onclick={() => {deleteLast()}}>Undo</button>
-        </section>
-    </div>
+    return <div id="curve_chart" ref={chartRef}>{chart()}</div>
 }
