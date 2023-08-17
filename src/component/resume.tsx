@@ -9,7 +9,6 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     type Data = DataUnit[];
     type History = Data[];
 
-    // localStorage.clear();
     const dateOfBirth = "2021-08";
     const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [[dateOfBirth, 0]];
     const initHistory: History = localStorage.getItem('history') ? JSON.parse(localStorage.getItem('history')) : [initData];
@@ -19,10 +18,9 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     const [data, setData] = Reactish.useState(initData);
     const [history, setHistory] = Reactish.useState(initHistory);
 
-    // console.log(new Date(data[data.length - 1][0]));
-    const prevYear: number = parseInt(data[data.length - 1][0].slice(0, 4));
-    const prevMonth: number = parseInt(data[data.length - 1][0].slice(5, 7));
-    // const prevWeight: number = data[data.length - 1][1];
+    const [prevDate, prevWeight] = data[data.length - 1];
+    const prevYear: number = parseInt(prevDate.slice(0, 4));
+    const prevMonth: number = parseInt(prevDate.slice(5, 7));
 
     // const currentYear: number = new Date().getFullYear();
     // const currentMonth: number = new Date().getMonth() + 1;
@@ -66,8 +64,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
     const fillMonths = (dataUnit: DataUnit, newMonth: number, newYear: number) => {
         let filledData: Data = [];
-        const [prevDate, prevWeight] = data[data.length - 1];
-        const [newDate, newWeight] = dataUnit;
+        const newWeight = dataUnit[1];
         const diff = (newMonth - prevMonth) + 12 * (newYear - prevYear);
     
         for(let i = 1; i <= diff; i++) {
@@ -155,7 +152,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         <h1>resume</h1>
         <section class={textClass} onanimationend={onAnimationEnd}>
             {/* <Chart data={data}/> */}
-            return <div id="curve_chart" ref={chartRef}>{chart()}</div>
+            <div id="curve_chart" ref={chartRef}>{chart()}</div>
 
             <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>
@@ -165,53 +162,53 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     </div>
 }
 
-const Chart = (data) => {
+// const Chart = (data) => {
 
-    const [chartRef] = Reactish.useRef<HTMLElement>();
+//     const [chartRef] = Reactish.useRef<HTMLElement>();
 
-    const chart = () => {
+//     const chart = () => {
 
-        const drawChart = () => {
+//         const drawChart = () => {
 
 
-            const chartData = new google.visualization.DataTable();
-            chartData.addColumn('string', 'Date');
-            chartData.addColumn('number', "Theodor's Weight");
+//             const chartData = new google.visualization.DataTable();
+//             chartData.addColumn('string', 'Date');
+//             chartData.addColumn('number', "Theodor's Weight");
     
-            console.log(chartData);
+//             console.log(chartData);
 
-            chartData.addRows(data);
+//             chartData.addRows(data);
     
-            const options = {
-            chart: {
-                title: "Theodor's Weight",
-                subtitle: 'in grams'
-            },
-            titleTextStyle : {
-                fontSize: 25,
-            },
-            legend: { 
-                position: 'none',
-            },
-            colors:['#9ae4b9'],
-            hAxis: {
-                titleTextStyle: {
-                    fontSize: 15,
-                    italic: true,
-                },
-            },
-            };
+//             const options = {
+//             chart: {
+//                 title: "Theodor's Weight",
+//                 subtitle: 'in grams'
+//             },
+//             titleTextStyle : {
+//                 fontSize: 25,
+//             },
+//             legend: { 
+//                 position: 'none',
+//             },
+//             colors:['#9ae4b9'],
+//             hAxis: {
+//                 titleTextStyle: {
+//                     fontSize: 15,
+//                     italic: true,
+//                 },
+//             },
+//             };
     
-            const chart = new google.charts.Line(chartRef.current);    
-            chart.draw(chartData, google.charts.Line.convertOptions(options));
-        }
+//             const chart = new google.charts.Line(chartRef.current);    
+//             chart.draw(chartData, google.charts.Line.convertOptions(options));
+//         }
 
-        const google = (window as any).google;
-        google.charts.load('current', {'packages':['line']});
-        google.charts.setOnLoadCallback(drawChart);
-    }
+//         const google = (window as any).google;
+//         google.charts.load('current', {'packages':['line']});
+//         google.charts.setOnLoadCallback(drawChart);
+//     }
 
-    // const memorizedChart = Reactish.useMemo([openState], () => chart());
+//     // const memorizedChart = Reactish.useMemo([openState], () => chart());
 
-    return <div id="curve_chart" ref={chartRef}>{chart()}</div>
-}
+//     return <div id="curve_chart" ref={chartRef}>{chart()}</div>
+// }
