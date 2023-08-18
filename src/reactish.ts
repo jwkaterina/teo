@@ -31,6 +31,13 @@ interface DomOrReactishComponent {
     entity: ReactishEntity;
 }
 
+type HTMLElementFunction = (element: HTMLElement)=>void;
+
+interface DOMFunction {
+    func: HTMLElementFunction,
+    element: HTMLElement
+}
+
 /** 
  * Pragma function.
  * This is the entry point.
@@ -121,18 +128,18 @@ const runReactishComponent = (fn: Function, props: any, children: ReactishChildr
     return reactish;
 }
 
-const createMultipleDOM = (components: TraversedComponent[]): (HTMLElement | Text)[] => {
-    return components.map(component => createSingleDOM(component));
+const createMultipleDOM = (components: TraversedComponent[], domFunctions: DOMFunction[]): (HTMLElement | Text)[] => {
+    return components.map(component => createSingleDOM(component, domFunctions));
 }
 
-const createSingleDOM = (parent: TraversedComponent): HTMLElement | Text => {
+const createSingleDOM = (parent: TraversedComponent, domFunctions: DOMFunction[]): HTMLElement | Text => {
     const dom = createHTMLElement(parent);
-    updateDOM(dom, parent.props);
+    updateDOM(dom, parent.props, domFunctions);
 
     if(parent.traversedChildren) {
         for (const childEntity of parent.traversedChildren) {
             //recursion
-            appendChild(dom, childEntity);
+            appendChild(dom, childEntity, domFunctions);
         }
     }
 
@@ -149,10 +156,11 @@ const createHTMLElement = (component: TraversedComponent): HTMLElement | Text =>
 
 const isEvent = (key: string) => key.startsWith('on');
 const isRef = (key: string) => key === 'ref';
+const isApply = (key: string) => key === 'apply';
 const isInnerHTML = (key: string) => key === 'dangerouslySetInnerHTML';
 const isFunction = (value: any) => typeof value === 'function';
 
-const updateDOM = (dom: HTMLElement | Text, props: any) => {
+const updateDOM = (dom: HTMLElement | Text, props: any, domFunctions: DOMFunction[]) => {
     Object.entries(props || {}).forEach(([name, value]) => {
         if (isEvent(name) && name.toLowerCase() in window) {
             if(isFunction(value)) {
@@ -172,11 +180,15 @@ const updateDOM = (dom: HTMLElement | Text, props: any) => {
                 const entity = innerHTML.entity;
                 if(Array.isArray(entity)) {
                     const traversedEntity = traverseMultiple(entity);
-                    appendChild(dom, traversedEntity);
+                    appendChild(dom, traversedEntity, domFunctions);
                 } else {
                     const traversedEntity = traverseSingle(entity);
-                    appendChild(dom, traversedEntity);
+                    appendChild(dom, traversedEntity, domFunctions);
                 }
+            }
+        } else if(isApply(name)) {
+            if(dom.nodeType != Node.TEXT_NODE && isFunction(value)) {
+                domFunctions.push({func: value as HTMLElementFunction, element: dom as HTMLElement});
             }
         } else {
             if(dom.nodeType != Node.TEXT_NODE) {
@@ -187,10 +199,10 @@ const updateDOM = (dom: HTMLElement | Text, props: any) => {
     return;
 }
 
-const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity) => {
+const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity, domFunctions: DOMFunction[]) => {
     if(Array.isArray(childEntity)) {
         //recursion
-        const children = createMultipleDOM(childEntity);
+        const children = createMultipleDOM(childEntity, domFunctions);
         for (const child of children) {
             if(isFragment(child)) {
                 (parent as HTMLElement).append(...(child as HTMLElement).childNodes);
@@ -199,7 +211,7 @@ const appendChild = (parent: HTMLElement | Text, childEntity: TraversedEntity) =
             }
         }
     } else {
-        const child = createSingleDOM(childEntity);
+        const child = createSingleDOM(childEntity, domFunctions);
         if(isFragment(child)) {
             (parent as HTMLElement).append(...(child as HTMLElement).childNodes);
         } else {
@@ -249,7 +261,8 @@ const renderWithState = (state: any[]) => {
         }
 
         //preparing new dom
-        const domElements: (HTMLElement | Text)[] = createMultipleDOM(traverseComponents);
+        const domFunctions: DOMFunction[] = [];
+        const domElements: (HTMLElement | Text)[] = createMultipleDOM(traverseComponents, domFunctions);
 
         //deleting the old dom
         while(_root.firstChild) {
@@ -263,6 +276,10 @@ const renderWithState = (state: any[]) => {
             } else {
                 _root.appendChild(dom);
             }
+        }
+
+        for (const domFunction of domFunctions) {
+            domFunction.func(domFunction.element);
         }
 }
 

@@ -28,6 +28,51 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
+    const [chartRef, setChartRef] = Reactish.useRef<HTMLElement>();
+
+    
+
+    const chart = (el: HTMLElement) => {
+
+        const drawChart = () => {
+
+            setChartRef(el);
+
+
+            const chartData = new google.visualization.DataTable();
+            chartData.addColumn('string', 'Date');
+            chartData.addColumn('number', "Theodor's Weight");
+
+            chartData.addRows(data);
+    
+            const options = {
+            chart: {
+                title: "Theodor's Weight",
+                subtitle: 'in grams'
+            },
+            titleTextStyle : {
+                fontSize: 25,
+            },
+            legend: { 
+                position: 'none',
+            },
+            colors:['#9ae4b9'],
+            hAxis: {
+                titleTextStyle: {
+                    fontSize: 15,
+                    italic: true,
+                },
+            },
+            };
+    
+            const chart = new google.charts.Line(el);    
+            chart.draw(chartData, google.charts.Line.convertOptions(options));
+        }
+
+        const google = (window as any).google;
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+    }
 
     const addData = () => {
         const dateValue: string = dateRef.current.value;
@@ -99,50 +144,6 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         localStorage.setItem('history', JSON.stringify(currentHistory));
     }
 
-    const [chartRef] = Reactish.useRef<HTMLElement>();
-
-    const chart = () => {
-
-        const drawChart = () => {
-
-
-            const chartData = new google.visualization.DataTable();
-            chartData.addColumn('string', 'Date');
-            chartData.addColumn('number', "Theodor's Weight");
-    
-            // console.log(data);
-
-            chartData.addRows(data);
-    
-            const options = {
-            chart: {
-                title: "Theodor's Weight",
-                subtitle: 'in grams'
-            },
-            titleTextStyle : {
-                fontSize: 25,
-            },
-            legend: { 
-                position: 'none',
-            },
-            colors:['#9ae4b9'],
-            hAxis: {
-                titleTextStyle: {
-                    fontSize: 15,
-                    italic: true,
-                },
-            },
-            };
-    
-            const chart = new google.charts.Line(chartRef.current);    
-            chart.draw(chartData, google.charts.Line.convertOptions(options));
-        }
-
-        const google = (window as any).google;
-        google.charts.load('current', {'packages':['line']});
-        google.charts.setOnLoadCallback(drawChart);
-    }
-
     if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "resume") return <></>
 
     return <div id="resume">
@@ -151,9 +152,11 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         </button>
         <h1>resume</h1>
         <section class={textClass} onanimationend={onAnimationEnd}>
-            {/* <Chart data={data}/> */}
-            <div id="curve_chart" ref={chartRef}>{chart()}</div>
-
+            {
+                chartRef.current
+                ? <div id="chart_container" dangerouslySetInnerHTML={{entity: null, ref: chartRef}}></div>
+                : <div id="chart_container"><div id="curve_chart" apply={chart}></div></div>
+            }
             <input id="date" ref={dateRef} type="month" value={data[data.length - 1][0]}/>
             <input id="weight" ref={weightRef} type="number" step="10" value={data[data.length - 1][1]}/>
             <button id="submit-chart" class="btn-submit upper" type="submit" onclick={() => {addData()}}>Submit</button>            
@@ -161,54 +164,3 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         </section>
     </div>
 }
-
-// const Chart = (data) => {
-
-//     const [chartRef] = Reactish.useRef<HTMLElement>();
-
-//     const chart = () => {
-
-//         const drawChart = () => {
-
-
-//             const chartData = new google.visualization.DataTable();
-//             chartData.addColumn('string', 'Date');
-//             chartData.addColumn('number', "Theodor's Weight");
-    
-//             console.log(chartData);
-
-//             chartData.addRows(data);
-    
-//             const options = {
-//             chart: {
-//                 title: "Theodor's Weight",
-//                 subtitle: 'in grams'
-//             },
-//             titleTextStyle : {
-//                 fontSize: 25,
-//             },
-//             legend: { 
-//                 position: 'none',
-//             },
-//             colors:['#9ae4b9'],
-//             hAxis: {
-//                 titleTextStyle: {
-//                     fontSize: 15,
-//                     italic: true,
-//                 },
-//             },
-//             };
-    
-//             const chart = new google.charts.Line(chartRef.current);    
-//             chart.draw(chartData, google.charts.Line.convertOptions(options));
-//         }
-
-//         const google = (window as any).google;
-//         google.charts.load('current', {'packages':['line']});
-//         google.charts.setOnLoadCallback(drawChart);
-//     }
-
-//     // const memorizedChart = Reactish.useMemo([openState], () => chart());
-
-//     return <div id="curve_chart" ref={chartRef}>{chart()}</div>
-// }
