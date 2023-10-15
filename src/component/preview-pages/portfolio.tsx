@@ -1,32 +1,40 @@
-import { OpenPageContext, OpenState, TypePreviewContext, AuthContext, PhotoContext } from "../context";
-import { Reactish } from "../reactish";
-import { getPhotos } from "../service/photos";
+import { OpenPageContext, OpenState, TypePreviewContext, AuthContext, PhotoContext } from "../../context";
+import { Reactish, ReactishEntity } from "../../reactish";
+import { getPhotos } from "../../service/photos";
+import PreviewPagesProps from "./preview-pages";
 
 import "./portfolio.css";
 
-export const Portfolio = ({ textClass, onAnimationEnd }) => {
+export const Portfolio = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
+    type Photo = {
+        id: string,
+        baseUrl: string,
+        mediaMetadata: {
+            creationTime: string
+        }
+    }
 
-    const [photos, setPhotos] = Reactish.useState([]);
-
+    const [photos, setPhotos] = Reactish.useState<Photo[]>([]);
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
     const {logged} = Reactish.useContext(AuthContext);
-    const [year, setYear] = Reactish.useState(null);
+    const [year, setYear] = Reactish.useState<number | null>(null);
 
     Reactish.useEffect([], () => {
         getPhotos()
             .then((photos) => {
-                let photosArray = photos.photos.map((photo) => {
+                let photosArray = photos.photos.map((photo: Photo) => {
                     return {
                         id: photo.id, 
                         url: photo.baseUrl, 
                         date: photo.mediaMetadata.creationTime
                     }
                 });
+
                 const shuffledArray = photosArray
-                .map(value => ({ value, sort: Math.random() }))
-                .sort((a, b) => a.sort - b.sort)
-                .map(({ value }) => value)
+                    .map(value => ({ value, sort: Math.random() }))
+                    .sort((a, b) => a.sort - b.sort)
+                    .map(({ value }) => value)
                 setPhotos(shuffledArray);
             }).catch((err) => {
                 console.log(err);

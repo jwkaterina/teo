@@ -1,7 +1,8 @@
-import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
-import { Reactish } from "../reactish";
+import { OpenPageContext, OpenState, TypePreviewContext } from "../../context";
+import { Reactish, ReactishEntity } from "../../reactish";
+import PreviewPagesProps from "./preview-pages";
 
-export const Blog = ({ textClass, onAnimationEnd }) => {
+export const Blog = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);

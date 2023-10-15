@@ -1,10 +1,10 @@
 import { Reactish } from "../reactish";
 import { OpenPageContext, OpenState } from "../context";
 
-import { About } from "./about";
-import { Resume } from "./resume";
-import { Portfolio } from "./portfolio";
-import { Blog } from "./blog";
+import { About } from "./preview-pages/about";
+import { Resume } from "./preview-pages/resume";
+import { Portfolio } from "./preview-pages/portfolio";
+import { Blog } from "./preview-pages/blog";
 
 import "./preview.css"
 

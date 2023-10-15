@@ -1,9 +1,10 @@
-import { OpenPageContext, OpenState, TypePreviewContext } from "../context";
-import { Reactish } from "../reactish";
+import { OpenPageContext, OpenState, TypePreviewContext } from "../../context";
+import { Reactish, ReactishEntity } from "../../reactish";
+import PreviewPagesProps from "./preview-pages";
 
 import "./resume.css"
 
-export const Resume = ({ textClass, onAnimationEnd }) => {
+export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
 
     type DataUnit = [string, number];
     type Data = DataUnit[];
@@ -15,8 +16,8 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
-    const [data, setData] = Reactish.useState(initData);
-    const [history, setHistory] = Reactish.useState(initHistory);
+    const [data, setData] = Reactish.useState<Data>(initData);
+    const [history, setHistory] = Reactish.useState<History>(initHistory);
 
     const [prevDate, prevWeight] = data[data.length - 1];
     const prevYear: number = parseInt(prevDate.slice(0, 4));

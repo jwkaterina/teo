@@ -5,7 +5,7 @@ import { AuthContext } from "../context";
 
 import "./auth.css";
 
-export const Auth = (props: any): ReactishEntity => {
+export const Auth = (): ReactishEntity => {
   const {logged, setLogged} = Reactish.useContext(AuthContext);
 
   Reactish.useEffect([], () => {
