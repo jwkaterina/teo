@@ -22,22 +22,22 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
     const prevYear: number = parseInt(prevDate.slice(0, 4));
     const prevMonth: number = parseInt(prevDate.slice(5, 7));
 
-    // const currentYear: number = new Date().getFullYear();
-    // const currentMonth: number = new Date().getMonth() + 1;
-    // const currentDate: string = currentYear + "-" + (currentMonth < 10 ? "0"  + currentMonth  : currentMonth);
-
     const [dateRef] = Reactish.useRef<HTMLInputElement>();
     const [weightRef] = Reactish.useRef<HTMLInputElement>();
     const [chartRef, setChartRef] = Reactish.useRef<HTMLElement>();
 
-    
+    Reactish.useEffect([data.length], () => {
+        if(chartRef.current) {
+            console.log("update");
+            chart(chartRef.current);
+        }
+    });
 
     const chart = (el: HTMLElement) => {
 
         const drawChart = () => {
 
             setChartRef(el);
-
 
             const chartData = new google.visualization.DataTable();
             chartData.addColumn('string', 'Date');
@@ -46,23 +46,23 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
             chartData.addRows(data);
     
             const options = {
-            chart: {
-                title: "Theodor's Weight",
-                subtitle: 'in grams'
-            },
-            titleTextStyle : {
-                fontSize: 25,
-            },
-            legend: { 
-                position: 'none',
-            },
-            colors:['#9ae4b9'],
-            hAxis: {
-                titleTextStyle: {
-                    fontSize: 15,
-                    italic: true,
+                chart: {
+                    title: "Theodor's Weight",
+                    subtitle: 'in grams'
                 },
-            },
+                titleTextStyle : {
+                    fontSize: 25,
+                },
+                legend: { 
+                    position: 'none',
+                },
+                colors:['#9ae4b9'],
+                hAxis: {
+                    titleTextStyle: {
+                        fontSize: 15,
+                        italic: true,
+                    },
+                },
             };
     
             const chart = new google.charts.Line(el);    
