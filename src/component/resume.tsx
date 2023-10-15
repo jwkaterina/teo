@@ -28,7 +28,6 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
 
     Reactish.useEffect([data.length], () => {
         if(chartRef.current) {
-            console.log("update");
             chart(chartRef.current);
         }
     });
@@ -88,10 +87,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
             if(newYear == prevYear && newMonth - prevMonth == 1) {
                 const newData = [...data, dataUnit];
                 const newHistory = [...history, newData];
-                setData(newData);
-                setHistory(newHistory);
-                localStorage.setItem('data', JSON.stringify(newData));
-                localStorage.setItem('history', JSON.stringify(newHistory));
+                saveData(newData, newHistory);
                 return
             }
             if((newYear === prevYear && newMonth <= prevMonth) || newYear < prevYear) {
@@ -125,10 +121,7 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
         }
         const newData = [...data, ...filledData];
         const newHistory = [...history, newData];
-        setData(newData);
-        setHistory(newHistory);
-        localStorage.setItem('data', JSON.stringify(newData));
-        localStorage.setItem('history', JSON.stringify(newHistory));
+        saveData(newData, newHistory);
     }
 
 
@@ -137,11 +130,19 @@ export const Resume = ({ textClass, onAnimationEnd }) => {
             return
         }
         const currentHistory = history.filter((item, index) => index !== history.length - 1);
-        setHistory(currentHistory);
         const currentData: Data = currentHistory[currentHistory.length - 1];
-        setData(currentData);
-        localStorage.setItem('data', JSON.stringify(currentData));
-        localStorage.setItem('history', JSON.stringify(currentHistory));
+        saveData(currentData, currentHistory);
+    }
+
+    const saveData = (data: Data, history: History) => {
+        setData(data);
+        setHistory(history);
+        saveToLocalStorage(data, history);
+    }
+
+    const saveToLocalStorage = (data: Data, history: History) => {
+        localStorage.setItem('data', JSON.stringify(data));
+        localStorage.setItem('history', JSON.stringify(history));
     }
 
     if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "resume") return <></>
