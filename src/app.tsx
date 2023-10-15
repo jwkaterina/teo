@@ -1,5 +1,5 @@
 import { Reactish, ReactishEntity } from "./reactish";
-import { OpenPageContext, OpenState, ScrollToHomeContext, TypePreviewContext, AuthContext, PhotoContext } from "./context";
+import { OpenState, ContextProviders } from "./context";
 import { Header } from "./component/header";
 import { Home } from "./component/home";
 import { Preview } from "./component/preview";
@@ -11,13 +11,9 @@ import awsconfig from './aws-exports';
 
 import "./css/main.css";
 
-export const App = (props: any): ReactishEntity => {
+export const App = (): ReactishEntity => {
 
-    const [openState, setOpenState] = Reactish.useState(OpenState.CLOSED);
-    const [typePreview, setTypePreview] = Reactish.useState("");
-    const [scrollToHome, setScrollToHome] = Reactish.useState(false);
-    const [logged, setLogged] = Reactish.useState(false);
-    const [photo, setPhoto] = Reactish.useState(null);
+    const [openState] = Reactish.useState(OpenState.CLOSED);
 
     Reactish.useEffect([], () => {
         awsconfig.oauth.redirectSignIn = `${window.location.origin}/`;
@@ -48,15 +44,14 @@ export const App = (props: any): ReactishEntity => {
     }
     
     return <>
-        <OpenPageContext.Provider value={{openState, setOpenState}}/>
-        <TypePreviewContext.Provider value={{typePreview, setTypePreview}}/>
-        <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}/>
-        <AuthContext.Provider value={{logged, setLogged}}/>
-        <PhotoContext.Provider value={{photo, setPhoto}}/>
-        <Header openClassMobile={openClassMobile}/>
-        <Home openClassMobile={openClassMobile}/>
-        <Preview/>
-        <Contact openClassMobile={openClassMobile}/>
+        <ContextProviders>
+            <>
+            <Header openClassMobile={openClassMobile}/>
+            <Home openClassMobile={openClassMobile}/>
+            <Preview/>
+            <Contact openClassMobile={openClassMobile}/>
+            </>
+        </ContextProviders>
         <Footer/>
     </>
     }

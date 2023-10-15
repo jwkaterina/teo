@@ -49,8 +49,8 @@ const [scrollToHome, setScrollToHome] = Reactish.useState(false);
 const [logged, setLogged] = Reactish.useState(false);
 const [photo, setPhoto] = Reactish.useState(null);
 
-export const ContextProviders = (children : ReactishComponent[]): ReactishComponent => {
-    <OpenPageContext.Provider value={{openState, setOpenState}}>
+export const ContextProviders = (props: any, children : ReactishComponent[]): ReactishComponent => {
+    return <OpenPageContext.Provider value={{openState, setOpenState}}>
         <TypePreviewContext.Provider value={{typePreview, setTypePreview}}>
             <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}>
                 <AuthContext.Provider value={{logged, setLogged}}>
