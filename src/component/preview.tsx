@@ -1,4 +1,4 @@
-import { Reactish } from "../reactish";
+import { Reactish, ReactishEntity } from "../reactish";
 import { OpenPageContext, OpenState } from "../context";
 
 import { About } from "./preview-pages/about";
@@ -8,7 +8,7 @@ import { Blog } from "./preview-pages/blog";
 
 import "./preview.css"
 
-export const Preview = () => {
+export const Preview = (): ReactishEntity => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
 

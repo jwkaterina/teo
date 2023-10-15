@@ -1,8 +1,13 @@
-import { Reactish, Ref } from "../reactish";
+import { Reactish, ReactishEntity, Ref } from "../reactish";
 import mapboxgl from "mapbox-gl";
 import "./map.css"
 
-export const Map = () => {
+interface MapProps {
+    entity: ReactishEntity,
+    ref: Ref<HTMLElement>
+}
+
+export const Map = (): MapProps => {
 
     const [mapRef] = Reactish.useRef<HTMLElement>();
 

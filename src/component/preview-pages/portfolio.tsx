@@ -1,7 +1,7 @@
 import { OpenPageContext, OpenState, TypePreviewContext, AuthContext, PhotoContext } from "../../context";
 import { Reactish, ReactishEntity } from "../../reactish";
 import { getPhotos } from "../../service/photos";
-import PreviewPagesProps from "./preview-pages";
+import PreviewPagesProps from "./preview-pages-props";
 
 import "./portfolio.css";
 

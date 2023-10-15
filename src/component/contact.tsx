@@ -1,9 +1,10 @@
-import { Reactish } from "../reactish";
+import { Reactish, ReactishEntity } from "../reactish";
 import { OpenPageContext, OpenState } from "../context";
 import { Map } from "./map";
+import MobileProps from "./mobile-props";
 import "./contact.css";
 
-export const Contact = ( { openClassMobile }) => {
+export const Contact = ( { openClassMobile }: MobileProps): ReactishEntity => {
 
     enum SubmitState {
         DEFAULT,
@@ -17,7 +18,7 @@ export const Contact = ( { openClassMobile }) => {
         message: string
     }
 
-    const [submitState, setSubmitState] = Reactish.useState(SubmitState.DEFAULT);
+    const [submitState, setSubmitState] = Reactish.useState<SubmitState>(SubmitState.DEFAULT);
     const [inputs, setInputs] = Reactish.useState<Inputs>({name: "", email: "", message: ""});
     const {openState} = Reactish.useContext(OpenPageContext);
     const [nameRef] = Reactish.useRef<HTMLInputElement>();
@@ -34,9 +35,9 @@ export const Contact = ( { openClassMobile }) => {
 
     const submit = (e: SubmitEvent) => {
         e.preventDefault();
-        const name = nameRef.current.value;
-        const email = emailRef.current.value;
-        const message = messageRef.current.value;
+        const name: string = nameRef.current.value;
+        const email: string = emailRef.current.value;
+        const message: string = messageRef.current.value;
         console.log(name, email, message);
 
         setInputs({
@@ -76,7 +77,7 @@ export const Contact = ( { openClassMobile }) => {
         }
     }
 
-    const emailIsValid = (email = inputs.email) => {
+    const emailIsValid = (email: string = inputs.email) => {
         const re = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
         if(!re.test(email)) {
             return false

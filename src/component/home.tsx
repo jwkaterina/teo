@@ -1,10 +1,11 @@
-import { Reactish } from "../reactish";
+import { Reactish, ReactishEntity } from "../reactish";
 import { OpenPageContext, OpenState, ScrollToHomeContext, PhotoContext } from "../context";
 import { HomeGrid } from "./home-grid";
+import MobileProps from "./mobile-props";
 
 import "./home.css"
 
-export const Home = ({ openClassMobile }) => {
+export const Home = ({ openClassMobile }: MobileProps): ReactishEntity => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {scrollToHome} = Reactish.useContext(ScrollToHomeContext);

@@ -1,6 +1,6 @@
 import { OpenPageContext, OpenState, TypePreviewContext } from "../../context";
 import { Reactish, ReactishEntity } from "../../reactish";
-import PreviewPagesProps from "./preview-pages";
+import PreviewPagesProps from "./preview-pages-props";
 import "./about.css";
 
 
