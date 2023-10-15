@@ -43,22 +43,24 @@ export interface PhotoContextProperty {
     setPhoto: (newValue: string | null) => void;
 }
 
-const [openState, setOpenState] = Reactish.useState(OpenState.CLOSED);
-const [typePreview, setTypePreview] = Reactish.useState("");
-const [scrollToHome, setScrollToHome] = Reactish.useState(false);
-const [logged, setLogged] = Reactish.useState(false);
-const [photo, setPhoto] = Reactish.useState(null);
-
 export const ContextProviders = (props: any, children : ReactishComponent[]): ReactishComponent => {
-    return <OpenPageContext.Provider value={{openState, setOpenState}}>
-        <TypePreviewContext.Provider value={{typePreview, setTypePreview}}>
-            <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}>
-                <AuthContext.Provider value={{logged, setLogged}}>
-                    <PhotoContext.Provider value={{photo, setPhoto}}>
-                        {children}
-                    </PhotoContext.Provider>
-                </AuthContext.Provider>
-            </ScrollToHomeContext.Provider>
-        </TypePreviewContext.Provider>
-    </OpenPageContext.Provider>
+    const [openState, setOpenState] = Reactish.useState(OpenState.CLOSED);
+    const [typePreview, setTypePreview] = Reactish.useState("");
+    const [scrollToHome, setScrollToHome] = Reactish.useState(false);
+    const [logged, setLogged] = Reactish.useState(false);
+    const [photo, setPhoto] = Reactish.useState(null);
+
+    return <>
+        <OpenPageContext.Provider value={{openState, setOpenState}}>
+            <TypePreviewContext.Provider value={{typePreview, setTypePreview}}>
+                <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}>
+                    <AuthContext.Provider value={{logged, setLogged}}>
+                        <PhotoContext.Provider value={{photo, setPhoto}}>
+                            {children}
+                        </PhotoContext.Provider>
+                    </AuthContext.Provider>
+                </ScrollToHomeContext.Provider>
+            </TypePreviewContext.Provider>
+        </OpenPageContext.Provider>
+    </>
 }
