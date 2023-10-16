@@ -355,7 +355,7 @@ export const Reactish = (() => {
         effectIdx++;
     }
 
-    const useMemo = (dependencies: any[], cb: ()=>any) => {
+    const useMemo = (dependencies: any[], cb: ()=>any): any => {
         const currentIndex: number = memoIdx;
         memoIdx++;
         const oldDeps = memoDependency[currentIndex];

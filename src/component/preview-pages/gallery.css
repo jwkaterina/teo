@@ -1,0 +1,43 @@
+#gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    grid-gap: 3rem;
+}
+
+.gallery-item {
+    width: 250px;
+    height: 150px;
+    border: 1px solid #9ae4b9;
+    transition: all 0.3s ease;
+}
+
+.fade-in {
+    animation: fade-in 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.gallery-item img {
+    height: 100%;
+}
+
+.gallery-item:hover {
+    transform: scale(1.2);
+}
+
+.animate-item {
+    width: 250px;
+    height: 150px;
+    background: linear-gradient(-45deg, #9ae4b9, #f3f6f4, #9ae4b9);
+    background-size: 400% 400%;
+    border: none;
+    animation: gradient 3s ease infinite;
+}
