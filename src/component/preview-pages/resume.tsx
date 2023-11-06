@@ -33,6 +33,48 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
         }
     });
 
+    //Material chart
+    // const chart = (el: HTMLElement) => {
+
+    //     const drawChart = () => {
+
+    //         setChartRef(el);
+
+    //         const chartData = new google.visualization.DataTable();
+    //         chartData.addColumn('string', 'Date');
+    //         chartData.addColumn('number', "Theodor's Weight");
+
+    //         chartData.addRows(data);
+    
+    //         const options = {
+    //             chart: {
+    //                 title: "Theodor's Weight",
+    //                 subtitle: 'in grams'
+    //             },
+    //             titleTextStyle : {
+    //                 fontSize: 25,
+    //             },
+    //             legend: { 
+    //                 position: 'none',
+    //             },
+    //             colors:['#9ae4b9'],
+    //             hAxis: {
+    //                 titleTextStyle: {
+    //                     fontSize: 15,
+    //                     italic: true,
+    //                 },
+    //             },
+    //         };
+    
+    //         const chart = new google.charts.Line(el);    
+    //         chart.draw(chartData, google.charts.Line.convertOptions(options));
+    //     }
+
+    //     const google = (window as any).google;
+    //     google.charts.load('current', {'packages':['line']});
+    //     google.charts.setOnLoadCallback(drawChart);
+    // }
+
     const chart = (el: HTMLElement) => {
 
         const drawChart = () => {
@@ -63,14 +105,19 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
                         italic: true,
                     },
                 },
+                animation:{
+                    duration: 1000,
+                    easing: 'out',
+                    startup: true,
+                  },
             };
     
-            const chart = new google.charts.Line(el);    
-            chart.draw(chartData, google.charts.Line.convertOptions(options));
+            const chart = new google.visualization.LineChart(el);    
+            chart.draw(chartData, options);
         }
 
         const google = (window as any).google;
-        google.charts.load('current', {'packages':['line']});
+        google.charts.load("current", {packages: ["corechart"]});        
         google.charts.setOnLoadCallback(drawChart);
     }
 
