@@ -1,45 +1,29 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-const { getAlbumId } = require('./ssm')
+const express = require('express')
+const bodyParser = require('body-parser')
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
+const { getGoogleAccessToken } = require('./dynamodb.js')
 const {
-  returnError,
   returnPhotos,
   libraryApiSearch,
-  libraryApiGetAlbums,
-} = require('./photoActions.js');
+} = require('./photoActions.js')
+const { getAlbumId } = require('./ssm.js')
 
 // declare a new express app
-const app = express();
-app.use(bodyParser.json());
-app.use(awsServerlessExpressMiddleware.eventContext());
+const app = express()
+app.use(bodyParser.json())
+app.use(awsServerlessExpressMiddleware.eventContext())
 
 // Enable CORS for all methods
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "*")
+  next()
 });
 
-
-const albumIdKey = "albumId";
-const basePath = "/photos";
-const albumsPath = `${basePath}/albums`;
-const sharedAlbumsPath = `${basePath}/sharedAlbums`;
-const albumKeyPath = '/:' + albumIdKey;
-
-
-// Handles selections from the album page where an album ID is submitted.
-// The user has selected an album and wants to load photos from an album
-// into the photo frame.
-// Submits a search for all media items in an album to the Library API.
-// Returns a list of photos if this was successful, or an error otherwise.
-app.get(basePath, async (req, res) => {
+app.get('/photos', async function(req, res) {
+  const authToken = await getGoogleAccessToken();
   const albumId = await getAlbumId();
-
-  // const authToken = getGoogleAccessToken(cognitoToken);
-
   console.log(`Importing album: ${albumId}`);
 
   // To list all media in an album, construct a search request
@@ -53,47 +37,6 @@ app.get(basePath, async (req, res) => {
 
   returnPhotos(res, data, params);
 });
-
-// Returns all albums owned by the user.
-app.get(albumsPath, async (req, res) => {
-  console.log('Loading albums');
-    // Albums not in cache, retrieve the albums from the Library API
-    // and return them
-    // const authToken = getGoogleAccessToken(cognitoToken);
-    const authToken = null;
-    const data = await libraryApiGetAlbums(authToken);
-    if (data.error) {
-      // Error occured during the request. Albums could not be loaded.
-      returnError(res, data);
-    } else {
-      // Albums were successfully loaded from the API. Cache them
-      // temporarily to speed up the next request and return them.
-      // The cache implementation automatically clears the data when the TTL is
-      // reached.
-      res.status(200).send(data);
-    }
-});
-
-// Returns all albums owned by the user.
-app.get(sharedAlbumsPath, async (req, res) => {
-  console.log('Loading shared albums');
-    // Albums not in cache, retrieve the albums from the Library API
-    // and return them
-    // const authToken = getGoogleAccessToken(cognitoToken);
-    const authToken = null;
-    const data = await libraryApiGetAlbums(authToken, true);
-    if (data.error) {
-      // Error occured during the request. Albums could not be loaded.
-      returnError(res, data);
-    } else {
-      // Albums were successfully loaded from the API. Cache them
-      // temporarily to speed up the next request and return them.
-      // The cache implementation automatically clears the data when the TTL is
-      // reached.
-      res.status(200).send(data);
-    }
-});
-
 
 app.listen(3000, function() {
     console.log("App started")

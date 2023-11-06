@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.2.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.7.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -14,9 +14,6 @@
       "Type": "String"
     },
     "s3Key": {
-      "Type": "String"
-    },
-    "secretsPathAmplifyAppId": {
       "Type": "String"
     }
   },
@@ -72,28 +69,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "teoAlbumId": {
-              "Fn::Join": [
-                "",
-                [
-                  {
-                    "Fn::Sub": [
-                      "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
-                      {
-                        "appId": {
-                          "Ref": "secretsPathAmplifyAppId"
-                        },
-                        "env": {
-                          "Ref": "env"
-                        },
-                        "functionName": "teoAPI"
-                      }
-                    ]
-                  },
-                  "teoAlbumId"
-                ]
-              ]
             }
           }
         },
@@ -114,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "teoLambdaRolec374a4bd",
+            "teoLambdaRole62da7749",
             {
               "Fn::Join": [
                 "",
                 [
-                  "teoLambdaRolec374a4bd",
+                  "teoLambdaRole62da7749",
                   "-",
                   {
                     "Ref": "env"
@@ -190,62 +165,43 @@
         }
       }
     },
-    "AmplifyFunctionSecretsPolicy": {
+    "CustomLambdaExecutionPolicy": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
-        "PolicyName": "amplify-function-secrets-policy",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
+        "PolicyName": "custom-lambda-execution-policy",
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
             {
-              "Effect": "Allow",
               "Action": [
-                "ssm:GetParameter",
-                "ssm:GetParameters"
+                "dynamodb:DescribeTable",
+                "dynamodb:GetItem"
               ],
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:ssm:",
-                    {
-                      "Ref": "AWS::Region"
-                    },
-                    ":",
-                    {
-                      "Ref": "AWS::AccountId"
-                    },
-                    ":parameter",
-                    {
-                      "Fn::Sub": [
-                        "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
-                        {
-                          "appId": {
-                            "Ref": "secretsPathAmplifyAppId"
-                          },
-                          "env": {
-                            "Ref": "env"
-                          },
-                          "functionName": "teoAPI"
-                        }
-                      ]
-                    },
-                    "*"
-                  ]
-                ]
-              }
+              "Resource": [
+                "arn:aws:dynamodb:eu-central-1:258557321580:table/google-dev",
+                "arn:aws:dynamodb:eu-central-1:258557321580:table/google-dev/index/*"
+              ],
+              "Effect": "Allow"
+            },
+            {
+              "Action": [
+                "ssm:PutParameter",
+                "ssm:GetParametersByPath"
+              ],
+              "Resource": [
+                "arn:aws:ssm:eu-central-1:258557321580:parameter/amplify/teoSecrets/*"
+              ],
+              "Effect": "Allow"
             }
           ]
-        }
+        },
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ]
       },
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ]
+      "DependsOn": "LambdaExecutionRole"
     }
   },
   "Outputs": {

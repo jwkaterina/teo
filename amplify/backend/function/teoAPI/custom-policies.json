@@ -1,6 +1,13 @@
 [
   {
-    "Action": [],
-    "Resource": []
+    "Action": ["dynamodb:DescribeTable", "dynamodb:GetItem"],
+    "Resource": [
+      "arn:aws:dynamodb:eu-central-1:258557321580:table/google-dev",
+      "arn:aws:dynamodb:eu-central-1:258557321580:table/google-dev/index/*"
+    ]
+  },
+  {
+    "Action": ["ssm:PutParameter", "ssm:GetParametersByPath"],
+    "Resource": ["arn:aws:ssm:eu-central-1:258557321580:parameter/amplify/teoSecrets/*"]
   }
 ]

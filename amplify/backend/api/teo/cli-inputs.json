@@ -7,7 +7,10 @@
       "permissions": {
         "groups": {
           "user": [
-            "read"
+            "create",
+            "read",
+            "update",
+            "delete"
           ]
         },
         "setting": "private"

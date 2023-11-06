@@ -1,29 +1,34 @@
-const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
+const { SSMClient, GetParametersByPathCommand } = require('@aws-sdk/client-ssm');
 
 const ssmClient = new SSMClient({});
 
 async function getAlbumId() {
 
     try {
-        const albumId = await getSsmParams("teoAlbumId");
+        const params = await getSsmParams();
 
-        return albumId;
+        return params.albumId;
     } catch(err) {
         console.log("Cannot get SSM Params:", err);
         return null
     }
 }
 
-async function getSsmParams(key) {
+async function getSsmParams() {
+    const paramPrefix = `/amplify/teoSecrets/${process.env["ENV"]}/`;
 
     const { Parameters } = await ssmClient.send(
-        new GetParameterCommand({
-        Name: process.env[key],
+        new GetParametersByPathCommand({
+        Path: paramPrefix,
         WithDecryption: true,
         })
     );
 
-    return Parameters[0].Value;
+    return Parameters.reduce((acc, param) => {
+        const key = param.Name.split('/').pop();
+        acc[key] = param.Value;
+        return acc;
+    }, {});
 }
 
 module.exports = {

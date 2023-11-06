@@ -17,8 +17,7 @@
         "photosLambda": {},
         "teoAPI": {
           "deploymentBucketName": "amplify-teo-dev-154903-deployment",
-          "s3Key": "amplify-builds/teoAPI-5a452f53747549416e57-build.zip",
-          "secretsPathAmplifyAppId": "dfufv0uyl5hkx"
+          "s3Key": "amplify-builds/teoAPI-674c4c6462484e6f3775-build.zip"
         }
       },
       "auth": {
