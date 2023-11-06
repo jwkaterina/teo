@@ -9,6 +9,20 @@
           ],
           "category": "function",
           "resourceName": "teoAPI"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "teo1d6e23bf"
+        },
+        {
+          "attributes": [
+            "userGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -16,7 +30,7 @@
     }
   },
   "auth": {
-    "teof808668c": {
+    "teo1d6e23bf": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -29,7 +43,9 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "EMAIL"
+          "EMAIL",
+          "FAMILY_NAME",
+          "GIVEN_NAME"
         ],
         "socialProviders": [
           "GOOGLE"
@@ -43,6 +59,22 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    },
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "teo1d6e23bf"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
     }
   },
   "function": {

@@ -1,31 +1,7 @@
-/*
-Use the following code to retrieve configured secrets from SSM:
-
-const aws = require('aws-sdk');
-
-const { Parameters } = await (new aws.SSM())
-  .getParameters({
-    Names: ["teoAlbumId"].map(secretName => process.env[secretName]),
-    WithDecryption: true,
-  })
-  .promise();
-
-Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
-*/
-/*
-Copyright 2017 - 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
-    http://aws.amazon.com/apache2.0/
-or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
-*/
-
-
-
-const aws = require('aws-sdk');
 const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+const { getAlbumId } = require('./ssm')
 
 const {
   returnError,
@@ -33,8 +9,6 @@ const {
   libraryApiSearch,
   libraryApiGetAlbums,
 } = require('./photoActions.js');
-
-const { getGoogleAccessToken } = require('./jwtActions.js');
 
 // declare a new express app
 const app = express();
@@ -62,15 +36,9 @@ const albumKeyPath = '/:' + albumIdKey;
 // Submits a search for all media items in an album to the Library API.
 // Returns a list of photos if this was successful, or an error otherwise.
 app.get(basePath, async (req, res) => {
-  const { Parameters } = await (new aws.SSM())
-  .getParameters({
-    Names: ["teoAlbumId"].map(secretName => process.env[secretName]),
-    WithDecryption: true,
-  }).promise();
-  const albumId = Parameters[0].Value;
+  const albumId = await getAlbumId();
 
-  const cognitoToken = req.headers.authorization;
-  const authToken = getGoogleAccessToken(cognitoToken);
+  // const authToken = getGoogleAccessToken(cognitoToken);
 
   console.log(`Importing album: ${albumId}`);
 
@@ -91,8 +59,8 @@ app.get(albumsPath, async (req, res) => {
   console.log('Loading albums');
     // Albums not in cache, retrieve the albums from the Library API
     // and return them
-    const cognitoToken = req.headers.authorization;
-    const authToken = getGoogleAccessToken(cognitoToken);
+    // const authToken = getGoogleAccessToken(cognitoToken);
+    const authToken = null;
     const data = await libraryApiGetAlbums(authToken);
     if (data.error) {
       // Error occured during the request. Albums could not be loaded.
@@ -111,8 +79,8 @@ app.get(sharedAlbumsPath, async (req, res) => {
   console.log('Loading shared albums');
     // Albums not in cache, retrieve the albums from the Library API
     // and return them
-    const cognitoToken = req.headers.authorization;
-    const authToken = getGoogleAccessToken(cognitoToken);
+    // const authToken = getGoogleAccessToken(cognitoToken);
+    const authToken = null;
     const data = await libraryApiGetAlbums(authToken, true);
     if (data.error) {
       // Error occured during the request. Albums could not be loaded.

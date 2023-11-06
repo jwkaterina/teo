@@ -5,10 +5,12 @@
       "name": "/photos",
       "lambdaFunction": "teoAPI",
       "permissions": {
-        "setting": "private",
-        "auth": [
-          "read"
-        ]
+        "groups": {
+          "user": [
+            "read"
+          ]
+        },
+        "setting": "private"
       }
     }
   }
