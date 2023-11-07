@@ -1,5 +1,5 @@
 import { Reactish, ReactishEntity } from "../reactish";
-import { OpenPageContext, OpenState, ScrollToHomeContext, PhotoContext } from "../context";
+import { OpenPageContext, OpenState, ScrollToHomeContext } from "../context";
 import { HomeGrid } from "./home-grid";
 import MobileProps from "./mobile-props";
 
@@ -9,7 +9,6 @@ export const Home = ({ openClassMobile }: MobileProps): ReactishEntity => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {scrollToHome} = Reactish.useContext(ScrollToHomeContext);
-    const {photo} = Reactish.useContext(PhotoContext);
     const [homeRef] = Reactish.useRef<HTMLElement>();
 
     Reactish.useEffect([openState], () => {
@@ -52,8 +51,7 @@ export const Home = ({ openClassMobile }: MobileProps): ReactishEntity => {
     }
 
     return <section id="home" ref={homeRef} class={openClassMobile} onanimationend={onAnimationEnd}>
-        <div id="home-main" class={photo ? "opaque" : ""}>
-            {photo ? <Photo/> : <></>}
+        <div id="home-main">
             <div id="home-left" class={evaluateOpenClass("", "animate-left", "keep-left", "animate-left-reverse")} onanimationend={onAnimationEnd}>
                 <HomeGrid id="home-about" iconClass="fas fa-user fa-2x" header="about" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="about"/>
                 <HomeGrid id="home-portfolio" iconClass="fas fa-briefcase fa-2x" header="portfolio" paragraph="Lorem ipsum dolor sit amet consectetur adipisicing." typePreview="portfolio"/>
@@ -64,18 +62,4 @@ export const Home = ({ openClassMobile }: MobileProps): ReactishEntity => {
             </div>
         </div>
     </section>
-}
-
-const Photo = () => {
-    const {photo, setPhoto} = Reactish.useContext(PhotoContext);
-
-    const width = 400;
-    const height = 300;
-    return (<>
-        <img id="photo" class="fade-in" src={`${photo}=w${width}-h${height}`} alt="" />
-        <button id="photo-close" onclick={() => setPhoto(null)}>
-            <div class="cross"></div>
-            </button>
-    </>
-    )
 }

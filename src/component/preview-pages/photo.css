@@ -1,0 +1,45 @@
+#photo {
+    position: fixed;
+    top: 5vh;
+    left: 5vw;
+    object-fit: contain;
+    width: 90vw;
+    height: 90vh;
+    z-index: 2;
+}
+  
+#photo-close {
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
+    position: fixed;
+    top: 32px;
+    right: 32px;
+    display: block;
+    float: right;
+    background-color: transparent;
+    border: none;
+    z-index: 3;
+}
+  
+#photo-close .cross {
+    position: absolute;
+    top: 0;
+    left: 13px;
+    height: 30px;
+    width: 1px;
+    background-color: white;
+    transform: rotate(45deg);
+}
+  
+#photo-close .cross::before {
+    content: '';
+    height: 30px;
+    width: 1px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    display: block;
+    transform: rotate(90deg);
+}
