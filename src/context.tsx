@@ -44,14 +44,12 @@ export interface PhotoContextProperty {
 }
 
 export const ContextProviders = (props: any, children : ReactishComponent[]): ReactishComponent => {
-    const [openState, setOpenState] = Reactish.useState(OpenState.CLOSED);
     const [typePreview, setTypePreview] = Reactish.useState("");
     const [scrollToHome, setScrollToHome] = Reactish.useState(false);
     const [logged, setLogged] = Reactish.useState(false);
     const [photo, setPhoto] = Reactish.useState(null);
 
     return <>
-        <OpenPageContext.Provider value={{openState, setOpenState}}>
             <TypePreviewContext.Provider value={{typePreview, setTypePreview}}>
                 <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}>
                     <AuthContext.Provider value={{logged, setLogged}}>
@@ -61,6 +59,5 @@ export const ContextProviders = (props: any, children : ReactishComponent[]): Re
                     </AuthContext.Provider>
                 </ScrollToHomeContext.Provider>
             </TypePreviewContext.Provider>
-        </OpenPageContext.Provider>
     </>
 }

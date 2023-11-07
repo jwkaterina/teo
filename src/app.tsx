@@ -1,5 +1,5 @@
 import { Reactish, ReactishEntity } from "./reactish";
-import { OpenState, ContextProviders } from "./context";
+import { ContextProviders, OpenState, OpenPageContext} from "./context";
 import { Header } from "./component/header";
 import { Home } from "./component/home";
 import { Preview } from "./component/preview";
@@ -13,7 +13,7 @@ import "./css/main.css";
 
 export const App = (): ReactishEntity => {
 
-    const [openState] = Reactish.useState(OpenState.CLOSED);
+    const [openState, setOpenState] = Reactish.useState(OpenState.CLOSED);
 
     Reactish.useEffect([], () => {
         awsconfig.oauth.redirectSignIn = `${window.location.origin}/`;
@@ -34,23 +34,24 @@ export const App = (): ReactishEntity => {
         openClassMobile = "animate-reverse-mobile"
     }
 
-    if(openState == OpenState.CLOSED) {
-        document.body.style.overflow = 'auto';
-        document.documentElement.style.overflow = "auto";
-
-    } else {
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = "hidden";
-    }
+    Reactish.useEffect([openState], () => {
+        if(openState == OpenState.CLOSED) {
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.overflow = "auto";
+        } else {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = "hidden";
+        }
+    });
     
     return <>
         <ContextProviders>
-            <>
-            <Header openClassMobile={openClassMobile}/>
-            <Home openClassMobile={openClassMobile}/>
-            <Preview/>
-            <Contact openClassMobile={openClassMobile}/>
-            </>
+            <OpenPageContext.Provider value={{openState, setOpenState}}>
+                <Header openClassMobile={openClassMobile}/>
+                <Home openClassMobile={openClassMobile}/>
+                <Preview/>
+                <Contact openClassMobile={openClassMobile}/>
+            </OpenPageContext.Provider>
         </ContextProviders>
         <Footer/>
     </>
