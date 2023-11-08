@@ -6,8 +6,8 @@ const { getGoogleAccessToken } = require('./dynamodb.js')
 const {
   returnPhotos,
   libraryApiSearch,
-} = require('./photoActions.js')
-const { getAlbumId } = require('./ssm.js')
+} = require('./google.js')
+const { getAlbumId, getPlaylistId } = require('./ssm.js')
 
 // declare a new express app
 const app = express()

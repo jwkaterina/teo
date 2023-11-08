@@ -6,11 +6,44 @@
       "lambdaFunction": "teoAPI",
       "permissions": {
         "groups": {
+          "admin": [
+            "read"
+          ],
           "user": [
+            "read"
+          ]
+        },
+        "setting": "private"
+      }
+    },
+    "/videos": {
+      "name": "/videos",
+      "lambdaFunction": "teoAPI",
+      "permissions": {
+        "groups": {
+          "admin": [
+            "read"
+          ],
+          "user": [
+            "read"
+          ]
+        },
+        "setting": "private"
+      }
+    },
+    "/weight": {
+      "name": "/weight",
+      "lambdaFunction": "teoAPI",
+      "permissions": {
+        "groups": {
+          "admin": [
             "create",
             "read",
             "update",
             "delete"
+          ],
+          "user": [
+            "read"
           ]
         },
         "setting": "private"

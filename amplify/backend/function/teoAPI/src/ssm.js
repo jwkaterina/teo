@@ -14,6 +14,18 @@ async function getAlbumId() {
     }
 }
 
+async function getPlaylistId() {
+
+    try {
+        const params = await getSsmParams();
+
+        return params.playlistId;
+    } catch(err) {
+        console.log("Cannot get SSM Params:", err);
+        return null
+    }
+}
+
 async function getSsmParams() {
     const paramPrefix = `/amplify/teoSecrets/${process.env["ENV"]}/`;
 
@@ -33,4 +45,5 @@ async function getSsmParams() {
 
 module.exports = {
     getAlbumId,
+    getPlaylistId,
 };

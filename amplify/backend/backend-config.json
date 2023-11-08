@@ -19,6 +19,13 @@
         },
         {
           "attributes": [
+            "adminGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        },
+        {
+          "attributes": [
             "userGroupRole"
           ],
           "category": "auth",
@@ -80,6 +87,20 @@
   "function": {
     "teoAPI": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "teo"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -100,6 +121,12 @@
           "resourceName": "teoAPI"
         }
       ]
+    }
+  },
+  "storage": {
+    "teo": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }
