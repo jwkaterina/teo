@@ -1,11 +1,24 @@
 import { OpenPageContext, OpenState, TypePreviewContext } from "../../context";
 import { Reactish, ReactishEntity } from "../../reactish";
 import PreviewPagesProps from "./preview-pages-props";
+import { getVideos } from "../../service/videos";
 
 export const Blog = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
+    Reactish.useEffect([], () => {
+        getVideos()
+            .then((videos) => {
+                console.log(videos);
+                /*
+                * To see how to create a video player,
+                * go to https://developers.google.com/youtube/iframe_api_reference
+                */
+            }).catch((err) => {
+                console.log(err);
+            });
+    })
 
     if((openState != OpenState.OPEN && openState != OpenState.EFFECT) || typePreview !== "blog") return <></>
 

@@ -4,8 +4,10 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 
 const { getGoogleAccessToken } = require('./dynamodb.js')
 const {
+  returnError,
   returnPhotos,
   libraryApiSearch,
+  libraryApiGetPlaylistItems,
 } = require('./google.js')
 const { getAlbumId, getPlaylistId } = require('./ssm.js')
 
@@ -36,6 +38,21 @@ app.get('/photos', async function(req, res) {
   const data = await libraryApiSearch(authToken, params);
 
   returnPhotos(res, data, params);
+});
+
+app.get('/videos', async function(req, res) {
+  const authToken = await getGoogleAccessToken();
+  const playlistId = await getPlaylistId();
+  console.log(`Importing video playlist: ${playlistId}`);
+
+  // Submit the search request to the API and wait for the result.
+  const data = await libraryApiGetPlaylistItems(authToken, playlistId);
+
+  if (data.error) {
+    returnError(res, data);
+  } else {
+    res.status(200).send(data);
+  }
 });
 
 app.listen(3000, function() {

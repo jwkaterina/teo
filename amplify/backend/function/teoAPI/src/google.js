@@ -49,7 +49,7 @@ async function libraryApiSearch(authToken, parameters) {
 
       // Make a POST request to search the library or album
       const searchResponse =
-        await fetch(config.apiEndpoint + '/v1/mediaItems:search', {
+        await fetch(config.photosApiEndpoint + '/v1/mediaItems:search', {
           method: 'post',
           headers: {
             'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ async function libraryApiGetAlbums(authToken, shared = false) {
       // Make a GET request to load the albums with optional parameters (the
       // pageToken if set).
       const suffix = shared ? '/v1/sharedAlbums?' : '/v1/albums?';
-      const albumResponse = await fetch(config.apiEndpoint + suffix + parameters, {
+      const albumResponse = await fetch(config.photosApiEndpoint + suffix + parameters, {
         method: 'get',
         headers: {
           'Content-Type': 'application/json',
@@ -174,6 +174,61 @@ async function libraryApiGetAlbums(authToken, shared = false) {
   return {albums, error};
 }
 
+// Returns a list of all albums owner by the logged in user from the Library
+// API.
+async function libraryApiGetPlaylistItems(authToken, playlistId) {
+  let videosInfo = [];
+  let error = null;
+
+  let parameters = new URLSearchParams();
+  parameters.append('part', 'id,contentDetails,snippet');
+  parameters.append('playlistId', playlistId);
+
+  try {
+    // Loop while there is a nextpageToken property in the response until all
+    // albums have been listed.
+    do {
+      console.log(`Loading videosInfo. Received so far: ${videosInfo.length}`);
+      const suffix = '/youtube/v3/playlistItems?';
+      const response = await fetch(config.apiEndpoint + suffix + parameters, {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + authToken
+        },
+      });
+
+      const result = await checkStatus(response);
+
+      console.log(`Response: ${result}`);
+      
+      if (result?.items) {
+        console.log(`Number of videosInfo received: ${result.items.length}`);
+        // Parse videosInfo and add them to the list, skipping empty entries.
+        const items = result.items.filter(x => !!x);
+
+        videosInfo = videosInfo.concat(items);
+      }
+    if(result.nextPageToken){
+      parameters.set('pageToken', result.nextPageToken);
+    }else{
+      parameters.delete('pageToken');
+    }
+      
+      // Loop until all videosInfo have been listed and no new nextPageToken is
+      // returned.
+    } while (parameters.has('pageToken'));
+
+  } catch (err) {
+    // Log the error and prepare to return it.
+    error = err;
+    console.log(error);
+  }
+
+  console.log('videosInfo loaded.');
+  return {videosInfo, error};
+}
+
 // Return the body as JSON if the request was successful, or thrown a StatusError.
 async function checkStatus(response){
   if (!response.ok){
@@ -207,4 +262,5 @@ module.exports = {
   returnPhotos,
   libraryApiSearch,
   libraryApiGetAlbums,
+  libraryApiGetPlaylistItems,
 };

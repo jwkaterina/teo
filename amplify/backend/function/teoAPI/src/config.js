@@ -26,7 +26,8 @@ config.searchPageSize = 100;
 config.albumPageSize = 50;
 
 // The API end point to use. Do not change.
-config.apiEndpoint = 'https://photoslibrary.googleapis.com';
+config.photosApiEndpoint = 'https://photoslibrary.googleapis.com';
+config.apiEndpoint = 'https://www.googleapis.com';
 
 module.exports = {
     config
