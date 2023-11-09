@@ -2,7 +2,14 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 
-const { getGoogleAccessToken } = require('./dynamodb.js')
+const {
+  getEntity,
+  queryEntities,
+  putEntity,
+  postEntity,
+  deleteEntity,
+  getGoogleAccessToken 
+} = require('./dynamodb.js')
 const {
   returnError,
   returnPhotos,
@@ -10,6 +17,8 @@ const {
   libraryApiGetPlaylistItems,
 } = require('./google.js')
 const { getAlbumId, getPlaylistId } = require('./ssm.js')
+const EntityError = require('./entity-error')
+const WeightEntity = require('./weight-entity')
 
 // declare a new express app
 const app = express()
@@ -21,6 +30,91 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "*")
   next()
+});
+
+app.get('/weight/:PK', async (req, res) => {
+  const condition = {}
+  condition['PK'] = {
+    ComparisonOperator: 'EQ'
+  }
+  const pk = WeightEntity.generatePk(req.params['PK']);
+  condition['PK']['AttributeValueList'] = [ pk ];
+
+  try {
+    const items = await queryEntities(condition);
+    const weights = items.map((item) => WeightEntity.fromItem(item).toDto());
+    res.json({success: true, url: req.url, data: weights});
+  } catch (e) {
+    res.statusCode = 500;
+    console.log("Could not load weights:", e);
+    res.json({success: false, error: 'Could not load weights: ' + err.message, url: req.url, req: req.body});
+  }
+});
+
+app.put('/weight', async (req, res) => {
+  try {
+    const weight = WeightEntity.fromUpdateDto(req.body);
+    const params = {};
+    params['PK'] = weight.pk;
+    params['SK'] = weight.sk;
+
+    const item = await getEntity(params);
+    if (!item) {
+      res.statusCode = 500;
+      console.log(`Could not load weight PK: ${weight.pk} SK: ${weight.sk}`);
+      res.json({success: false, error: `Could not load weight for year: ${weight.year} with id: ${weight.id}`, url: req.url, req: req.body});
+      return;
+    }
+
+    const existingWeight = WeightEntity.fromItem(item);
+    existingWeight.updateFrom(weight);
+
+    await putEntity(existingWeight)
+    res.json({success: true, url: req.url, data: existingWeight.toDto()})
+
+  } catch (e) {
+    if(e instanceof EntityError) {
+      res.statusCode = 400;
+    } else {
+      res.statusCode = 500;
+    }
+    console.log("Cannot update the Weight:", e);
+    res.json({success: false, error: e.message, url: req.url, req: req.body});
+  }
+});
+
+app.post('/weight', async (req, res) => {
+  try {
+    const weight = WeightEntity.fromUpdateDto(req.body);
+    await postEntity(weight);
+    res.json({success: true, url: req.url, data: weight.toDto()})
+
+  } catch (e) {
+    if(e instanceof EntityError) {
+      res.statusCode = 400;
+    } else {
+      res.statusCode = 500;
+    }
+    console.log("Cannot create the Weight:", e);
+    res.json({success: false, error: e.message, url: req.url, req: req.body});
+  }
+});
+
+app.delete('weight/object/:PK/:SK', async (req, res) => {
+  const params = {};
+  const pk = WeightEntity.generatePk(req.params['PK']);
+  const sk = WeightEntity.generateSk(req.params['SK']);
+  params['PK'] = pk;
+  params['SK'] = sk;
+
+  try {
+    const atts = await deleteEntity(params)
+    res.json({success: true, url: req.url, data: atts});
+  } catch(err) {
+    console.log("Cannot delete the Weight:", e);
+    res.statusCode = 500;
+    res.json({success: false, error: err.message, url: req.url, req: req.body});
+  }
 });
 
 app.get('/photos', async function(req, res) {
