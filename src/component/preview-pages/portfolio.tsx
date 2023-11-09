@@ -10,9 +10,8 @@ export type Photo = {
     id: string,
     baseUrl: string,
     date: string,
-    mediaMetadata: {
-        creationTime: string
-    }
+    height: string,
+    width: string
 }
 
 export const Portfolio = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
@@ -25,11 +24,14 @@ export const Portfolio = ({ textClass, onAnimationEnd }: PreviewPagesProps): Rea
     Reactish.useEffect([], () => {
         getPhotos()
             .then((photos) => {
-                let photosArray = photos.photos.map((photo: Photo) => {
+                console.log(photos);
+                let photosArray: Photo[] = photos.photos.map((photo) => {
                     return {
                         id: photo.id, 
-                        baseUrl: photo.baseUrl, 
-                        date: photo.mediaMetadata.creationTime
+                        baseUrl: photo.baseUrl,
+                        date: photo.mediaMetadata.creationTime,
+                        width: photo.mediaMetadata.width,
+                        height: photo.mediaMetadata.height
                     }
                 });
 

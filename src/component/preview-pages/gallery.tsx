@@ -12,7 +12,8 @@ interface GalleryProps {
 export const Gallery = ({photos, year}: GalleryProps): ReactishEntity => {
     const {setPhoto} = Reactish.useContext(PhotoContext);
 
-    const openPhoto = (url: string) => {
+    const openPhoto = (photo: Photo) => {
+        const url = `${photo.baseUrl}=w${photo.width}-h${photo.height}`;
         setPhoto(url);
     }
 
@@ -30,16 +31,15 @@ export const Gallery = ({photos, year}: GalleryProps): ReactishEntity => {
     }
    
     if(photos.length > 0) {
-
         return (
             <div id="gallery">
                 {thisPhotos.map((photo) => 
-                <div key={photo.id} date={photo.date} class={className} onclick={() => openPhoto(photo.baseUrl)}>
+                <div key={photo.id} date={photo.date} class={className} onclick={() => openPhoto(photo)}>
                     <img src={`${photo.baseUrl}=w${width}-h${height}`} alt="" />
                 </div>
                 )}
             </div>
-          );
+            );
     } else {   
         let divs = [];
         for(let i = 0; i < 20; i++) {

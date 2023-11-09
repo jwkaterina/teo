@@ -5,10 +5,8 @@ import "./photo.css"
 export const Photo = (): ReactishEntity => {
     const {photo, setPhoto} = Reactish.useContext(PhotoContext);
 
-    const width = 400;
-    const height = 300;
     return (<>
-        <img id="photo" class="fade-in" src={`${photo}=w${width}-h${height}`} alt="" />
+        <img id="photo" class="fade-in" src={photo} alt="" />
         <button id="photo-close" onclick={() => setPhoto(null)}>
             <div class="cross"></div>
             </button>
