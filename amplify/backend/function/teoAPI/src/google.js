@@ -18,12 +18,6 @@ function returnPhotos(res, data, searchParameter) {
     delete searchParameter.pageToken;
     delete searchParameter.pageSize;
 
-    // Cache the media items that were loaded temporarily.
-    // mediaItemCache.setItem(userId, data.photos);
-    // Store the parameters that were used to load these images. They are used
-    // to resubmit the query after the cache expires.
-    // storage.setItem(userId, {parameters: searchParameter});
-
     // Return the photos and parameters back int the response.
     res.status(200).send({photos: data.photos, parameters: searchParameter});
   }
@@ -106,17 +100,6 @@ function returnError(res, data) {
   res.status(statusCode).send(JSON.stringify(data.error));
 }
 
-// Constructs a date object required for the Library API.
-// Undefined parameters are not set in the date object, which the API sees as a
-// wildcard.
-function constructDate(year, month, day) {
-  const date = {};
-  if (year) date.year = year;
-  if (month) date.month = month;
-  if (day) date.day = day;
-  return date;
-}
-
 
 // Returns a list of all albums owner by the logged in user from the Library
 // API.
@@ -174,8 +157,6 @@ async function libraryApiGetAlbums(authToken, shared = false) {
   return {albums, error};
 }
 
-// Returns a list of all albums owner by the logged in user from the Library
-// API.
 async function libraryApiGetPlaylistItems(authToken, playlistId) {
   let videosInfo = [];
   let error = null;
@@ -186,7 +167,7 @@ async function libraryApiGetPlaylistItems(authToken, playlistId) {
 
   try {
     // Loop while there is a nextpageToken property in the response until all
-    // albums have been listed.
+    // videos have been listed.
     do {
       console.log(`Loading videosInfo. Received so far: ${videosInfo.length}`);
       const suffix = '/youtube/v3/playlistItems?';

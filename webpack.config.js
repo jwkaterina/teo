@@ -1,7 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const CopyWebpackPlugin = require("copy-webpack-plugin");
 const postCssNormalize = require("postcss-normalize");
 module.exports = {
   mode: "development",
@@ -14,9 +13,6 @@ module.exports = {
     hot: true,
     port: 3000,
     allowedHosts: "all",
-    // static: {
-    //   directory: path.join(__dirname, "./"),
-    // },
     watchFiles: ["src/*"]
   },
   
@@ -79,8 +75,5 @@ module.exports = {
       template: "src/index.html"
     }),
     new MiniCssExtractPlugin(),
-    // new CopyWebpackPlugin({
-    //   patterns: [{from: "src/img", to: "img"}]
-    // })
   ]
 };
