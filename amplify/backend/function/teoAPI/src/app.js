@@ -85,7 +85,7 @@ app.put('/weight', async (req, res) => {
 
 app.post('/weight', async (req, res) => {
   try {
-    const weight = WeightEntity.fromUpdateDto(req.body);
+    const weight = WeightEntity.fromInsertDto(req.body);
     await postEntity(weight);
     res.json({success: true, url: req.url, data: weight.toDto()})
 

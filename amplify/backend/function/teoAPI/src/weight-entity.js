@@ -22,20 +22,17 @@ class WeightEntity {
             throw new EntityError('No dto!');
         }
 
-        const {id, year, ...rest} = dto;
+        const {id, ...rest} = dto;
 
         if(!id) {
             throw new EntityError('id not defined');
-        }
-
-        if(!year) {
-            throw new EntityError('year not defined');
         }
 
         if(!rest.date) {
             throw new EntityError('date not defined');
         }
 
+        const year = WeightEntity.parseYear(rest.date);
         const pk = WeightEntity.generatePk(year);
         const sk = WeightEntity.generateSk(id);
 
@@ -47,27 +44,31 @@ class WeightEntity {
             throw new EntityError('No dto!');
         }
 
-        const {year, ...rest} = dto;
-
-        if(!year) {
-            throw new EntityError('year not defined');
-        }
-
-        if(!rest.date) {
+        if(!dto.date) {
             throw new EntityError('date not defined');
         }
 
-        const time = WeightEntity.parseTime(rest.date);
+        const year = WeightEntity.parseYear(dto.date);
+        const time = WeightEntity.parseTime(dto.date);
         const pk = WeightEntity.generatePk(year);
         const sk = WeightEntity.generateSk(ulid(time));
 
-        return new WeightEntity(pk, sk, rest);
+        return new WeightEntity(pk, sk, dto);
     }
 
     static parseTime(date) {
         try {
             const dateTime = DateTime.fromISO(date);
             return dateTime.toMillis();
+        } catch(err) {
+            throw new EntityError(`Cannot parse DateTime from: ${date}`);
+        }
+    }
+
+    static parseYear(date) {
+        try {
+            const dateTime = DateTime.fromISO(date);
+            return dateTime.year;
         } catch(err) {
             throw new EntityError(`Cannot parse DateTime from: ${date}`);
         }
@@ -117,7 +118,6 @@ class WeightEntity {
     toDto() {
         return {
             id: this.id,
-            year: this.year,
             ...this.rest
         }
     }

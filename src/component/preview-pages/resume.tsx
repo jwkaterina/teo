@@ -1,8 +1,10 @@
 import { OpenPageContext, OpenState, TypePreviewContext } from "../../context";
 import { Reactish, ReactishEntity } from "../../reactish";
 import PreviewPagesProps from "./preview-pages-props";
+import { getWeights } from "../../service/weight"
 
 import "./resume.css"
+import { Weight } from "../weight";
 
 export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
 
@@ -32,6 +34,15 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
             chart(chartRef.current);
         }
     });
+
+    Reactish.useEffect([], () => {
+        getWeights(2023)
+            .then((weights: Weight[]) => {
+                console.log(weights);
+            }).catch((err) => {
+                console.log(err);
+            });
+    })
 
     //Material chart
     // const chart = (el: HTMLElement) => {
