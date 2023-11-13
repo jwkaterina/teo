@@ -1,11 +1,12 @@
 import { Reactish, ReactishEntity } from "../reactish";
-import { OpenPageContext, OpenState, PhotoContext } from "../context";
+import { OpenPageContext, OpenState, PhotoContext, VideoContext } from "../context";
 
 import { About } from "./preview-pages/about";
 import { Resume } from "./preview-pages/resume";
 import { Portfolio } from "./preview-pages/portfolio";
 import { Blog } from "./preview-pages/blog";
 import { Photo } from "./preview-pages/photo";
+import { Video } from "./preview-pages/video";
 
 import "./preview.css"
 
@@ -13,6 +14,7 @@ export const Preview = (): ReactishEntity => {
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {photo} = Reactish.useContext(PhotoContext);
+    const {video} = Reactish.useContext(VideoContext);
 
     const evaluateOpenClass = (openingClass: string, openingClassMobile: string, closingClass: string, closingClassMobile: string): string => {
         
@@ -49,12 +51,13 @@ export const Preview = (): ReactishEntity => {
     return <section id="preview" class={(openState === OpenState.OPEN || openState === OpenState.EFFECT) ? "show" : "hide"}>
         <div id="book-top" class={evaluateOpenClass("animate-top", "animate-top-mobile", "animate-top-reverse", "animate-top-reverse-mobile")}></div>
         <div id="book-bottom" class={evaluateOpenClass("animate-bottom", "animate-bottom-mobile", "animate-bottom-reverse", "animate-bottom-reverse-mobile")}></div>
-        <div id="book-container" class={photo ? "opaque" : ""}>
+        <div id="book-container" class={(photo || video) ? "opaque" : ""}>
             <About textClass={textClass} onAnimationEnd={onAnimationEnd}/>
             <Resume textClass={textClass} onAnimationEnd={onAnimationEnd}/>
             <Portfolio textClass={textClass} onAnimationEnd={onAnimationEnd}/>
             <Blog textClass={textClass} onAnimationEnd={onAnimationEnd}/>
             {photo ? <Photo/> : <></>}
+            {video ? <Video/> : <></>}
         </div>
     </section>
 }

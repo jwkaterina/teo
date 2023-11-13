@@ -5,6 +5,28 @@
     grid-gap: 3rem;
 }
 
+#video-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    grid-gap: 3rem;
+}
+
+.video-container {
+    position: relative;
+}
+
+.video-container i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 4rem;
+    color: white;
+    cursor: pointer;
+    z-index: 0;
+    transform: translate(-50%, -50%);
+}
+
 .gallery-item {
     width: 250px;
     height: 150px;
@@ -43,3 +65,4 @@
     border: none;
     animation: gradient 3s ease infinite;
 }
+
