@@ -23,12 +23,15 @@ export const VideoGallery = ({ videos }: VideoGalleryProps): ReactishEntity => {
         return (
             <div id="video-gallery">
                 {videos.map((video) => 
-                    <div class="video-container" key={video.id} 
-                    onclick={() => openVideo(video.id)}
-                    >
-                    <img src={media.matches ? video.smallSnippetUrl : video.bigSnippetUrl} alt="" />
-                    <i class="far fa-play-circle"></i>
-                </div>
+                <>
+                    <div class="video-container" key={video.id} onclick={() => openVideo(video.id)}>
+                        <p class="description">{video.title}</p>
+                        <img src={media.matches ? video.smallSnippetUrl : video.bigSnippetUrl} alt="" />
+                        <i class="far fa-play-circle"></i>
+                        
+                    </div>
+                    
+                </>
                 )}
             </div>
             )

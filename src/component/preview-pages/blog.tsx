@@ -7,7 +7,8 @@ import { VideoGallery } from "./video-gallery";
 export type Video = {
     smallSnippetUrl: string,
     bigSnippetUrl: string,
-    id: string
+    id: string,
+    title: string
 }
 
 export const Blog = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
@@ -25,14 +26,11 @@ export const Blog = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reactish
                         id: video.snippet.resourceId.videoId, 
                         bigSnippetUrl: video.snippet.thumbnails.high.url,
                         smallSnippetUrl: video.snippet.thumbnails.medium.url,
+                        title: video.snippet.title
                     }
                 });
-                // setVideos(videoArray);
+                setVideos(videoArray);
 
-                /*
-                * To see how to create a video player,
-                * go to https://developers.google.com/youtube/iframe_api_reference
-                */
             }).catch((err) => {
                 console.log(err);
             });
