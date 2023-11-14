@@ -1,6 +1,6 @@
 import { OpenPageContext, OpenState, TypePreviewContext } from "../../context";
 import { Reactish, ReactishEntity } from "../../reactish";
-import { Gallery } from "./gallery";
+import { PhotoGallery } from "./photo-gallery";
 import { getPhotos } from "../../service/photos";
 import PreviewPagesProps from "./preview-pages-props";
 
@@ -62,7 +62,7 @@ export const Portfolio = ({ textClass, onAnimationEnd }: PreviewPagesProps): Rea
                 <div class="date" onclick={() => setYear(2022)}>2022</div>
                 <div class="date" onclick={() => setYear(2023)}>2023</div>
             </div>
-            <Gallery photos={photos} year={year} />
+            <PhotoGallery photos={photos} year={year} />
         </section>
     </div>
   

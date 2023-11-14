@@ -4,12 +4,12 @@ import { Photo } from "./portfolio";
 
 import "./gallery.css";
 
-interface GalleryProps {
+interface PhotoGalleryProps {
     photos: Photo[],
     year: number | null
 }
 
-export const Gallery = ({photos, year}: GalleryProps): ReactishEntity => {
+export const PhotoGallery = ({photos, year}: PhotoGalleryProps): ReactishEntity => {
     const {setPhoto} = Reactish.useContext(PhotoContext);
 
     const openPhoto = (photo: Photo) => {
