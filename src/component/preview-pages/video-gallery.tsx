@@ -10,11 +10,11 @@ interface VideoGalleryProps {
 
 export const VideoGallery = ({ videos }: VideoGalleryProps): ReactishEntity => {
 
-    const {setVideo} = Reactish.useContext(VideoContext);
+    const {setVideoId} = Reactish.useContext(VideoContext);
 
-    const openVideo = (videoUrl: string) => {
-        setVideo(videoUrl);
-        console.log(videoUrl)
+    const openVideo = (videoId: string) => {
+        setVideoId(videoId);
+        console.log(videoId)
     }
 
     const media = window.matchMedia("(max-width: 1000px)");
@@ -24,7 +24,7 @@ export const VideoGallery = ({ videos }: VideoGalleryProps): ReactishEntity => {
             <div id="video-gallery">
                 {videos.map((video) => 
                     <div class="video-container" key={video.id} 
-                    onclick={() => openVideo(video.bigSnippetUrl)}
+                    onclick={() => openVideo(video.id)}
                     >
                     <img src={media.matches ? video.smallSnippetUrl : video.bigSnippetUrl} alt="" />
                     <i class="far fa-play-circle"></i>

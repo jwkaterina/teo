@@ -22,10 +22,9 @@ export const Blog = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reactish
                 console.log(videos);
                 let videoArray: Video[] = videos.videosInfo.map((video) => {
                     return {
-                        id: video.id, 
+                        id: video.snippet.resourceId.videoId, 
                         bigSnippetUrl: video.snippet.thumbnails.high.url,
                         smallSnippetUrl: video.snippet.thumbnails.medium.url,
-
                     }
                 });
                 setVideos(videoArray);

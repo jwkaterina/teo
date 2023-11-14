@@ -43,11 +43,11 @@ export interface PhotoContextProperty {
     setPhoto: (newValue: string | null) => void;
 }
 
-export const VideoContext = Reactish.createContext({video: null} as VideoContextProperty);
+export const VideoContext = Reactish.createContext({videoId: null} as VideoContextProperty);
 
 export interface VideoContextProperty {
-    video: string | null;
-    setVideo: (newValue: string | null) => void;
+    videoId: string | null;
+    setVideoId: (newValue: string | null) => void;
 }
 
 export const ContextProviders = (props: any, children : ReactishComponent[]): ReactishComponent => {
@@ -55,14 +55,14 @@ export const ContextProviders = (props: any, children : ReactishComponent[]): Re
     const [scrollToHome, setScrollToHome] = Reactish.useState(false);
     const [logged, setLogged] = Reactish.useState(false);
     const [photo, setPhoto] = Reactish.useState(null);
-    const [video, setVideo] = Reactish.useState(null);
+    const [videoId, setVideoId] = Reactish.useState(null);
 
     return <>
             <TypePreviewContext.Provider value={{typePreview, setTypePreview}}>
                 <ScrollToHomeContext.Provider value={{scrollToHome, setScrollToHome}}>
                     <AuthContext.Provider value={{logged, setLogged}}>
                         <PhotoContext.Provider value={{photo, setPhoto}}>
-                            <VideoContext.Provider value={{video, setVideo}}>
+                            <VideoContext.Provider value={{videoId, setVideoId}}>
                                 {children}
                             </VideoContext.Provider>
                         </PhotoContext.Provider>
