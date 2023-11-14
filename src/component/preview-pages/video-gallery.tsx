@@ -35,7 +35,7 @@ export const VideoGallery = ({ videos }: VideoGalleryProps): ReactishEntity => {
     } else {   
         let divs = [];
         for(let i = 0; i < 20; i++) {
-            divs.push(<div class="animate-item"></div>);
+            divs.push(<div class="animate-videoitem"></div>);
         }
         return (
             <div id="video-gallery">

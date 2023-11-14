@@ -27,7 +27,7 @@ export const Blog = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reactish
                         smallSnippetUrl: video.snippet.thumbnails.medium.url,
                     }
                 });
-                setVideos(videoArray);
+                // setVideos(videoArray);
 
                 /*
                 * To see how to create a video player,

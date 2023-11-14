@@ -7,7 +7,7 @@ export const Video = (): ReactishEntity => {
  
     return (<>
         <iframe id="player" type="text/html" width="640" height="390"
-            src={`http://www.youtube.com/embed/${videoId}?enablejsapi=1`}
+            src={`http://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${window.location.origin}`}
             frameborder="0">
         </iframe>
         <button id="video-close" onclick={() => setVideoId(null)}>
@@ -15,12 +15,4 @@ export const Video = (): ReactishEntity => {
         </button>
     </>
     )
-    // return (<>
-    //     <div id="player" class="video"></div>
-    //     {/* <img id="video" class="fade-in" src={video} alt="" /> */}
-    //     <button id="video-close" onclick={() => setVideo(null)}>
-    //         <div class="cross"></div>
-    //         </button>
-    // </>
-    // )
 }
