@@ -8,7 +8,7 @@ import { Weight } from "../weight";
 
 export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
 
-    type DataUnit = [string, number];
+    type DataUnit = [string, number, string];
     type Data = DataUnit[];
     type History = Data[];
 
@@ -18,7 +18,7 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
-    const [data, setData] = Reactish.useState<Data>(initData);
+    const [data, setData] = Reactish.useState<Data>([[dateOfBirth, 0, "fjdslkfh"]]);
     const [history, setHistory] = Reactish.useState<History>(initHistory);
 
     const [prevDate, prevWeight] = data[data.length - 1];
@@ -35,9 +35,17 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
         }
     });
 
+    let weightsArray: Data = [];
     Reactish.useEffect([], () => {
         getWeights(2023)
             .then((weights: Weight[]) => {
+                weights.forEach((weight: Weight) => {
+                    const date = weight.dateStr;
+                    const weightValue = weight.weight;
+                    const id = weight.id;
+                    weightsArray.push([date, weightValue, id]);
+                })
+                setData(weightsArray);
                 console.log(weights);
             }).catch((err) => {
                 console.log(err);
@@ -95,8 +103,10 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
             const chartData = new google.visualization.DataTable();
             chartData.addColumn('string', 'Date');
             chartData.addColumn('number', "Theodor's Weight");
+            chartData.addColumn('string', "id");
 
             chartData.addRows(data);
+            console.log('data:', data);
     
             const options = {
                 chart: {
@@ -116,15 +126,18 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
                         italic: true,
                     },
                 },
-                animation:{
-                    duration: 1000,
-                    easing: 'out',
-                    startup: true,
-                  },
+                // animation:{
+                //     duration: 1000,
+                //     easing: 'out',
+                //     startup: true,
+                //   },
             };
-    
-            const chart = new google.visualization.LineChart(el);    
-            chart.draw(chartData, options);
+
+            var view = new google.visualization.DataView(chartData);
+            // view.setRows(view.getFilteredRows([{column: 1, minValue: new Date(2007, 0, 1)}]));
+            view.hideColumns([2]);
+            const chart = new google.visualization.LineChart(el);  
+            chart.draw(view, options);
         }
 
         const google = (window as any).google;
