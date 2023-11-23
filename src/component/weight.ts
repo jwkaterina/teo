@@ -11,6 +11,13 @@ export class Weight {
         return this.date.year;
     }
 
+    get dateStr(): string {
+        if(this.date.month < 10) {
+            return `${this.date.year}-0${this.date.month}`;
+        }
+        return `${this.date.year}-${this.date.month}`;
+    }
+
     toDto(): any {
         return {
             id: this.id,
