@@ -48,11 +48,12 @@ export const createWeight = async (weight: number, date: string): Promise<Weight
     return new Weight(dto.id, dto.weight, dto.date);
 }
 
-export const deleteWeight = async (weight: Weight): Promise<boolean> => {
+export const deleteWeight = async (year: number, id: string): Promise<boolean> => {
     const init = {
         headers: {}
     };
-    const res = await API.del("teo", `/weight/object/${weight.year}/${weight.id}`, init);
+    const res = await API.del("teo", `/weight/object/${year}/${id}`, init);
+    console.log('Response:', res);
     if(!res.success) {
         throw new ApiError(`Could not delete the Weight: ${res.error}`);
     }

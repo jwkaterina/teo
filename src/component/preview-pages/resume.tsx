@@ -1,27 +1,30 @@
 import { OpenPageContext, OpenState, TypePreviewContext } from "../../context";
 import { Reactish, ReactishEntity } from "../../reactish";
 import PreviewPagesProps from "./preview-pages-props";
-import { getWeights } from "../../service/weight"
+import { createWeight, getWeights, deleteWeight } from "../../service/weight"
 
 import "./resume.css"
 import { Weight } from "../weight";
 
 export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): ReactishEntity => {
 
-    type DataUnit = [string, number, string];
+    type weight = number;
+    type date = string;
+    type id = string;
+    type DataUnit = [date, weight, id];
     type Data = DataUnit[];
     type History = Data[];
 
     const dateOfBirth = "2021-08";
-    const initData: Data = localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : [[dateOfBirth, 0]];
-    const initHistory: History = localStorage.getItem('history') ? JSON.parse(localStorage.getItem('history')) : [initData];
+    const initData: DataUnit =[dateOfBirth, 0, ''];
+    const initHistory: History = localStorage.getItem('history') ? JSON.parse(localStorage.getItem('history')) : [[initData]];
 
     const {openState, setOpenState} = Reactish.useContext(OpenPageContext);
     const {typePreview} = Reactish.useContext(TypePreviewContext);
-    const [data, setData] = Reactish.useState<Data>([[dateOfBirth, 0, "fjdslkfh"]]);
+    const [data, setData] = Reactish.useState<Data>([initData]);
     const [history, setHistory] = Reactish.useState<History>(initHistory);
 
-    const [prevDate, prevWeight] = data[data.length - 1];
+    const [prevDate, prevWeight, prevId] = data[data.length - 1];
     const prevYear: number = parseInt(prevDate.slice(0, 4));
     const prevMonth: number = parseInt(prevDate.slice(5, 7));
 
@@ -35,21 +38,27 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
         }
     });
 
-    let weightsArray: Data = [];
-    Reactish.useEffect([], () => {
-        getWeights(2023)
-            .then((weights: Weight[]) => {
+    Reactish.useEffect([openState], () => {
+        if(openState !== OpenState.OPEN || typePreview !== "resume") return
+        const currentYear = new Date().getFullYear();
+        let weightsArray = [initData];
+
+        const getAllWeights = async () => {
+            for(let year = 2021; year <= currentYear; year++) {
+                const weights = await getWeights(year);
                 weights.forEach((weight: Weight) => {
                     const date = weight.dateStr;
                     const weightValue = weight.weight;
                     const id = weight.id;
                     weightsArray.push([date, weightValue, id]);
                 })
+                console.log(weights, year);
                 setData(weightsArray);
-                console.log(weights);
-            }).catch((err) => {
-                console.log(err);
-            });
+            }
+        };
+        getAllWeights().catch((err) => {
+            console.log(err);
+        });
     })
 
     //Material chart
@@ -126,11 +135,11 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
                         italic: true,
                     },
                 },
-                // animation:{
+                // animation: {
                 //     duration: 1000,
                 //     easing: 'out',
                 //     startup: true,
-                //   },
+                // },
             };
 
             var view = new google.visualization.DataView(chartData);
@@ -147,12 +156,13 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
 
     const addData = () => {
         const dateValue: string = dateRef.current.value;
-        const weightValue: string = weightRef.current.value;
+        const weightValue: number = parseInt(weightRef.current.value);
 
-        if(dateValue != "" && weightValue != "") {
+        if(dateValue != "" && weightValue) {
             const dataUnit: DataUnit = [
                 dateValue, 
-                parseInt(weightValue)
+                weightValue,
+                ""
             ]
             const newYear: number = parseInt(dateValue.slice(0, 4));
             const newMonth: number = parseInt(dateValue.slice(5, 7));
@@ -160,6 +170,7 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
                 const newData = [...data, dataUnit];
                 const newHistory = [...history, newData];
                 saveData(newData, newHistory);
+                createWeight(weightValue, dateValue)
                 return
             }
             if((newYear === prevYear && newMonth <= prevMonth) || newYear < prevYear) {
@@ -188,8 +199,9 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
             const year = date.getFullYear();
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const nextMonth = `${year}-${month}`;
-            const nextDataUnit: DataUnit = [nextMonth, nextWeight];
+            const nextDataUnit: DataUnit = [nextMonth, nextWeight, ''];
             filledData.push(nextDataUnit);
+            createWeight(nextWeight, nextMonth);
         }
         const newData = [...data, ...filledData];
         const newHistory = [...history, newData];
@@ -198,22 +210,35 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
 
 
     const deleteLast = () => {
-        if(history.length < 2) {
-            return
-        }
+        if(history.length < 2) return 
+
+        const lastData = history[history.length - 1];
+        const lastDataLength = lastData.length;
+        const prevHistoryLength = history[history.length - 2].length;
+        const dataToDelete = lastData.slice(prevHistoryLength, lastDataLength);
+        dataToDelete.forEach((dataUnit) => {
+            const date = dataUnit[0];
+            const year = parseInt(date.slice(0, 4));
+            const id = dataUnit[2];
+            // deleteWeight(year, id);
+        })
+
         const currentHistory = history.filter((item, index) => index !== history.length - 1);
         const currentData: Data = currentHistory[currentHistory.length - 1];
         saveData(currentData, currentHistory);
+        
+        console.log("lastData", lastDataLength);
+        console.log("prevHistory", prevHistoryLength);
+        console.log("dataToDelete", dataToDelete);
     }
 
-    const saveData = (data: Data, history: History) => {
+        const saveData = (data: Data, history: History) => {
         setData(data);
         setHistory(history);
-        saveToLocalStorage(data, history);
+        saveToLocalStorage(history);
     }
 
-    const saveToLocalStorage = (data: Data, history: History) => {
-        localStorage.setItem('data', JSON.stringify(data));
+    const saveToLocalStorage = (history: History) => {
         localStorage.setItem('history', JSON.stringify(history));
     }
 
