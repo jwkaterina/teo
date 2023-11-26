@@ -61,48 +61,7 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
         });
     })
 
-    //Material chart
-    // const chart = (el: HTMLElement) => {
-
-    //     const drawChart = () => {
-
-    //         setChartRef(el);
-
-    //         const chartData = new google.visualization.DataTable();
-    //         chartData.addColumn('string', 'Date');
-    //         chartData.addColumn('number', "Theodor's Weight");
-
-    //         chartData.addRows(data);
-    
-    //         const options = {
-    //             chart: {
-    //                 title: "Theodor's Weight",
-    //                 subtitle: 'in grams'
-    //             },
-    //             titleTextStyle : {
-    //                 fontSize: 25,
-    //             },
-    //             legend: { 
-    //                 position: 'none',
-    //             },
-    //             colors:['#9ae4b9'],
-    //             hAxis: {
-    //                 titleTextStyle: {
-    //                     fontSize: 15,
-    //                     italic: true,
-    //                 },
-    //             },
-    //         };
-    
-    //         const chart = new google.charts.Line(el);    
-    //         chart.draw(chartData, google.charts.Line.convertOptions(options));
-    //     }
-
-    //     const google = (window as any).google;
-    //     google.charts.load('current', {'packages':['line']});
-    //     google.charts.setOnLoadCallback(drawChart);
-    // }
-
+    // Material chart
     const chart = (el: HTMLElement) => {
 
         const drawChart = () => {
@@ -115,7 +74,6 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
             chartData.addColumn('string', "id");
 
             chartData.addRows(data);
-            console.log('data:', data);
     
             const options = {
                 chart: {
@@ -135,26 +93,72 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
                         italic: true,
                     },
                 },
-                // animation: {
-                //     duration: 1000,
-                //     easing: 'out',
-                //     startup: true,
-                // },
             };
-
+    
             var view = new google.visualization.DataView(chartData);
-            // view.setRows(view.getFilteredRows([{column: 1, minValue: new Date(2007, 0, 1)}]));
             view.hideColumns([2]);
-            const chart = new google.visualization.LineChart(el);  
-            chart.draw(view, options);
+            const chart = new google.charts.Line(el);    
+            chart.draw(view, google.charts.Line.convertOptions(options));
         }
 
         const google = (window as any).google;
-        google.charts.load("current", {packages: ["corechart"]});        
+        google.charts.load('current', {'packages':['line']});
         google.charts.setOnLoadCallback(drawChart);
     }
+    
 
-    const addData = () => {
+    // const chart = (el: HTMLElement) => {
+
+    //     const drawChart = () => {
+
+    //         setChartRef(el);
+
+    //         const chartData = new google.visualization.DataTable();
+    //         chartData.addColumn('string', 'Date');
+    //         chartData.addColumn('number', "Theodor's Weight");
+    //         chartData.addColumn('string', "id");
+
+    //         chartData.addRows(data);
+    //         console.log('data:', data);
+    
+    //         const options = {
+    //             view: {
+    //                 title: "Theodor's Weight",
+    //                 subtitle: 'in grams'
+    //             },
+    //             titleTextStyle : {
+    //                 fontSize: 25,
+    //             },
+    //             legend: { 
+    //                 position: 'none',
+    //             },
+    //             colors:['#9ae4b9'],
+    //             hAxis: {
+    //                 titleTextStyle: {
+    //                     fontSize: 15,
+    //                     italic: true,
+    //                 },
+    //             },
+    //             animation: {
+    //                 // duration: 1000,
+    //                 easing: 'out',
+    //                 startup: true,
+    //             },
+    //         };
+
+    //         var view = new google.visualization.DataView(chartData);
+    //         // view.setRows(view.getFilteredRows([{column: 1, minValue: new Date(2007, 0, 1)}]));
+    //         view.hideColumns([2]);
+    //         const chart = new google.visualization.LineChart(el);  
+    //         chart.draw(view, options);
+    //     }
+
+    //     const google = (window as any).google;
+    //     google.charts.load("current", {packages: ["corechart"]});        
+    //     google.charts.setOnLoadCallback(drawChart);
+    // }
+
+    const addData = async() => {
         const dateValue: string = dateRef.current.value;
         const weightValue: number = parseInt(weightRef.current.value);
 
@@ -167,10 +171,13 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
             const newYear: number = parseInt(dateValue.slice(0, 4));
             const newMonth: number = parseInt(dateValue.slice(5, 7));
             if(newYear == prevYear && newMonth - prevMonth == 1) {
-                const newData = [...data, dataUnit];
+               
+                const newUnit = await createWeight(weightValue, dateValue);
+                const newDataUnit = [dateValue, weightValue, newUnit.id];
+                const newData = [...data, newDataUnit];
                 const newHistory = [...history, newData];
                 saveData(newData, newHistory);
-                createWeight(weightValue, dateValue)
+                console.log("newDataUnit", newDataUnit);
                 return
             }
             if((newYear === prevYear && newMonth <= prevMonth) || newYear < prevYear) {
@@ -186,7 +193,7 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
         }
     }
 
-    const fillMonths = (dataUnit: DataUnit, newMonth: number, newYear: number) => {
+    const fillMonths = async(dataUnit: DataUnit, newMonth: number, newYear: number) => {
         let filledData: Data = [];
         const newWeight = dataUnit[1];
         const diff = (newMonth - prevMonth) + 12 * (newYear - prevYear);
@@ -199,9 +206,9 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
             const year = date.getFullYear();
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const nextMonth = `${year}-${month}`;
-            const nextDataUnit: DataUnit = [nextMonth, nextWeight, ''];
+            const nextUnit = await createWeight(nextWeight, nextMonth);
+            const nextDataUnit: DataUnit = [nextMonth, nextWeight, nextUnit.id];
             filledData.push(nextDataUnit);
-            createWeight(nextWeight, nextMonth);
         }
         const newData = [...data, ...filledData];
         const newHistory = [...history, newData];
@@ -220,16 +227,16 @@ export const Resume = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reacti
             const date = dataUnit[0];
             const year = parseInt(date.slice(0, 4));
             const id = dataUnit[2];
-            // deleteWeight(year, id);
+            deleteWeight(year, id);
         })
 
         const currentHistory = history.filter((item, index) => index !== history.length - 1);
         const currentData: Data = currentHistory[currentHistory.length - 1];
         saveData(currentData, currentHistory);
         
-        console.log("lastData", lastDataLength);
-        console.log("prevHistory", prevHistoryLength);
-        console.log("dataToDelete", dataToDelete);
+        // console.log("lastData", lastDataLength);
+        // console.log("prevHistory", prevHistoryLength);
+        // console.log("dataToDelete", dataToDelete);
     }
 
         const saveData = (data: Data, history: History) => {
