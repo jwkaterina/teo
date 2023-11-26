@@ -22,7 +22,7 @@ export const Portfolio = ({ textClass, onAnimationEnd }: PreviewPagesProps): Rea
     const [year, setYear] = Reactish.useState<number | null>(null);
 
     Reactish.useEffect([openState], () => {
-        if(openState != OpenState.OPEN) return;
+        if(openState != OpenState.OPEN || typePreview !== "portfolio") return;
         getPhotos()
             .then((photos) => {
                 console.log(photos);

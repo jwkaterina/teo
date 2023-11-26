@@ -18,7 +18,7 @@ export const Blog = ({ textClass, onAnimationEnd }: PreviewPagesProps): Reactish
     const [videos, setVideos] = Reactish.useState<Video[]>([]);
 
     Reactish.useEffect([openState], () => {
-        if(openState != OpenState.OPEN) return;
+        if(openState != OpenState.OPEN || typePreview !== "blog") return;
         getVideos()
             .then((videos) => {
                 console.log(videos);
