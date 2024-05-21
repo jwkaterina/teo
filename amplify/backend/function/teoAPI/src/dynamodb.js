@@ -76,8 +76,8 @@ async function getGoogleAccessToken() {
   const params = {
     TableName: googleTableName,
     Key: {
-      PK: "googleApiToken",
-      SK: "googleApiToken",
+      PK: "google",
+      SK: "token",
     },
   };
 
