@@ -2,8 +2,8 @@
   {
     "Action": ["dynamodb:DescribeTable", "dynamodb:GetItem"],
     "Resource": [
-      "arn:aws:dynamodb:eu-central-1:258557321580:table/google-dev",
-      "arn:aws:dynamodb:eu-central-1:258557321580:table/google-dev/index/*"
+      "arn:aws:dynamodb:eu-central-1:258557321580:table/amplify-d1usx0w4bl28pz-main-branch-010e8553d4-dbstackAFFC52F0-EJZ511F6RC7C-googletokenDFE2D47F-IRJOKFPR9X3P",
+      "arn:aws:dynamodb:eu-central-1:258557321580:table/amplify-d1usx0w4bl28pz-main-branch-010e8553d4-dbstackAFFC52F0-EJZ511F6RC7C-googletokenDFE2D47F-IRJOKFPR9X3P/index/*"
     ]
   },
   {

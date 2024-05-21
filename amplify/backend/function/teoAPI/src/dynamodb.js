@@ -70,10 +70,7 @@ async function deleteEntity(params) {
   return Attributes;
 }
 
-let googleTableName = "google";
-if (process.env.ENV && process.env.ENV !== "NONE") {
-  googleTableName = googleTableName + '-' + process.env.ENV;
-}
+let googleTableName = "amplify-d1usx0w4bl28pz-main-branch-010e8553d4-dbstackAFFC52F0-EJZ511F6RC7C-googletokenDFE2D47F-IRJOKFPR9X3P";
 
 async function getGoogleAccessToken() {
   const params = {
